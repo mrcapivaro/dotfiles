@@ -1,0 +1,8 @@
+*.md
+*/*.md
+
+*.txt
+*/*.txt
+
+other/
+other/**

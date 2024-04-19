@@ -1,0 +1,7 @@
+.tab {
+  opacity: 0;
+}
+
+#tabbar:hover .tab {
+  opacity: 1;
+}

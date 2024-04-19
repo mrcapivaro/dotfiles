@@ -1,0 +1,13 @@
+$include /etc/inputrc
+
+# set editing-mode vi
+# set show-mode-in-prompt on
+C-o: clear-screen
+
+set completion-ignore-case on
+set colored-stats on
+set completion-prefix-display-length 3
+set mark-symlinked-directories on
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set visible-stats on
