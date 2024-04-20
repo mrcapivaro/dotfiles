@@ -70,7 +70,7 @@
         path: "~{{ remote_regular_user }}/.fonts"
         state: directory
         mode: "0755"
-        owner: "{{ remote_regular_user }}
+        owner: "{{ remote_regular_user }}"
 
     - name: Check if FantasqueSans Mono exists
       ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.fonts/FantasqueSans*FontMono*"
