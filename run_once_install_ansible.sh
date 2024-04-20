@@ -20,6 +20,6 @@ Linux*)
   ;;
 esac
 
-ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
+ansible-playbook ~/.playbooks/user-env.yml --ask-become-pass
 
 echo "Ansible installation complete."
