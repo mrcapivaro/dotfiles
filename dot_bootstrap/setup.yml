@@ -33,10 +33,19 @@
           - unzip
           - make
           - gcc
+          - lua
+          - luarocks
           - npm
           - pnpm
           - python
           # - go
+        state: present
+
+    - name: Install AwesomeWM dependencies
+      community.general.pacman:
+        name:
+          - feh
+          - rofi
         state: present
 
     # - name: Add Brave Browser Repo

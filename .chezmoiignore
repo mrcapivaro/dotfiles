@@ -1,6 +1,8 @@
 *.md
 */*.md
 
+LICENSE
+
 *.txt
 */*.txt
 
