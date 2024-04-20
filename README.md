@@ -8,6 +8,9 @@ export GITHUB_USERNAME=mrcapivaro
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 ```
 
+## Nobara
+- [nobara](https://nobaraproject.org/download-nobara/)
+
 ## arch
 - [arch](https://archlinux.org/download/)
 - [prepare usb](https://wiki.archlinux.org/title/USB_flash_installation_medium)
