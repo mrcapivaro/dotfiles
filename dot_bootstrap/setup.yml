@@ -31,6 +31,8 @@
           - autoconf
           - flatpak
           - ttf-font-awesome
+          - unzip
+          - obsidian
         state: present
 
     # - name: Add Brave Browser Repo
@@ -100,16 +102,6 @@
     #     name: "{{ remote_regular_user }}"
     #     groups: docker
     #     append: true
-
-    - name: Install Flatpak packages
-      community.general.flatpak:
-        name:
-          - com.obsproject.Studio
-          - org.videolan.VLC
-          - org.tenacityaudio.Tenacity
-          - md.obsidian.Obsidian
-          - org.gimp.GIMP
-        state: present
 
     - name: Ensure fonts directory
       ansible.builtin.file:
