@@ -29,6 +29,7 @@
           - gcc
           - make
           - autoconf
+          - flatpak
           - ttf-font-awesome
         state: present
 
