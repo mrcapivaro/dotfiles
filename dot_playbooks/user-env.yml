@@ -1,5 +1,5 @@
 ---
-- name: Machine setup
+- name: User environment setup
   hosts: localhost
   become: true
   connection: local
@@ -18,7 +18,7 @@
           - lazygit
           - github-cli
           - wget
-          
+
           - alacritty
           - yazi
           - zoxide
@@ -27,7 +27,7 @@
           - tmux
           - htop
           - neofetch
-          
+
           - unzip
           - fzf
           - autoconf
@@ -36,22 +36,22 @@
           - fd
           - findutils
           - make
-          
+
           - flatpak
           - firefox
           - discord
           - obsidian
           - rclone
-          
+
           - gcc
-          
+
           - lua
           - luarocks
-          
+
           - nodejs
           - npm
           - pnpm
-          
+
           - python
           - python-pip
           - python-numpy
@@ -59,9 +59,9 @@
           - python-pandas
           - python-matplotlib
           - ipython
-          
+
           - go
-          
+
           - rustup
         state: present
 
@@ -86,3 +86,8 @@
         remote_src: true
         mode: "0755"
         owner: "{{ remote_regular_user }}"
+
+    - name: Install AUR packages
+      ansible.builtin.command: "yay -S {{ item }}"
+      with_items:
+       - xremap-hypr-bin
