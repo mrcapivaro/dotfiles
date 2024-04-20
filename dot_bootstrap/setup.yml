@@ -26,13 +26,17 @@
           - alacritty
           - fzf
           - tmux
-          - gcc
-          - make
-          - autoconf
-          - flatpak
           - ttf-font-awesome
-          - unzip
+          - flatpak
           - obsidian
+          - autoconf
+          - unzip
+          - make
+          - gcc
+          - npm
+          - pnpm
+          - python
+          # - go
         state: present
 
     # - name: Add Brave Browser Repo
