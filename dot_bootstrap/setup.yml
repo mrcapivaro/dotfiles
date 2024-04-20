@@ -41,12 +41,12 @@
           # - go
         state: present
 
-    - name: Install AwesomeWM dependencies
-      community.general.pacman:
-        name:
-          - feh
-          - rofi
-        state: present
+    # - name: Install AwesomeWM dependencies
+    #   community.general.pacman:
+    #     name:
+    #       - feh
+    #       - rofi
+    #     state: present
 
     # - name: Add Brave Browser Repo
     #   ansible.builtin.yum_repository:
