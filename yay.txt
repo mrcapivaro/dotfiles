@@ -1,0 +1,2 @@
+xremap-hypr-bin
+floorp
