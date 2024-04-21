@@ -1,0 +1,15 @@
+modmap:
+  - name: Better caps and ctrl
+    remap:
+      CapsLock: Ctrl_L
+      Ctrl_L: Esc
+keymap:
+  - name: Layer 1
+    remap:
+      M-h: left
+      M-l: right
+      M-k: up
+      M-j: down
+      M-u: home
+      M-i: end
+      M-p: CapsLock
