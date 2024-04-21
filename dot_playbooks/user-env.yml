@@ -45,6 +45,9 @@
           - rclone
           - libreoffice-fresh
 
+          - imv
+          - zathura
+
           - gcc
 
           - lua
