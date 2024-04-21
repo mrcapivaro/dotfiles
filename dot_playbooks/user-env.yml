@@ -1,4 +1,3 @@
----
 - name: User environment setup
   hosts: localhost
   become: true
@@ -12,6 +11,7 @@
         remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
 
     - name: Install packages
+      # become: true
       community.general.pacman:
         name:
           - git
@@ -87,8 +87,8 @@
         mode: "0755"
         owner: "{{ remote_regular_user }}"
 
-    - name: Install AUR packages
-      ansible.builtin.command: "yay --answerclean All --answerdiff None -S {{ item }}"
-      with_items:
-       - xremap-hypr-bin
-      become: no
+    # - name: Install AUR packages
+    #   ansible.builtin.command: "echo y | yay -S {{ item }}"
+    #   with_items:
+    #    - xremap-hypr-bin
+    #    - floorp-bin
