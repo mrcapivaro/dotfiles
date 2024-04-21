@@ -9,6 +9,7 @@ fix_change_shell () {
 }
 
 fix_xremap_sudo () {
+  sudo gpasswd -a mrcapivaro input
   echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/99-input.rules
   echo 'uinput' | sudo tee /etc/modules-load.d/uinput.conf
 }
