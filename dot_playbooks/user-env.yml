@@ -88,6 +88,7 @@
         owner: "{{ remote_regular_user }}"
 
     - name: Install AUR packages
-      ansible.builtin.command: "yay -S {{ item }}"
+      ansible.builtin.command: "yay --answerclean All --answerdiff None -S {{ item }}"
       with_items:
        - xremap-hypr-bin
+      become: no
