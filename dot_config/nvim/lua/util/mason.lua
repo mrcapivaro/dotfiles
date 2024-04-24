@@ -1,8 +1,8 @@
 local M = {}
 
-M.installServers = function(servers)
+M.installServers = function(servers, command)
   if servers and #servers > 0 then
-    vim.cmd("MasonInstall " .. table.concat(servers, " "))
+    vim.cmd(command .. " " .. table.concat(servers, " "))
   end
 end
 

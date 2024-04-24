@@ -4,23 +4,23 @@ local M = {}
 -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
 M.lsp = {
   "lua_ls",
-  "nil_ls",
+  -- "nil_ls", -- needs nix installed
   "html",
   "cssls",
   "emmet_ls",
   "clangd",
   "pyright",
-  "ruff_lsp",
+  "ruff_lsp", -- python formatter lsp
   "bashls",
   "tsserver",
-  -- "eslint-lsp", -- js/ts linter lsp
+  -- "eslint_lsp", -- js/ts linter lsp
+  "ansiblels",
 }
 
 M.formatter = {
-  "shfmt",    -- shell
-  "stylua",   -- lua
+  "shfmt", -- shell
+  "stylua", -- lua
   "prettierd", -- html, css and js
-  "ruff-lsp", -- python formatter lsp
 }
 
 M.dap = {

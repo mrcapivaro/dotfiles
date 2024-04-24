@@ -12,10 +12,10 @@ return {
       local servers = require("config.servers")
       mason.setup(opts)
       vim.api.nvim_create_user_command("MasonInstallAll", function()
-        mason_utils.installServers(servers.lsp)
-        mason_utils.installServers(servers.linter)
-        mason_utils.installServers(servers.formatter)
-        mason_utils.installServers(servers.dap)
+        mason_utils.installServers(servers.lsp, "LspInstall")
+        mason_utils.installServers(servers.linter, "MasonInstall")
+        mason_utils.installServers(servers.formatter, "MasonInstall")
+        mason_utils.installServers(servers.dap, "MasonInstall")
       end, {})
     end,
   },
