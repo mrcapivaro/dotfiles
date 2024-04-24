@@ -15,8 +15,8 @@ return {
     },
   },
   opts = {
-    args = {
-      "--browser=wslview",
-    },
+    -- args = {
+    --   "--browser=wslview",
+    -- },
   },
 }
