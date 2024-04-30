@@ -1,9 +1,4 @@
 *.md
-*/*.md
-LICENSE
-
 *.txt
-*/*.txt
-
 other/
-other/**
+LICENSE

@@ -1,7 +1,6 @@
+---
 - name: User environment setup
   hosts: localhost
-  become: true
-  connection: local
   gather_facts: true
   # vars:
 
@@ -10,9 +9,9 @@
       ansible.builtin.set_fact:
         remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
 
-    - name: Install packages
-      # become: true
-      community.general.pacman:
+    - name: Install packages with dnf
+      become: true
+      ansible.builtin.dnf:
         name:
           - git
           - lazygit
@@ -73,13 +72,13 @@
 
     - name: Ensure fonts directory
       ansible.builtin.file:
-        path: "~{{ remote_regular_user }}/.fonts"
+        path: "~{{ remote_regular_user }}/.local/share/fonts"
         state: directory
         mode: "0755"
         owner: "{{ remote_regular_user }}"
 
     - name: Check if FantasqueSans Mono exists
-      ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.fonts/FantasqueSans*FontMono*"
+      ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.local/share/fonts/FantasqueSans*FontMono*"
       register: fantasquesans_mono_exists
       ignore_errors: true
       changed_when: false
@@ -93,8 +92,14 @@
         mode: "0755"
         owner: "{{ remote_regular_user }}"
 
-    # - name: Install AUR packages
-    #   ansible.builtin.command: "echo y | yay -S {{ item }}"
-    #   with_items:
-    #    - xremap-hypr-bin
-    #    - floorp-bin
+    # - name: copr or fusion or user packages
+
+    # - name: install xremap
+    # - name: xremap service
+    #   when: systemd
+    #   ansible.builtin.service:
+    #     name: xremap
+    #     state: started
+
+    # - name: install distrobox the linux wsl for arch and deb
+    # https://github.com/89luca89/distrobox?tab=readme-ov-file
