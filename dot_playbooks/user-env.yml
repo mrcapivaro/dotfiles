@@ -56,8 +56,6 @@
       ansible.builtin.dnf:
         state: present
         name:
-          - bismuth
-
           - git
           - gh
           # - lazygit
