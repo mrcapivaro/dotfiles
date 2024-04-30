@@ -5,7 +5,7 @@ install_on_arch() {
 }
 
 install_on_fedora() {
-  sudo dnf install ansible
+  sudo dnf install ansible -y
 }
 
 OS="$(uname -s)"
