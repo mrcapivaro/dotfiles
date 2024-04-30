@@ -1,0 +1,67 @@
+---
+- name: Install packages
+  ansible.builtin.dnf:
+    state: present
+    skip_broken: true
+    allowerasing: true
+    name:
+      - git
+      - gh
+      # - lazygit
+      - wget
+
+      - alacritty
+      # - yazi
+      - ranger
+      - zoxide
+      # - starship
+      - neovim
+      - tmux
+      - htop
+      - neofetch
+
+      - unzip
+      - fzf
+      - autoconf
+      - ripgrep
+      - direnv
+      - sed
+      - fd
+      - findutils
+      - make
+
+      - firefox
+      # - flatpak
+      # - discord
+      # - obsidian
+      - rclone
+      # - libreoffice-fresh
+
+      - imv
+      - zathura
+      - zathura-pdf-mupdf
+
+      - gcc
+
+      - lua
+      - luarocks
+
+      - nodejs
+      - npm
+      - pnpm
+
+      - python3
+      - python3-pip
+      - python3-numpy
+      - python3-scipy
+      - python3-pandas
+      - python3-matplotlib
+      - python3-ipython
+
+      - golang
+
+      - rustup
+
+- name: Autoremove unneeded packages
+  ansible.builtin.dnf:
+    autoremove: true

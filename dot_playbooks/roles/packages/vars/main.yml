@@ -1,0 +1,9 @@
+---
+rpm_packages:
+  - '@multimedia'
+  - code
+  - syncthing
+  - android-tools
+  - git-credential-libsecret
+  - docker-compose
+  - usbguard
