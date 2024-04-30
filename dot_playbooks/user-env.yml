@@ -9,78 +9,47 @@
       become: true
       tags: packages
 
-  #   - name: Install flatpak
-  #     ansible.builtin.import_role:
-  #       name: flatpak
-  #     become: true
-  #     tags: flatpak
+    - name: Configure desktop environment
+      ansible.builtin.import_role:
+        name: desktop
+      become: false
+      tags: desktop
 
-  #   - name: Configure applications
-  #     ansible.builtin.import_role:
-  #       name: applications
-  #     become: true
-  #     tags: applications
-
-  #   - name: Hardened the system
-  #     ansible.builtin.import_role:
-  #       name: security
-  #     become: true
-  #     tags: security
-
-  #   - name: Configure the system
-  #     ansible.builtin.import_role:
-  #       name: system
-  #     become: true
-  #     tags: system
-
-  #   - name: Enable services
-  #     ansible.builtin.import_role:
-  #       name: services
-  #     # Become is set at the task level
-  #     tags: services
-
-  #   - name: Install dotfiles
-  #     ansible.builtin.import_role:
-  #       name: dotfiles
-  #     become: false
-  #     tags: dotfiles
-  # 
-  #   - name: Configure desktop
-  #     ansible.builtin.import_role:
-  #       name: desktop
-  #     become: false
-  #     tags: desktop
-
-    # - name: Install copr packages
+    # - name: Install flatpak
+    #   ansible.builtin.import_role:
+    #     name: flatpak
     #   become: true
-    #   community.general.copr:
-    #     state: enabled
-    #     name:
-    #       - "@atim/starship"
-    #       - "@atim/lazygit"
+    #   tags: flatpak
 
+    # - name: Configure applications
+    #   ansible.builtin.import_role:
+    #     name: applications
+    #   become: true
+    #   tags: applications
 
-    - name: Ensure fonts directory exists
-      ansible.builtin.file:
-        path: "/home/{{ ansible_user_id }}/.local/share/fonts"
-        state: directory
-        mode: "0755"
-        owner: "{{ ansible_user_id }}"
+    # - name: Hardened the system
+    #   ansible.builtin.import_role:
+    #     name: security
+    #   become: true
+    #   tags: security
 
-    - name: Check if FantasqueSans Mono exists
-      ansible.builtin.shell: "ls /home/{{ ansible_user_id }}/.local/share/fonts/FantasqueSans*FontMono*"
-      register: fantasquesans_mono_exists
-      ignore_errors: true
-      changed_when: false
+    # - name: Configure the system
+    #   ansible.builtin.import_role:
+    #     name: system
+    #   become: true
+    #   tags: system
 
-    - name: Download FantasqueSans mono
-      when: fantasquesans_mono_exists is failed
-      ansible.builtin.unarchive:
-        src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FantasqueSansMono.zip
-        dest: "/home/{{ ansible_user_id }}/.local/share/fonts"
-        remote_src: true
-        mode: "0755"
-        owner: "{{ ansible_user_id }}"
+    # - name: Enable services
+    #   ansible.builtin.import_role:
+    #     name: services
+    #   # Become is set at the task level
+    #   tags: services
+
+    # - name: Install dotfiles
+    #   ansible.builtin.import_role:
+    #     name: dotfiles
+    #   become: false
+    #   tags: dotfiles
 
     # - name: copr or fusion or user packages
 

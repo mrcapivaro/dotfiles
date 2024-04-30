@@ -1,0 +1,6 @@
+---
+- ansible.builtin.import_tasks: dconf.yml
+  tags: desktop.dconf
+
+- ansible.builtin.import_tasks: fonts.yml
+  tags: desktop.fonts

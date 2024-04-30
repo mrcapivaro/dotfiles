@@ -1,0 +1,37 @@
+---
+- name: Ensure fonts directory exists
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_id }}/.local/share/fonts"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_user_id }}"
+
+- name: Check if FantasqueSans Mono exists
+  ansible.builtin.shell: "ls /home/{{ ansible_user_id }}/.local/share/fonts/FantasqueSans*FontMono*"
+  register: fantasquesans_mono_exists
+  ignore_errors: true
+  changed_when: false
+
+- name: Download FantasqueSans mono
+  when: fantasquesans_mono_exists is failed
+  ansible.builtin.unarchive:
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FantasqueSansMono.zip
+    dest: "/home/{{ ansible_user_id }}/.local/share/fonts"
+    remote_src: true
+    mode: "0755"
+    owner: "{{ ansible_user_id }}"
+
+- name: Check if Fira Code exists
+  ansible.builtin.shell: "ls /home/{{ ansible_user_id }}/.local/share/fonts/FiraCode*"
+  register: fira_code_exists
+  ignore_errors: true
+  changed_when: false
+
+- name: Download Fira Code
+  when: fira_code_exists is failed
+  ansible.builtin.unarchive:
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip
+    dest: "/home/{{ ansible_user_id }}/.local/share/fonts"
+    remote_src: true
+    mode: "0755"
+    owner: "{{ ansible_user_id }}"
