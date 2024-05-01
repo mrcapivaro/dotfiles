@@ -5,3 +5,9 @@
     remote: flathub
     state: present
     method: system
+
+- name: Set the Floorp Flatkpak as the default Web Browser
+  ansible.builtins.shell: "xdg-settings set default-web-browser one.ablaze.floorp.desktop"
+
+# - name: Install Floorp dotfiles
+#   ansible.builtins.shell: "cp ~/.local/share/chezmoi/other/arch/.floorp/* ~/.var/app/one.ablaze.floorp/.floorp/*release/chrome/"

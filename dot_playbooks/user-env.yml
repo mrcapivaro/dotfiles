@@ -15,17 +15,11 @@
       become: true
       tags: flatpak
 
-    # - name: Configure desktop environment
-    #   ansible.builtin.import_role:
-    #     name: desktop
-    #   become: false
-    #   tags: desktop
-
-    # - name: Install flatpak
-    #   ansible.builtin.import_role:
-    #     name: flatpak
-    #   become: true
-    #   tags: flatpak
+    - name: Configure desktop environment
+      ansible.builtin.import_role:
+        name: desktop
+      become: false
+      tags: desktop
 
     # - name: Configure applications
     #   ansible.builtin.import_role:
