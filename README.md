@@ -8,6 +8,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 ```
 ## Fedora
 - Nobara
+- [Ansible Fedora Playbook](https://github.com/steadywool/fedora-playbook)
 
 ## arch
 ### Vanilla
