@@ -1,5 +1,7 @@
 ---
 rpm_packages:
+  - input-remapper
+
   - alacritty
   - git
   - gh
