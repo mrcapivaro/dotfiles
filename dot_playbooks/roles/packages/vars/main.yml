@@ -29,8 +29,6 @@ rpm_packages:
   - zathura
   - zathura-pdf-mupdf
 
-  # - flatpak # needed or good to declare?
-
   - gcc
 
   - lua
@@ -52,6 +50,5 @@ rpm_packages:
 
   - rustup
 
-  # - yazi
-  # - starship
-  # - lazygit
+  - starship
+  - lazygit

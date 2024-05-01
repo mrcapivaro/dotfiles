@@ -1,6 +1,6 @@
 ---
 - name: Set wallpaper
-  ansible.builtins.shell: "plasma-apply-wallpaperimage ~/Wallpapers/mountains.png"
+  ansible.builtin.shell: "plasma-apply-wallpaperimage ~/Wallpapers/mountains.png"
 
 - name: Check Polonium existance
   ansible.builtin.shell: "ls /home/{{ ansible_user_id }}/.local/share/kwin/scripts/polonium"
