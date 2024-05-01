@@ -45,6 +45,13 @@ function ll() {
   ls --color=always -al $@ | awk '{print $9}'
 }
 
+# add .local/bin to path
+export LOCAL_BIN="/home/mrcapivaro/.local/bin"
+case ":$PATH:" in
+  *":$LOCAL_BIN:"*) ;;
+  *) export PATH="$LOCAL_BIN:$PATH" ;;
+esac
+
 # pnpm
 export PNPM_HOME="/home/mrcapivaro/.local/share/pnpm"
 case ":$PATH:" in
