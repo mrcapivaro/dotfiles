@@ -4,18 +4,23 @@
 
 - name: Check Polonium existance
   ansible.builtin.shell: "ls /home/{{ ansible_user_id }}/.local/share/kwin/scripts/polonium"
+  register: polonium_exists
+  ignore_errors: true
+  changed_when: false
 
 - name: Clone Polonium repo
+  when: polonium_exists is failed
   ansible.builtin.git:
     repo: "https://github.com/zeroxoneafour/polonium.git"
     dest: /tmp/polonium
 
 - name: Install Polonium
-  ansible.builtin.git:
-    repo: "https://github.com/zeroxoneafour/polonium.git"
-    dest: /tmp/polonium
+  when: polonium_exists is failed
+  community.general.make:
+    chdir: /tmp/polonium
 
 - name: Clean /tmp from Polonium
+  when: polonium_exists is failed
   ansible.builtin.file:
     path: /tmp/polonium
     state: absent
