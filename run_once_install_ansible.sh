@@ -5,7 +5,7 @@ install_on_arch() {
 }
 
 install_on_fedora() {
-  sudo dnf install ansible -y
+  sudo dnf install ansible python3-psutil -y
 }
 
 OS="$(uname -s)"

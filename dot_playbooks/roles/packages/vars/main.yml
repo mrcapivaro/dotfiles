@@ -1,6 +1,7 @@
 ---
 rpm_packages:
   - input-remapper
+  - ulauncher
 
   - alacritty
   - git
