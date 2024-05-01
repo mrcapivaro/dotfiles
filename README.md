@@ -6,6 +6,8 @@
 export GITHUB_USERNAME=mrcapivaro
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 ```
+## Fedora
+- Nobara
 
 ## arch
 ### Vanilla
@@ -26,3 +28,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
 ## Nixos
 - [nixos](https://nixos.org/download/)
+
+### TODO
+- [ ] Add a cross-platform key mapper
+    - [keymapper | C++](https://github.com/houmain/keymapper)
+    - [kmonad | Haskell](https://github.com/kmonad/kmonad)
