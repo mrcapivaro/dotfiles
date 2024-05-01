@@ -9,11 +9,17 @@
       become: true
       tags: packages
 
-    - name: Configure desktop environment
+    - name: Install flatpak packages
       ansible.builtin.import_role:
-        name: desktop
-      become: false
-      tags: desktop
+        name: flatpak
+      become: true
+      tags: flatpak
+
+    # - name: Configure desktop environment
+    #   ansible.builtin.import_role:
+    #     name: desktop
+    #   become: false
+    #   tags: desktop
 
     # - name: Install flatpak
     #   ansible.builtin.import_role:
@@ -50,8 +56,6 @@
     #     name: dotfiles
     #   become: false
     #   tags: dotfiles
-
-    # - name: copr or fusion or user packages
 
     # - name: install xremap
     # - name: xremap service

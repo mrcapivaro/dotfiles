@@ -1,15 +1,11 @@
 ---
 rpm_packages:
+  - alacritty
   - git
   - gh
-  # - lazygit
   - wget
-
-  - alacritty
-  # - yazi
   - ranger
   - zoxide
-  # - starship
   - neovim
   - tmux
   - htop
@@ -26,15 +22,14 @@ rpm_packages:
   - make
 
   - firefox
-  # - flatpak
-  # - discord
-  # - obsidian
   - rclone
-  # - libreoffice-fresh
+  - libreoffice
 
   - imv
   - zathura
   - zathura-pdf-mupdf
+
+  # - flatpak # needed or good to declare?
 
   - gcc
 
@@ -56,3 +51,7 @@ rpm_packages:
   - golang
 
   - rustup
+
+  # - yazi
+  # - starship
+  # - lazygit
