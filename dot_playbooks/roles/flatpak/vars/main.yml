@@ -4,3 +4,4 @@ flathub_packages:
  - one.ablaze.floorp
  - com.spotify.Client
  - com.discordapp.Discord
+ - com.mattjakeman.ExtensionManager

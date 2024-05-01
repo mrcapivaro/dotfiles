@@ -2,7 +2,8 @@
 rpm_packages:
   - input-remapper
   - ulauncher
-  - dbus-x11
+  - dbus-x11 # fix gsettings wallpaper file not found error
+  - gnome-tweaks # not installed with noabara
 
   - alacritty
   - git
