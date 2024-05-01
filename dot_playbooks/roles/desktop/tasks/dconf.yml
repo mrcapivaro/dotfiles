@@ -1,26 +1,11 @@
 ---
-# - name: Set wallpaper
-#   ansible.builtin.shell: "plasma-apply-wallpaperimage ~/Wallpapers/mountains.png"
+- name: Set the Floorp Flatkpak as the default Web Browser
+  become: false
+  ansible.builtin.shell: "xdg-settings set default-web-browser one.ablaze.floorp.desktop"
 
-# - name: Check Polonium existance
-#   ansible.builtin.shell: "ls /home/{{ ansible_user_id }}/.local/share/kwin/scripts/polonium"
-#   register: polonium_exists
-#   ignore_errors: true
-#   changed_when: false
+# - name: Install Floorp dotfiles
+#   ansible.builtin.shell: "cp ~/.local/share/chezmoi/other/arch/.floorp/* ~/.var/app/one.ablaze.floorp/.floorp/*release/chrome/"
 
-# - name: Clone Polonium repo
-#   when: polonium_exists is failed
-#   ansible.builtin.git:
-#     repo: "https://github.com/zeroxoneafour/polonium.git"
-#     dest: /tmp/polonium
-
-# - name: Install Polonium
-#   when: polonium_exists is failed
-#   community.general.make:
-#     chdir: /tmp/polonium
-
-# - name: Clean /tmp from Polonium
-#   when: polonium_exists is failed
-#   ansible.builtin.file:
-#     path: /tmp/polonium
-#     state: absent
+- name: Set Gnome DE wallpaper
+  become: true
+  ansible.builtin.shell: "gsettings set org.gnome.desktop.background picture-uri file:///$HOME/Wallpapers/mountains.png"

@@ -2,6 +2,7 @@
 rpm_packages:
   - input-remapper
   - ulauncher
+  - dbus-x11
 
   - alacritty
   - git
