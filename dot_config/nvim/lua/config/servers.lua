@@ -15,6 +15,7 @@ M.lsp = {
   "tsserver",
   -- "eslint_lsp", -- js/ts linter lsp
   "ansiblels",
+  "gopls",
 }
 
 M.formatter = {

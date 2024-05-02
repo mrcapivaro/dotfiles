@@ -6,6 +6,9 @@
     },
     {
       "class": "ulauncher"
+    },
+    {
+      "class": "pop-shell-exceptions"
     }
   ],
   "skiptaskbarhidden": [],
