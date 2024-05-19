@@ -1,53 +1,42 @@
-.tabbar-wrapper .tabbar-wrapper,
-#tabs-container.left,
-#tabs-subcontainer.left,
-#tabs-container.right,
-#tabs-subcontainer.right,
-.button-toolbar.workspace-popup.tabbar-workspace-button {
-    min-width: 32px;
-    transition: min-width 50ms ease-out !important; /* Change "50ms" to how long you want the animation to play */
+#browser {
+  --tabs-tabbar-container-width: 330px;
+  --tabs-tabbar-container-minwidth: 120px;
+  --tabs-subcontainer-width: 180px;
 }
 
-.tabbar-wrapper .tabbar-wrapper:hover,
-#tabs-container.left:hover,
-#tabs-subcontainer.left:hover,
-#tabs-container.right:hover,
-#tabs-subcontainer.right:hover,
-.button-toolbar.workspace-popup.tabbar-workspace-button:hover {
-    min-width: 200px !important;
-    transition-delay: 70ms !important;  /* Change "70ms" to how long you want to delay the animation */
+#main .inner #tabs-tabbar-container:is(.left, .right) {
+  /* To specify z-index, we use absolute. */
+  position: absolute;
+  z-index: 2;
+  opacity: 1;
+  background-color: var(--colorBg);
+  height: 100% !important;
+  width: var(--tabs-tabbar-container-width) !important;
 }
 
-.button-toolbar.workspace-popup.tabbar-workspace-button:hover:has(+ #tabs-tabbar-container > #tabs-subcontainer) {
-    min-width: 232px !important;
-    transition-delay: 70ms !important; /* Change "70ms" to how long you want to delay the animation */
+#main .inner #tabs-subcontainer {
+  position: relative;
+  flex-basis: calc(100% - var(--tabs-subcontainer-width)) !important;
 }
 
-.tabbar-wrapper .tabbar-wrapper:hover:has(#tabs-tabbar-container > #tabs-subcontainer) {
-    min-width: 232px !important;
-    transition-delay: 400ms !important; /* Delay to allow hovering past the right or left hand tab border */
+#main .inner #tabs-tabbar-container:is(.left, .right):not(:hover) {
+  & {
+    width: var(--tabs-tabbar-container-minwidth) !important;
+    transition: width 0.25s !important;
+  }
+
+  #tabs-subcontainer {
+    /* In common.css, the minwidth specified as 30px. */
+    /* As the container shrinking, it folds down to favicons. */
+    transition: width 0.25s !important;
+    position: static;
+  }
 }
 
-.button-toolbar.workspace-popup.tabbar-workspace-button > button {
-    justify-content: left !important;
+#browser:not(.fullscreen).tabs-left #webview-container {
+  margin-left: var(--tabs-tabbar-container-minwidth);
 }
 
-#browser:not(.alt-tabs) .tab-position .tab:hover.tab-small:not(.tab-mini).active .title,
-#browser:not(.alt-tabs) .tab-position .tab.force-hover.tab-small:not(.tab-mini).active .title {
-    display: flex !important;
-}
-
-.tabbar-workspace-button {
-    width: 100% !important;
-}
-
-#tabs-tabbar-container.left,
-#tabs-tabbar-container.right {
-    width: auto !important;
-    min-width: 32px;
-}
-
-.button-toolbar.newtab {
-    left: 0px !important;
-    width: 200px;
+#browser:not(.fullscreen).tabs-right #webview-container {
+  margin-right: var(--tabs-tabbar-container-minwidth);
 }
