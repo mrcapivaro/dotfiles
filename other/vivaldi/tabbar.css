@@ -1,0 +1,53 @@
+.tabbar-wrapper .tabbar-wrapper,
+#tabs-container.left,
+#tabs-subcontainer.left,
+#tabs-container.right,
+#tabs-subcontainer.right,
+.button-toolbar.workspace-popup.tabbar-workspace-button {
+    min-width: 32px;
+    transition: min-width 50ms ease-out !important; /* Change "50ms" to how long you want the animation to play */
+}
+
+.tabbar-wrapper .tabbar-wrapper:hover,
+#tabs-container.left:hover,
+#tabs-subcontainer.left:hover,
+#tabs-container.right:hover,
+#tabs-subcontainer.right:hover,
+.button-toolbar.workspace-popup.tabbar-workspace-button:hover {
+    min-width: 200px !important;
+    transition-delay: 70ms !important;  /* Change "70ms" to how long you want to delay the animation */
+}
+
+.button-toolbar.workspace-popup.tabbar-workspace-button:hover:has(+ #tabs-tabbar-container > #tabs-subcontainer) {
+    min-width: 232px !important;
+    transition-delay: 70ms !important; /* Change "70ms" to how long you want to delay the animation */
+}
+
+.tabbar-wrapper .tabbar-wrapper:hover:has(#tabs-tabbar-container > #tabs-subcontainer) {
+    min-width: 232px !important;
+    transition-delay: 400ms !important; /* Delay to allow hovering past the right or left hand tab border */
+}
+
+.button-toolbar.workspace-popup.tabbar-workspace-button > button {
+    justify-content: left !important;
+}
+
+#browser:not(.alt-tabs) .tab-position .tab:hover.tab-small:not(.tab-mini).active .title,
+#browser:not(.alt-tabs) .tab-position .tab.force-hover.tab-small:not(.tab-mini).active .title {
+    display: flex !important;
+}
+
+.tabbar-workspace-button {
+    width: 100% !important;
+}
+
+#tabs-tabbar-container.left,
+#tabs-tabbar-container.right {
+    width: auto !important;
+    min-width: 32px;
+}
+
+.button-toolbar.newtab {
+    left: 0px !important;
+    width: 200px;
+}
