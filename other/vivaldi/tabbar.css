@@ -1,1 +1,16 @@
+.workspace-popup:not(:hover),
+#tabs-tabbar-container:not(:hover) {
+  width: 30px !important;
+  /* position: relative !important; */
+  transition: width 0.2s ease !important;
+}
 
+.workspace-popup:hover,
+#tabs-tabbar-container:hover {
+  width: 200px !important;
+  /* position: absolute !important; */
+  transition: width 0.2s ease !important;
+  /* position: absolute; */
+  /* left: 0; */
+  /* top: 0; */
+}
