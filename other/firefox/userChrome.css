@@ -1,7 +1,7 @@
 /* https://codeberg.org/ranmaru22/firefox-vertical-tabs/src/branch/main/userChrome.css */
 :root {
     /* delay before expanding tabs, set to '0' for no delay */
-    --delay: 0.5s;
+    --delay: 0.2s;
     --transition-time: 0.2s;
     --positionX1: 48px; /* '48px' for left, '0px' for right sidebar */
     --positionX2: absolute; /* 'absolute' for left, 'none' for right sidebar */
@@ -375,4 +375,32 @@
 /* Up the z-index of the top bar so that the bookmarks toolbar is above the sidebar. */
 #navigator-toolbox {
     z-index: 2 !important;
+}
+
+/* https://github.com/Timvde/UserChrome-Tweaks/blob/master/toolbars/faviconized-bookmarks.css  */
+
+/*
+ * When bookmarks are displayed on a toolbar, they appear as favicons. (Text is hidden)
+ * 
+ * Screenshot: https://s26.postimg.org/lnb9akmbd/Faviconized-bookmarks.png
+ * 
+ * Tested on Firefox 55, Windows 7
+ * Contributor(s): Okamoi
+ */
+
+/* Hides bookmark text for all bookmarks displayed in a toolbar */
+.bookmark-item > .toolbarbutton-text  {
+  display: none !important;
+}
+
+/* Small visual tweak so it looks exactly the same as if the bookmark really had no text */
+.bookmark-item > .toolbarbutton-icon  {
+  margin-inline-end: 0px !important;
+}
+
+/* https://www.reddit.com/r/firefox/comments/c13l9x/how_can_i_center_the_bookmarks_toolbar/  */
+
+#PlacesToolbarItems {
+  display: flex !important;
+  justify-content: center !important;
 }
