@@ -1,11 +1,10 @@
 *.md
 *.txt
-other/
 LICENSE
 
+# Machine Specific
 {{- if eq .chezmoi.os "windows" }}
 .config/
-.playbooks/
 *.sh*
 .bash*
 .inputrc
