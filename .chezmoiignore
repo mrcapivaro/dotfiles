@@ -2,16 +2,27 @@
 *.txt
 LICENSE
 
-# Machine Specific
+# Linux
 {{- if ne .chezmoi.os "linux" }}
 **/*.sh*
 .config/
 .bash*
 .inputrc
+
+# NixOS
+{{-   if ne .chezmoi.osRelease.id "nixos" }}
+nixos/
+{{-   end }}
+
+# WSL
+{{-   if ne (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{-   end }}
+
 {{- end }}
 
+# Windows
 {{- if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
-*.ps1
+**/*.ps1
 {{- end }}
