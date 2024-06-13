@@ -12,4 +12,5 @@ LICENSE
 {{- else }}
 AppData/
 Documents/
+*.ps1
 {{- end }}
