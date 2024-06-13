@@ -1,9 +1,5 @@
 [[ $- != *i* ]] && return
 
-# FIXME: uncomment only if in WSL
-# export BROWSER=wslview
-# alias explorer="/mnt/c/Windows/explorer.exe"
-
 export EDITOR=nvim
 # remove background color from ls
 LS_COLORS=$LS_COLORS:'tw=00;33:ow=01;33:'
@@ -59,3 +55,9 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# WSL specific configs
+{{- if eq (.chezmoi.kernel.osrelease | lower | contains "mircrosoft") }}
+export BROWSER=wslview
+alias explorer="/mnt/c/Windows/explorer.exe"
+{{- end }}
