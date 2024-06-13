@@ -3,12 +3,14 @@
 LICENSE
 
 # Machine Specific
-{{- if eq .chezmoi.os "windows" }}
+{{- if ne .chezmoi.os "linux" }}
+**/*.sh*
 .config/
-*.sh*
 .bash*
 .inputrc
-{{- else }}
+{{- end }}
+
+{{- if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
 *.ps1
