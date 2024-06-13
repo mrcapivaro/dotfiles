@@ -6,8 +6,9 @@ LICENSE
 {{- if eq .chezmoi.os "windows" }}
 .config/
 .playbooks/
-.*
 *.sh*
+.bash*
+.inputrc
 {{- else }}
 AppData/
 Documents/
