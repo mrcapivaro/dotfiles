@@ -8,4 +8,5 @@ dot_*/
 *.sh*
 {{- else }}
 AppData/
+Documents/
 {{- end }}
