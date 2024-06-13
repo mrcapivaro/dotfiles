@@ -2,3 +2,10 @@
 *.txt
 other/
 LICENSE
+
+{{ if eq .chezmoi.os "windows" }}
+dot_*/
+run_onchange_playbooks.sh.tmpl
+{{ else }}
+AppData/
+{{ end }}
