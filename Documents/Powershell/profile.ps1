@@ -12,3 +12,7 @@ function which($command) {
 }
 
 Set-Alias ll ls
+
+function chezmoicd() {
+  Set-Location -Path $(chezmoi source-path)
+}
