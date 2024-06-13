@@ -4,7 +4,9 @@ other/
 LICENSE
 
 {{- if eq .chezmoi.os "windows" }}
-dot_*/
+.config/
+.playbooks/
+.*
 *.sh*
 {{- else }}
 AppData/
