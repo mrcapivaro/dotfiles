@@ -6,6 +6,7 @@ LICENSE
 {{ if eq .chezmoi.os "windows" }}
 dot_*/
 run_onchange_playbooks.sh.tmpl
+run_once_install_ansible.sh
 {{ else }}
 AppData/
 {{ end }}
