@@ -1,6 +1,6 @@
-{{- if eq .chezmoi.osRelease.id "fedora" }}
+#!/bin/bash
 
-!#/bin/bash
+{{- if eq .chezmoi.osRelease.id "fedora" }}
 
 {{-   range .packages.fedora.dnf.repositories }}
 dnf copr enable {{ . | quote }} -y
