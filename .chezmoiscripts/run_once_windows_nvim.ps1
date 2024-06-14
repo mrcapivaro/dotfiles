@@ -18,4 +18,3 @@ if (-Not (Test-Path $linkDir)) {
     Write-Host "Failed to create nvim symlink."
   }
 }
-# asdlkfjsajdkf
