@@ -41,6 +41,11 @@ packages:
         - obsidian
         - battlenet
   fedora:
+    flatpak:
+      packages:
+        - md.obsidian.Obsidian
+        - com.spotify.Client
+        - com.discordapp.Discord
     dnf:
       repositories:
         - "atim/starship"
@@ -77,6 +82,7 @@ packages:
         - make
 
         - firefox
+        - flatpak
         - rclone
         - libreoffice
 
