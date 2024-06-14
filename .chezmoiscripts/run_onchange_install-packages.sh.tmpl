@@ -11,7 +11,7 @@ sudo dnf install -y {{ . | quote }}
 {{-   end }}
 
 flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
-{{-   range .packages.flatpak.packages }}
+{{-   range .packages.fedora.flatpak.packages }}
 flatpak install flathub {{ . | quote }}
 {{-   end }}
 
