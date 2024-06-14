@@ -3,11 +3,11 @@
 {{- if eq .chezmoi.osRelease.id "fedora" }}
 
 {{-   range .packages.fedora.dnf.repositories }}
-dnf copr enable {{ . | quote }} -y
+sudo dnf copr enable {{ . | quote }} -y
 {{-   end }}
 
 {{-   range .packages.fedora.dnf.packages }}
-dnf install -y {{ . | quote }}
+sudo dnf install -y {{ . | quote }}
 {{-   end }}
 
 {{- end }}
