@@ -2,44 +2,100 @@ packages:
   windows:
     scoop:
       buckets:
-        - "extras"
-        - "nerd-fonts"
-        - "games"
+        - extras
+        - nerd-fonts
+        - games
       packages:
-        - "aria2"
-        - "7zip"
-        - "chezmoi"
-        - "direnv"
-        - "dark"
-        - "ripgrep"
-        - "fd"
-        - "fzf"
-        - "sudo"
-        - "git"
-        - "gh"
-        - "lazygit"
-        - "lua"
-        - "python"
-        - "nodejs"
-        - "starship"
-        - "vscode"
-        - "sharpkeys"
-        - "neovim"
-        - "psreadline"
-        - "z"
-        - "alacritty"
-        - "wezterm"
-        - "FantasqueSansMono-NF"
-        - "FantasqueSansMono-NF-Mono"
-        - "powertoys"
-        - "discord"
-        - "firefox"
-        - "sublime-text"
-        - "steam"
-        - "obsidian"
-        - "battlenet"
+        - aria2
+        - 7zip
+        - chezmoi
+        - direnv
+        - dark
+        - ripgrep
+        - fd
+        - fzf
+        - sed
+        - yazi
+        - sudo
+        - git
+        - gh
+        - lazygit
+        - lua
+        - python
+        - nodejs
+        - starship
+        - vscode
+        - sharpkeys
+        - neovim
+        - psreadline
+        - z
+        - alacritty
+        - wezterm
+        - FantasqueSansMono-NF
+        - FantasqueSansMono-NF-Mono
+        - powertoys
+        - discord
+        - firefox
+        - sublime-text
+        - steam
+        - obsidian
+        - battlenet
   fedora:
     dnf:
-      - "fzf"
-      - "ripgrep"
-      - "neovim"
+      repositories:
+        - "atim/starship"
+        - "atim/lazygit"
+      packages:
+        - input-remapper
+        - ulauncher
+        - dbus-x11 # fix gsettings wallpaper file not found error
+        - gnome-tweaks # not installed with noabara
+        - gnome-shell-extension-pop-shell
+        - gnome-shell-extension-appindicator
+
+        - alacritty
+        - git
+        - gh
+        - lazygit
+        - wget
+        - ranger
+        - zoxide
+        - neovim
+        - tmux
+        - htop
+        - neofetch
+        - starship
+
+        - unzip
+        - fzf
+        - autoconf
+        - ripgrep
+        - direnv
+        - sed
+        - fd
+        - findutils
+        - make
+
+        - firefox
+        - rclone
+        - libreoffice
+
+        - imv
+        - zathura
+        - zathura-pdf-mupdf
+
+        - gcc
+        - lua
+        - luarocks
+        - nodejs
+        - npm
+        - pnpm
+        - python3
+        - python3-pip
+        - python3-numpy
+        - python3-scipy
+        - python3-pandas
+        - python3-matplotlib
+        - python3-ipython
+        - golang
+        - rustup

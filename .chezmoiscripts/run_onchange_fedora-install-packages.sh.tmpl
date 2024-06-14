@@ -1,0 +1,13 @@
+{{- if eq .chezmoi.osRelease.id "fedora" }}
+
+!#/bin/bash
+
+{{-   range .packages.fedora.dnf.repositories }}
+dnf copr enable {{ . | quote }} -y
+{{-   end }}
+
+{{-   range .packages.fedora.dnf.packages }}
+dnf install -y {{ . | quote }}
+{{-   end }}
+
+{{- end }}
