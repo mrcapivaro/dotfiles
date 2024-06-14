@@ -13,7 +13,6 @@ nixos/
 
 {{- if eq .chezmoi.os "windows" }}
 **/*.sh*
-.config/
 .bash*
 .inputrc
 nixos/
