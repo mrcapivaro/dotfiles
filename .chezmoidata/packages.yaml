@@ -72,7 +72,7 @@ packages:
         - ripgrep
         - direnv
         - sed
-        - fd
+        - fd-find
         - findutils
         - make
 
