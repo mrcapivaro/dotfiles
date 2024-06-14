@@ -1,0 +1,3 @@
+[
+	{ "keys": ["ctrl+p"], "command": "show_overlay", "args": {"overlay": "command_palette"} },
+]

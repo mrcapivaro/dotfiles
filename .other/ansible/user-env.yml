@@ -25,6 +25,3 @@
       ansible.builtin.import_role:
         name: services
       tags: services
-
-    # - name: install distrobox the linux wsl for arch and deb
-    # https://github.com/89luca89/distrobox?tab=readme-ov-file

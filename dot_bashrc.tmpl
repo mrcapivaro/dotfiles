@@ -57,7 +57,7 @@ esac
 # pnpm end
 
 # WSL specific configs
-{{- if eq (.chezmoi.kernel.osrelease | lower | contains "mircrosoft") }}
+{{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 export BROWSER=wslview
 alias explorer="/mnt/c/Windows/explorer.exe"
 {{- end }}
