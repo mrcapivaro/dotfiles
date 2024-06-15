@@ -12,6 +12,8 @@ function which($command) {
 }
 
 Set-Alias ll ls
+Set-Alias vi nvim
+Set-Alias vim nvim
 
 function chezmoicd() {
   Set-Location -Path $(chezmoi source-path)
