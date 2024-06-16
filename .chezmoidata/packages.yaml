@@ -33,6 +33,8 @@ packages:
         - wezterm
         - FantasqueSansMono-NF
         - FantasqueSansMono-NF-Mono
+        - RobotoMono-NF
+        - RobotoMono-NF-Mono
         - powertoys
         - discord
         - firefox
