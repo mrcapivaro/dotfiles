@@ -8,7 +8,7 @@ JETBRAINS_MONO_FILE="JetBrains*FontMono*"
 JETBRAINS_MONO_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
 
 ensure_fonts_dir() {
-  if ! ls $FONTS_DIR &> /dev/null; then
+  if ! ls "$FONTS_DIR" &> /dev/null; then
     mkdir -p "$FONTS_DIR"
     chmod 755 "$FONTS_DIR"
     chown "$USER_ID":"$USER_ID" "$FONTS_DIR"
@@ -16,8 +16,8 @@ ensure_fonts_dir() {
 }
 
 download_and_extract_font() {
-  local font_url = $1
-  local tmp_file = "/tmp/$(basename "$font_url")"
+  local font_url=$1
+  local tmp_file="/tmp/$(basename "$font_url")"
 
   wget -O "$tmp_file" "$font_url"
   unzip "$tmp_file" -d "$FONTS_DIR"
