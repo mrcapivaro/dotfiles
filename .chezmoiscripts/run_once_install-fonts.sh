@@ -6,6 +6,8 @@ FANTASQUE_SANS_FILE="FantasqueSans*FontMono*"
 FANTASQUE_SANS_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FantasqueSansMono.zip"
 JETBRAINS_MONO_FILE="JetBrains*FontMono*"
 JETBRAINS_MONO_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
+CASCADIA_MONO_FILE="Cascadia*FontMono*"
+CASCADIA_MONO_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/CascadiaMono.zip"
 
 ensure_fonts_dir() {
   if ! ls "$FONTS_DIR" &> /dev/null; then
@@ -34,4 +36,8 @@ fi
 
 if ! ls "$FONTS_DIR/$JETBRAINS_MONO_FILE" &> /dev/null; then
   download_and_extract_font "$JETBRAINS_MONO_URL"
+fi
+
+if ! ls "$FONTS_DIR/$CASCADIA_MONO_FILE" &> /dev/null; then
+  download_and_extract_font "$CASCADIA_MONO_URL"
 fi
