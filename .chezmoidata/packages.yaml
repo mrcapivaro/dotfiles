@@ -45,6 +45,7 @@ packages:
         - steam
         - obsidian
         - battlenet
+        - screentogif
   fedora:
     flatpak:
       packages:
