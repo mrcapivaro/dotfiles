@@ -5,7 +5,7 @@ program = "pwsh"
 # decorations = "None"
 dynamic_padding = true
 padding = { x = 2, y = 2 }
-# opacity = 0.95
+opacity = 0.95
 
 [font]
 size = 14
@@ -13,10 +13,10 @@ size = 14
 # bold = { family = "FantasqueSansM Nerd Font", style = "Bold" }
 # italic = { family = "FantasqueSansM Nerd Font", style = "Italic" }
 # bold_italic = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
-normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
-bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
-italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
-bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
+normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
+bold = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold" }
+italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold Italic" }
 
 [keyboard]
 bindings = [
