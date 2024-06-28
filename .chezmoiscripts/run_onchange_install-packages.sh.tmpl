@@ -10,7 +10,7 @@ sudo dnf copr enable {{ . | quote }} -y
 sudo dnf install -y {{ . | quote }}
 {{-   end }}
 
-if ls "/proc/sys/fs/binfmt_misc/WSLInterop" &> /dev/null; then
+if ! ls "/proc/sys/fs/binfmt_misc/WSLInterop" &> /dev/null; then
 
 {{-   range .packages.fedora.dnf.packages.gui }}
   sudo dnf install -y {{ . | quote }}
