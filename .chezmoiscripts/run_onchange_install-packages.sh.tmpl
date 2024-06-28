@@ -6,13 +6,21 @@
 sudo dnf copr enable {{ . | quote }} -y
 {{-   end }}
 
-{{-   range .packages.fedora.dnf.packages }}
+{{-   range .packages.fedora.flatpak.packages.cli }}
 sudo dnf install -y {{ . | quote }}
 {{-   end }}
 
+{{-   if ! ls "proc/sys/fs/binfmt_misc/WSLInterop" &> /dev/null }}
+
+{{-     range .packages.fedora.dnf.packages.gui }}
+sudo dnf install -y {{ . | quote }}
+{{-     end }}
+
 flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
-{{-   range .packages.fedora.flatpak.packages }}
+{{-     range .packages.fedora.flatpak.packages }}
 flatpak install flathub {{ . | quote }}
+{{-     end }}
+
 {{-   end }}
 
 {{- end }}
