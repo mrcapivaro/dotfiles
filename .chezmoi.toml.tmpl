@@ -1,4 +1,5 @@
 {{-  if eq .chezmoi.os "windows"  }}
 [interpreters.ps1]
-  command = "powershell.exe"
+command = "powershell.exe"
+args = [ "-NoLogo", "-NoProfile" ]
 {{-  end  }}
