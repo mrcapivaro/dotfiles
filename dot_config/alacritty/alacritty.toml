@@ -1,5 +1,5 @@
 [window]
-decorations = "None"
+# decorations = "None"
 dynamic_padding = true
 padding = { x = 2, y = 2 }
 # opacity = 0.95
