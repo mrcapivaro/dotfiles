@@ -1,5 +1,5 @@
 [shell]
-program = "pwsh"
+program = "pwsh -NoLogo"
 
 [window]
 # decorations = "None"
