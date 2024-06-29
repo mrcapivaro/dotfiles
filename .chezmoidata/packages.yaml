@@ -56,9 +56,10 @@ packages:
       repositories:
         - "atim/starship"
         - "atim/lazygit"
+        - "wslutilities/wslu"
       packages:
         cli:
-          - alacritty
+          - wslu
           - git
           - gh
           - lazygit
@@ -97,6 +98,7 @@ packages:
           - golang
           - rustup
         gui:
+          - alacritty
           - input-remapper
           - ulauncher
           - dbus-x11 # fix gsettings wallpaper file not found error
