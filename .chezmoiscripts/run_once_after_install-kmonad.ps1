@@ -1,7 +1,7 @@
 $temp_folder = "$HOME\\Downloads\\kmonad"
 $destination_folder = "C:\\Windows\\"
-$kmonad_url = "https://github.com/kmonad/kmonad/releases/download/0.4.1/kmonad-0.4.1-win.exe"
 $startup_folder = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\"
+$kmonad_url = "https://github.com/kmonad/kmonad/releases/download/0.4.1/kmonad-0.4.1-win.exe"
 
 echo "Starting the KMONAD install script."
 
