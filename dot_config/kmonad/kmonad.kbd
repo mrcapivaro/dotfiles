@@ -1,12 +1,13 @@
 (defcfg
   input (low-level-hook)
-  output (send-event-sink)
+  output (send-event-sink 500 30)
   allow-cmd true
+  fallthrough true
 )
 
 (defalias
   cte (tap-next esc lctl)
-  msc (tap-next-release spc (layer-toggle home))
+  msc (tap-next-press spc (layer-toggle home))
 )
 
 (defsrc
@@ -24,7 +25,7 @@
   tab  q    w    e    r    t    y    u    i    o    p       [    ]    \          end
   @cte a    s    d    f    g    h    j    k    l    ;       '         ret        pgup
   lsft z    x    c    v    b    n    m    ,    .    /       rsft           up    pgdn
-  esc  lmet lalt           @msc                ralt sys     rctl      left down  rght
+  lctl lmet lalt           @msc                ralt sys     rctl      left down  rght
 )
 
 (deflayer home

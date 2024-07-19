@@ -1,0 +1,20 @@
+{{- if not (contains "WSL" .chezmoi.kernel.osrelease) }}
+#!/bin/bash
+
+destination_folder="/usr/local/bin"
+kmonad_url="https://github.com/kmonad/kmonad/releases/download/0.4.1/kmonad-0.4.1-linux"
+
+echo "Starting the KMONAD install script."
+
+if [ ! -f "$destination_folder/kmonad" ]; then
+  echo "Downloading the kmonad binary in a temporary folder."
+  sudo wget -O "$destination_folder/kmonad" "$kmonad_url"
+fi
+
+echo "Enable the kmonad service."
+sudo cp "~/.config/kmonad/kmonad.service" "/etc/systemd/system/"
+sudo cp "~/.config/kmonad/kmonad.kbd" "/usr/local/bin/kmonad/"
+sudo systemctl enable kmonad.service
+
+echo "KMONAD installation finished."
+{{- end }}
