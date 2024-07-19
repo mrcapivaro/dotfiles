@@ -1,3 +1,4 @@
+#!/bin/bash
 {{- if not (contains "WSL" .chezmoi.kernel.osrelease) }}
 {{-   if contains "Fedora" .chezmoi.osRelease.name }}
 temp = "$HOME/Downloads/keymapper"
