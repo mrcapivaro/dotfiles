@@ -6,6 +6,7 @@ packages:
         - nerd-fonts
         - games
       packages:
+        - freedownloadmanager
         - aria2
         - 7zip
         - chezmoi
