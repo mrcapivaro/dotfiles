@@ -7,6 +7,7 @@ packages:
         - games
       packages:
         - freedownloadmanager
+        - sysinternals
         - aria2
         - 7zip
         - chezmoi
