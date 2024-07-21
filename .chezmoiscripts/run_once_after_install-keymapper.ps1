@@ -1,5 +1,5 @@
 $temp = "$HOME\\Downloads\\keymapper"
-$dest = "$HOME\\scoop\\shims\\"
+$dest = "$HOME\\scoop\\shims"
 $url = "https://github.com/houmain/keymapper/releases/download/4.4.5/keymapper-4.4.5-win64.msi"
 
 if (-Not (Test-Path -Path "$dest\\keymapper.exe")) {
@@ -21,6 +21,14 @@ if (-Not (Test-Path -Path "$dest\\keymapper.exe")) {
 
   sudo "$dest\keymapperd.exe"
   sudo "$dest\keymapper.exe"
-  sudo schtasks /create /tn RunKeymapperd /tr "$dest\keymapperd.exe" /sc onstart /f
-  sudo schtasks /create /tn RunKeymapper /tr "$dest\keymapper.exe" /sc onstart /f
+}
+
+schtasks /query /tn keymapper *> $null
+if (-Not($?)) {
+  sudo schtasks /create /tn keymapper /tr "$HOME\scoop\shims\keymapper.exe" /sc onlogon /rl highest /f
+}
+
+schtasks /query /tn keymapperd *> $null
+if (-Not($?)) {
+  sudo schtasks /create /tn keymapperd /tr "$HOME\scoop\shims\keymapperd.exe" /sc onlogon /rl highest /f
 }
