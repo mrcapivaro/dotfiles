@@ -2,18 +2,19 @@
 *.txt
 LICENSE
 
-{{- if eq .chezmoi.os "linux" }}
-AppData/
-Documents/
-**/*.ps1
-{{-   if ne .chezmoi.osRelease.id "nixos" }}
-nixos/
-{{-   end }}
-{{- end }}
-
-{{- if eq .chezmoi.os "windows" }}
+{{- if ne .chezmoi.os "linux" }}
 **/*.sh*
 .bash*
 .inputrc
+{{- end }}
+
+{{- if ne .chezmoi.osRelease.id "nixos" }}
 nixos/
 {{- end }}
+
+{{- if ne .chezmoi.os "windows" }}
+AppData/
+Documents/
+**/*.ps1
+{{- end }}
+
