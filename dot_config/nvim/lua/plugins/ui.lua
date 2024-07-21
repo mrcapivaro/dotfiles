@@ -35,17 +35,6 @@ return {
             "encoding",
             "fileformat",
             "filetype",
-            function()
-              local ok, pomo = pcall(require, "pomo")
-              if not ok then
-                return ""
-              end
-              local timer = pomo.get_first_to_finish()
-              if timer == nil then
-                return ""
-              end
-              return " " .. tostring(timer)
-            end,
             {
               noice.api.statusline.mode.get,
               cond = noice.api.statusline.mode.has,
@@ -123,8 +112,8 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("ibl").setup({
-        -- indent = { char = "│" },
-        indent = { char = "⎸" },
+        indent = { char = "│" },
+        -- indent = { char = "⎸" },
         scope = {
           show_start = false,
           show_end = false,
