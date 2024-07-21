@@ -14,6 +14,7 @@ packages:
         - dark
         - ripgrep
         - fd
+        - jq
         - fzf
         - sed
         - yazi
@@ -79,6 +80,7 @@ packages:
           - sed
           - fd-find
           - findutils
+          - jq
           - make
 
           - gcc
