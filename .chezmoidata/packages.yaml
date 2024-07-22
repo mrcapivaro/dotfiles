@@ -44,7 +44,7 @@ packages:
         - powertoys
         - discord
         - firefox
-        - spotify
+        - spicetify-cli
         - sublime-text
         - steam
         - obsidian
