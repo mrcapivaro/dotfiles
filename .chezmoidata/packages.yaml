@@ -7,6 +7,7 @@ packages:
         - games
       packages:
         - freedownloadmanager
+        - vlc
         - sysinternals
         - aria2
         - 7zip
@@ -24,6 +25,7 @@ packages:
         - gh
         - lazygit
         - lua
+        - gcc
         - python
         - nodejs
         - starship
