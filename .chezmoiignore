@@ -6,9 +6,6 @@ LICENSE
 **/*.sh*
 .bash*
 .inputrc
-{{- end }}
-
-{{- if ne .chezmoi.osRelease.id "nixos" }}
 nixos/
 {{- end }}
 
@@ -16,5 +13,11 @@ nixos/
 AppData/
 Documents/
 **/*.ps1
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" }}
+{{-   if ne .chezmoi.osRelease.id "nixos" }}
+nixos/
+{{-   end }}
 {{- end }}
 
