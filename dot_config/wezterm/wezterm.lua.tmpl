@@ -1,0 +1,27 @@
+local M = {}
+local wezterm = require("wezterm")
+
+{{- if eq .chezmoi.os "windows" }}
+M.default_prog = { "pwsh" }
+M.integrated_title_button_style = "Windows"
+{{- end}}
+
+M.color_scheme = "Catppuccin Mocha"
+M.window_close_confirmation = "NeverPrompt"
+
+M.font = wezterm.font("JetBrainsMono Nerd Font Mono", { weight = "Bold" })
+M.font_size = 14
+
+M.window_background_opacity = 1.00
+M.use_fancy_tab_bar = false
+M.tab_bar_at_bottom = false
+M.window_decorations = "INTEGRATED_BUTTONS" .. "|" .. "RESIZE"
+M.hide_tab_bar_if_only_one_tab = false
+M.window_padding = {
+  left = 5,
+  right = 5,
+  top = 5,
+  bottom = 5,
+}
+
+return M
