@@ -3,7 +3,7 @@
 local map = vim.keymap.set
 
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = ","
 
 -- Easy CMD
 map({ "n", "v", "s" }, ";", ":", { desc = "Easy cmd." })

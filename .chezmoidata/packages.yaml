@@ -26,6 +26,7 @@ packages:
         - lazygit
         - lua
         - gcc
+        - pnpm
         - python
         - nodejs
         - starship
@@ -48,8 +49,12 @@ packages:
         - sublime-text
         - steam
         - obsidian
-        - battlenet
         - screentogif
+        # put here in order to use image.nvim and
+        # neorg latex integration(did not work, since
+        # ueberzug has no windows supprot)
+        # - miktex
+        # - imagemagick
   fedora:
     flatpak:
       packages:
