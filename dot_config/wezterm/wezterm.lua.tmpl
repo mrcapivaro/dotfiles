@@ -1,27 +1,90 @@
-local M = {}
+local config = {}
 local wezterm = require("wezterm")
 
 {{- if eq .chezmoi.os "windows" }}
-M.default_prog = { "pwsh" }
-M.integrated_title_button_style = "Windows"
-{{- end}}
+-- Windows Specefic
+config.default_prog = { "pwsh" }
+config.integrated_title_button_style = "Windows"
+{{- end }}
 
-M.color_scheme = "Catppuccin Mocha"
-M.window_close_confirmation = "NeverPrompt"
+-- Fonts
+config.font = wezterm.font("JetBrainsMono Nerd Font Mono", { weight = "Bold" })
+config.font_size = 14
 
-M.font = wezterm.font("JetBrainsMono Nerd Font Mono", { weight = "Bold" })
-M.font_size = 14
-
-M.window_background_opacity = 1.00
-M.use_fancy_tab_bar = false
-M.tab_bar_at_bottom = false
-M.window_decorations = "INTEGRATED_BUTTONS" .. "|" .. "RESIZE"
-M.hide_tab_bar_if_only_one_tab = false
-M.window_padding = {
+-- Tabs and Window
+config.color_scheme = "Catppuccin Mocha"
+config.window_close_confirmation = "NeverPrompt"
+config.window_background_opacity = 1.00
+config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = false
+config.window_decorations = "INTEGRATED_BUTTONS" .. "|" .. "RESIZE"
+config.hide_tab_bar_if_only_one_tab = false
+config.window_padding = {
   left = 5,
   right = 5,
   top = 5,
   bottom = 5,
 }
 
-return M
+-- Key Binds
+config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1000 }
+config.keys = {
+  { key = 'Space', mods = 'LEADER', action = wezterm.action.ActivateCommandPalette },
+  {
+    key = "|",
+    mods = "LEADER|SHIFT",
+    action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+  },
+  {
+    key = "_",
+    mods = "LEADER|SHIFT",
+    action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+  },
+  {
+    key = "d",
+    mods = "LEADER",
+    action = wezterm.action.CloseCurrentPane({ confirm = false }),
+  },
+  {
+    key = "H",
+    mods = "LEADER",
+    action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
+  },
+  {
+    key = "J",
+    mods = "LEADER",
+    action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
+  },
+  {
+    key = "K",
+    mods = "LEADER",
+    action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+  },
+  {
+    key = "L",
+    mods = "LEADER",
+    action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
+  },
+  {
+    key = "h",
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection("Left"),
+  },
+  {
+    key = "l",
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection("Right"),
+  },
+  {
+    key = "k",
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection("Up"),
+  },
+  {
+    key = "j",
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection("Down"),
+  },
+}
+
+return config
