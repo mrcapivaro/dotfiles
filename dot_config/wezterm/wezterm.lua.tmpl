@@ -1,5 +1,6 @@
 local config = {}
 local wezterm = require("wezterm")
+local smart_splits = require("smart-splits")
 
 {{- if eq .chezmoi.os "windows" }}
 -- Windows Specefic
@@ -45,46 +46,54 @@ config.keys = {
     mods = "LEADER",
     action = wezterm.action.CloseCurrentPane({ confirm = false }),
   },
-  {
-    key = "H",
-    mods = "LEADER",
-    action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
-  },
-  {
-    key = "J",
-    mods = "LEADER",
-    action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
-  },
-  {
-    key = "K",
-    mods = "LEADER",
-    action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
-  },
-  {
-    key = "L",
-    mods = "LEADER",
-    action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
-  },
-  {
-    key = "h",
-    mods = "LEADER",
-    action = wezterm.action.ActivatePaneDirection("Left"),
-  },
-  {
-    key = "l",
-    mods = "LEADER",
-    action = wezterm.action.ActivatePaneDirection("Right"),
-  },
-  {
-    key = "k",
-    mods = "LEADER",
-    action = wezterm.action.ActivatePaneDirection("Up"),
-  },
-  {
-    key = "j",
-    mods = "LEADER",
-    action = wezterm.action.ActivatePaneDirection("Down"),
-  },
+  -- {
+  --   key = "H",
+  --   mods = "LEADER",
+  --   action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
+  -- },
+  -- {
+  --   key = "J",
+  --   mods = "LEADER",
+  --   action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
+  -- },
+  -- {
+  --   key = "K",
+  --   mods = "LEADER",
+  --   action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+  -- },
+  -- {
+  --   key = "L",
+  --   mods = "LEADER",
+  --   action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
+  -- },
+  -- {
+  --   key = "h",
+  --   mods = "LEADER",
+  --   action = wezterm.action.ActivatePaneDirection("Left"),
+  -- },
+  -- {
+  --   key = "l",
+  --   mods = "LEADER",
+  --   action = wezterm.action.ActivatePaneDirection("Right"),
+  -- },
+  -- {
+  --   key = "k",
+  --   mods = "LEADER",
+  --   action = wezterm.action.ActivatePaneDirection("Up"),
+  -- },
+  -- {
+  --   key = "j",
+  --   mods = "LEADER",
+  --   action = wezterm.action.ActivatePaneDirection("Down"),
+  -- },
+  smart_splits.split_nav("move", "h"),
+  smart_splits.split_nav("move", "j"),
+  smart_splits.split_nav("move", "k"),
+  smart_splits.split_nav("move", "l"),
+  smart_splits.split_nav("resize", "h"),
+  smart_splits.split_nav("resize", "j"),
+  smart_splits.split_nav("resize", "k"),
+  smart_splits.split_nav("resize", "l"),
 }
 
 return config
