@@ -9,14 +9,10 @@ padding = { x = 2, y = 2 }
 
 [font]
 size = 14
-# normal = { family = "FantasqueSansM Nerd Font", style = "Regular" }
-# bold = { family = "FantasqueSansM Nerd Font", style = "Bold" }
-# italic = { family = "FantasqueSansM Nerd Font", style = "Italic" }
-# bold_italic = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
-normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-bold = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold" }
-italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Italic" }
-bold_italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold Italic" }
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "ExtraBold" }
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "ExtraBold Italic" }
 
 [keyboard]
 bindings = [
