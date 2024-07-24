@@ -134,23 +134,4 @@ return {
       require("colorizer").setup(filetypes, opts)
     end
   },
-
-  {
-    "shortcuts/no-neck-pain.nvim",
-    keys = {
-      {
-        "<leader>z",
-        "<cmd>NoNeckPain<cr>",
-        desc = "Enable NoNeckPain mode."
-      },
-    },
-    opts = {
-      buffers = {
-        right = {
-          enabled = false,
-        },
-      },
-      width = 70,
-    },
-  },
 }
