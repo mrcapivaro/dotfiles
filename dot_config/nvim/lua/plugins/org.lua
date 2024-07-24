@@ -14,10 +14,9 @@ return {
           ["core.concealer"] = {},
           ["core.dirman"] = {
             config = {
-              workspaces = {
-                org = "~/org",
-              },
+              workspaces = { org = "~/org", },
               default_workspace = "org",
+              index = "index.norg",
             },
           },
         },

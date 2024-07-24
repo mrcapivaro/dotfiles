@@ -1,14 +1,16 @@
 return {
   "CRAG666/code_runner.nvim",
+
   keys = {
     {
-      "<leader>rr",
+      "<leader>rc",
       function()
         require("code_runner").run_code()
       end,
-      desc = "Run code"
+      desc = "Run Code."
     },
   },
+
   opts = {
     mode = "float",
     float = {
@@ -16,7 +18,7 @@ return {
     },
     filetype = {
       -- python = "python -u '$dir/$fileName'"
-      python = "python -u"
+      -- python = "python -u"
     },
   },
 }
