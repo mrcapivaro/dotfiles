@@ -4,7 +4,7 @@ local smart_splits = require("smart-splits")
 
 {{- if eq .chezmoi.os "windows" }}
 -- Windows Specefic
-config.default_prog = { "pwsh" }
+config.default_prog = { "pwsh -NoLogo" }
 config.integrated_title_button_style = "Windows"
 {{- end }}
 

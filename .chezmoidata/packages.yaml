@@ -45,9 +45,8 @@ packages:
         - z
         # cli.prog-langs
         - gcc
-        - llvm
+        - gdb
         - python
-        - python310
         - lua
         - nodejs
         - pnpm
