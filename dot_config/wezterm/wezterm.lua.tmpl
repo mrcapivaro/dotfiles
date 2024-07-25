@@ -94,6 +94,7 @@ config.keys = {
   smart_splits.split_nav("resize", "j"),
   smart_splits.split_nav("resize", "k"),
   smart_splits.split_nav("resize", "l"),
+  { key = "o", mods = "CTRL", action = wezterm.action.SendString "clear\r" },
 }
 
 return config
