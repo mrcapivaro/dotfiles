@@ -6,10 +6,10 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 
 Set-Alias vi nvim
 Set-Alias vim nvim
-Set-Alias cl clear
 Set-Alias clera clear
 Set-Alias cler clear
 Set-Alias clar clear
+Set-Alias c clear
 
 function chezmoicd() {
   Set-Location -Path $(chezmoi source-path)
