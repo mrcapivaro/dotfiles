@@ -6,17 +6,32 @@ packages:
         - nerd-fonts
         - games
       packages:
+        # GUI
+        - vscode
         - freedownloadmanager
-        - vlc
         - sysinternals
-        - aria2
+        - vlc
+        - alacritty
+        - wezterm
+        - powertoys
+        - discord
+        - firefox
+        - sublime-text
+        - steam
+        - obsidian
+        - screentogif
+        # CLI
+        - spicetify-cli
         - 7zip
+        - aria2
         - chezmoi
         - direnv
+        - neovim
         - dark
         - ripgrep
         - fd
         - jq
+        - less
         - fzf
         - sed
         - yazi
@@ -24,37 +39,21 @@ packages:
         - git
         - gh
         - lazygit
+        - starship
+        # cli.prog-langs
         - lua
         - gcc
         - pnpm
         - python
         - nodejs
-        - starship
-        - vscode
-        - sharpkeys
-        - neovim
         - psreadline
         - z
-        - alacritty
-        - wezterm
+        # fonts
         - FantasqueSansMono-NF
         - FantasqueSansMono-NF-Mono
         - JetBrainsMono-NF
         - JetBrainsMono-NF-Mono
         - CascadiaMono-NF-Mono
-        - powertoys
-        - discord
-        - firefox
-        - spicetify-cli
-        - sublime-text
-        - steam
-        - obsidian
-        - screentogif
-        # put here in order to use image.nvim and
-        # neorg latex integration(did not work, since
-        # ueberzug has no windows supprot)
-        # - miktex
-        # - imagemagick
   fedora:
     flatpak:
       packages:
@@ -109,10 +108,9 @@ packages:
           - rustup
         gui:
           - alacritty
-          - input-remapper
           - ulauncher
           - dbus-x11 # fix gsettings wallpaper file not found error
-          - gnome-tweaks # not installed with noabara
+          - gnome-tweaks
           - gnome-shell-extension-pop-shell
           - gnome-shell-extension-appindicator
           - firefox
