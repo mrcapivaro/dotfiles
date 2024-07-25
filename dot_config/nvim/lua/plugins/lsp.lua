@@ -56,11 +56,8 @@ return {
         capabilities = capabilities,
         cmd = {
           "clangd",
-          -- "-offset-encoding=utf-8",
           "--enable-config",
-          -- "--query-driver='C:\\Users\\mrcapivaro\\scoop\\apps\\gcc\\current\\x86_64-w64-mingw32\\include\\'",
-          -- "--query-driver='C:\\Users\\mrcapivaro\\scoop\\apps\\gcc\\current\\x86_64-w64-mingw32\\'",
-          -- "--query-driver='C:\\Users\\mrcapivaro\\scoop\\apps\\gcc\\current\\'",
+          -- "-offset-encoding=utf-8",
         },
       })
     end,
