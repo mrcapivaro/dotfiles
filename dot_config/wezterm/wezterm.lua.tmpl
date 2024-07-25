@@ -42,9 +42,19 @@ config.keys = {
     action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
   },
   {
-    key = "d",
+    key = "x",
     mods = "LEADER",
     action = wezterm.action.CloseCurrentPane({ confirm = false }),
+  },
+  {
+    key = "c",
+    mods = "LEADER",
+    action = wezterm.action.CloseCurrentTab({ confirm = false }),
+  },
+  {
+    key = "n",
+    mods = "LEADER",
+    action = wezterm.action.SpawnTab "DefaultDomain" ),
   },
   -- {
   --   key = "H",
