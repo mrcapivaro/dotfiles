@@ -40,14 +40,14 @@ packages:
         - gh
         - lazygit
         - starship
-        # cli.prog-langs
-        - lua
-        - gcc
-        - pnpm
-        - python
-        - nodejs
         - psreadline
         - z
+        # cli.prog-langs
+        - llvm
+        - python
+        - lua
+        - nodejs
+        - pnpm
         # fonts
         - FantasqueSansMono-NF
         - FantasqueSansMono-NF-Mono
