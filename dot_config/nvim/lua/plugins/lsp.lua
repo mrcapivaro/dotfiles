@@ -52,10 +52,14 @@ return {
         },
       })
 
-      -- lspconfig.clangd.setup({
-      --   capabilities = capabilities,
-      --   cmd = { "clangd", "-offset-encoding=utf-8" },
-      -- })
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
+        cmd = {
+          "clangd",
+          -- "-offset-encoding=utf-8",
+          "--query-driver='C:\\Users\\mrcapivaro\\scoop\\apps\\gcc\\current\\x86_64-w64-mingw32\\'",
+        },
+      })
     end,
   },
 

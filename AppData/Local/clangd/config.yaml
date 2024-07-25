@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    # - --query-driver="C:\\Users\\mrcapivaro\\scoop\\apps\\gcc\\"
+    - -I"C:\\Users\\mrcapivaro\\scoop\\apps\\gcc\\current\\x86_64-w64-mingw32\\include\\"
