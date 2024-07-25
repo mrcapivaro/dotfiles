@@ -7,7 +7,7 @@ packages:
         - games
         - versions
       packages:
-        # GUI
+        # gui
         - vscode
         - freedownloadmanager
         - sysinternals
@@ -21,7 +21,7 @@ packages:
         - steam
         - obsidian
         - screentogif
-        # CLI
+        # cli
         - spicetify-cli
         - 7zip
         - aria2
@@ -44,8 +44,10 @@ packages:
         - psreadline
         - z
         # cli.prog-langs
+        - make
         - gcc
         - gdb
+        - cmake
         - python
         - lua
         - nodejs
