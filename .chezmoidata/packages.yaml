@@ -5,6 +5,7 @@ packages:
         - extras
         - nerd-fonts
         - games
+        - versions
       packages:
         # GUI
         - vscode
@@ -43,8 +44,10 @@ packages:
         - psreadline
         - z
         # cli.prog-langs
+        - gcc
         - llvm
         - python
+        - python310
         - lua
         - nodejs
         - pnpm
