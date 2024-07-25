@@ -3,6 +3,8 @@
 ## Installation
 
 ### Windows
+> Install [Powershell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4#installing-the-msi-package)
+
 > Install [scoop](https://www.scoop.sh/):
 ```pwsh
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
