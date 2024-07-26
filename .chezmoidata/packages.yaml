@@ -46,6 +46,7 @@ packages:
         # cli.prog-langs
         - make
         - gcc
+        - vcpkg
         - gdb
         - cmake
         - python
