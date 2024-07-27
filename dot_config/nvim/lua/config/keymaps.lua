@@ -5,8 +5,8 @@ local map = vim.keymap.set
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
--- Easy CMD
-map({ "n", "v", "s" }, ";", ":", { desc = "Easy cmd." })
+-- Faster CMD
+map({ "n", "v", "s" }, ";", ":", { desc = "Faster cmd." })
 
 -- Save Buffer
 map({ "n", "i", "v", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Write buffer changes." })
@@ -24,8 +24,8 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsea
 -- Buffer Commands
 map({ "n", "v", "s" }, "<Tab>", "<cmd>bn<cr>", { desc = "Next buffer." })
 map({ "n", "v", "s" }, "<S-Tab>", "<cmd>bp<cr>", { desc = "Previous buffer." })
-map({ "n", "v", "s" }, "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer." })
-map({ "n", "v", "s" }, "<leader>bD", "<cmd>bd!<cr>", { desc = "Force delete buffer." })
+map({ "n", "v", "s" }, "<leader>bd", "<cmd>bd<cr>", { desc = "Close buffer." })
+map({ "n", "v", "s" }, "<leader>bD", "<cmd>bd!<cr>", { desc = "Force close buffer." })
 
 -- Built-in File Explorer
 map("n", "<leader>e", "<cmd>Ex<cr>", { desc = "Open builtin file explorer." })
