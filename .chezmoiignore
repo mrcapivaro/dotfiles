@@ -11,5 +11,6 @@ LICENSE
 {{- if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
+scoop/
 **/*.ps1
 {{- end }}
