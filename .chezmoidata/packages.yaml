@@ -44,11 +44,11 @@ packages:
         - psreadline
         - z
         # cli.prog-langs
-        - make
         - gcc
-        - vcpkg
         - gdb
+        - vcpkg
         - cmake
+        - ninja
         - python
         - lua
         - nodejs
