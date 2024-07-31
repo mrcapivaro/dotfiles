@@ -13,12 +13,12 @@ Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
 > Bootstrap [chezmoi](https://www.chezmoi.io/):
 ```powershell
-scoop install chezmoi && chezmoi init --apply mrcapivaro
+scoop install chezmoi && chezmoi init --apply --ssh mrcapivaro
 ```
 
 ### Linux
 > Bootstrap [chezmoi](https://www.chezmoi.io/):
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply mrcapivaro
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply --ssh mrcapivaro
 ```
 

@@ -1,7 +1,9 @@
-{{- range .packages.windows.scoop.buckets }}
+{{ if eq .chezmoi.os "windows" -}}
+{{   range .packages.windows.scoop.buckets -}}
 scoop bucket add {{ . | quote }}
-{{- end }}
+{{   end -}}
 
-{{- range .packages.windows.scoop.packages }}
+{{   range .packages.windows.scoop.packages -}}
 scoop install {{ . | quote }}
-{{- end }}
+{{   end -}}
+{{ end -}}
