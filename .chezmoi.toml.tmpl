@@ -1,7 +1,7 @@
-{{-  if eq .chezmoi.os "windows"  }}
+{{- if eq .chezmoi.os "windows" -}}
 [interpreters.ps1]
   command = "pwsh"
   args = [ "-NoLogo", "-NoProfile" ]
 [cd]
-  commad = "pwsh"
-{{-  end  }}
+  command = "pwsh"
+{{- end -}}
