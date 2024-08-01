@@ -9,7 +9,7 @@ JETBRAINS_MONO_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3
 CASCADIA_MONO_FILE="Cascadia*FontMono*"
 CASCADIA_MONO_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/CascadiaMono.zip"
 
-ensure_fonts_dir() {
+ensure_fonts_dir_exists() {
   if ! ls "$FONTS_DIR" &> /dev/null; then
     mkdir -p "$FONTS_DIR"
     chmod 755 "$FONTS_DIR"
@@ -28,7 +28,7 @@ download_and_extract_font() {
   chown -R "$USER_ID":"$USER_ID" "$FONTS_DIR"
 }
 
-ensure_fonts_dir
+ensure_fonts_dir_exists
 
 if ! ls "$FONTS_DIR/$FANTASQUE_SANS_FILE" &> /dev/null; then
   download_and_extract_font "$FANTASQUE_SANS_URL"

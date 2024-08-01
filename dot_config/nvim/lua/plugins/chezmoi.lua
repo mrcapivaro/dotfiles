@@ -1,9 +1,16 @@
-local M = {
-  "alker0/chezmoi.vim",
-  lazy = false,
-  init = function()
-    vim.g["chezmoi#use_tmp_buffer"] = true
-  end,
-}
+return {
+  {
+    "alker0/chezmoi.vim",
+    lazy = false,
+    init = function()
+      vim.g["chezmoi#use_tmp_buffer"] = true
+    end,
+  },
 
-return M
+  {
+    "Lilja/vim-chezmoi",
+    -- config = function()
+    --   vim.g["chezmoi"] = "enabled"
+    -- end,
+  },
+}
