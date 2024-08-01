@@ -1,29 +1,29 @@
 [window]
+{{ if ne .chezmoi.os "windows" -}}
 decorations = "None"
+{{ end -}}
 dynamic_padding = true
 padding = { x = 2, y = 2 }
 # opacity = 0.95
 
 [font]
 size = 14
-# normal = { family = "FantasqueSansM Nerd Font", style = "Regular" }
-# bold = { family = "FantasqueSansM Nerd Font", style = "Bold" }
-# italic = { family = "FantasqueSansM Nerd Font", style = "Italic" }
-# bold_italic = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
-# normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
-# bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
-# italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
-# bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
-normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-bold = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold" }
-italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Italic" }
-bold_italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold Italic" }
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "ExtraBold" }
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "ExtraBold Italic" }
+
+{{ if eq .chezmoi.os "windows" -}}
+[shell]
+program = "pwsh -NoLogo"
 
 [keyboard]
 bindings = [
-  # {key = "Space", mods = "Control", chars = "\u0000"},
+  {key = "Space", mods = "Control", chars = "\u0000"},
 ]
+{{ end -}}
 
+# Catppuccin Mocha Color Scheme
 [colors.primary]
 background = "#1E1E2E"
 foreground = "#CDD6F4"
