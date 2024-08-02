@@ -1,0 +1,25 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Python\PythonCore]
+"DisplayName"="Official Python installed with Scoop"
+"SupportUrl"="https://www.python.org/"
+
+[HKEY_CURRENT_USER\Software\Python\PythonCore\3.12]
+"DisplayName"="Python 3.12 (64-bit)"
+"SupportUrl"="https://www.python.org/"
+"Version"="3.12.4"
+"SysVersion"="3.12"
+"SysArchitecture"="64bit"
+
+[HKEY_CURRENT_USER\Software\Python\PythonCore\3.12\Help\Main Python Documentation]
+@="C:\\Users\\mrcapivaro\\scoop\\apps\\python\\3.12.4\\Doc\\python3124.chm"
+"DisplayName"="Python 3.12.4 Documentation"
+
+[HKEY_CURRENT_USER\Software\Python\PythonCore\3.12\InstallPath]
+@="C:\\Users\\mrcapivaro\\scoop\\apps\\python\\3.12.4"
+"ExecutablePath"="C:\\Users\\mrcapivaro\\scoop\\apps\\python\\3.12.4\\python.exe"
+"WindowedExecutablePath"="C:\\Users\\mrcapivaro\\scoop\\apps\\python\\3.12.4\\pythonw.exe"
+
+[HKEY_CURRENT_USER\Software\Python\PythonCore\3.12\PythonPath]
+@="C:\\Users\\mrcapivaro\\scoop\\apps\\python\\3.12.4\\Lib\\;C:\\Users\\mrcapivaro\\scoop\\apps\\python\\3.12.4\\DLLs\\"
+

@@ -7,27 +7,13 @@ packages:
         - games
         - versions
       packages:
-        # gui
-        - vscode
-        - freedownloadmanager
-        - sysinternals
-        - vlc
-        - alacritty
-        - wezterm
-        - powertoys
-        - discord
-        - firefox
-        - sublime-text
-        - steam
-        - obsidian
-        - screentogif
         # cli
-        - spicetify-cli
-        - 7zip
         - aria2
+        - 7zip
         - chezmoi
         - direnv
         - neovim
+        - pwsh
         - dark
         - ripgrep
         - fd
@@ -43,6 +29,7 @@ packages:
         - starship
         - psreadline
         - z
+        - spicetify-cli
         # cli.prog-langs
         - gcc
         - gdb
@@ -59,6 +46,20 @@ packages:
         - JetBrainsMono-NF
         - JetBrainsMono-NF-Mono
         - CascadiaMono-NF-Mono
+        # gui
+        - vscode
+        - freedownloadmanager
+        - sysinternals
+        - vlc
+        - alacritty
+        - wezterm
+        - powertoys
+        - discord
+        - firefox
+        - sublime-text
+        - steam
+        - obsidian
+        - screentogif
   fedora:
     flatpak:
       packages:
