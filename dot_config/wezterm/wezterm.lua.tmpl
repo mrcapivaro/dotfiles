@@ -3,10 +3,11 @@ local wezterm = require("wezterm")
 local smart_splits = require("smart-splits")
 
 {{- if eq .chezmoi.os "windows" }}
--- Windows Specefic
+-- Windows Specific
 config.default_prog = { "pwsh", "-NoLogo" }
 config.integrated_title_button_style = "Windows"
 config.window_decorations = "INTEGRATED_BUTTONS" .. "|" .. "RESIZE"
+config.hide_tab_bar_if_only_one_tab = false
 {{- end }}
 
 -- Fonts
@@ -21,8 +22,8 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = false
 {{- if eq .chezmoi.os "linux" }}
 config.window_decorations = "NONE"
-{{- end }}
 config.hide_tab_bar_if_only_one_tab = true
+{{- end }}
 config.window_padding = {
   left = 5,
   right = 5,
