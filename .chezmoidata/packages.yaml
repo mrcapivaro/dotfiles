@@ -71,6 +71,7 @@ packages:
         - "atim/starship"
         - "atim/lazygit"
         - "wslutilities/wslu"
+        - "wezfurlong/wezterm-nightly"
       packages:
         cli:
           - wslu
@@ -114,6 +115,7 @@ packages:
           - rustup
         gui:
           - alacritty
+          - wezterm
           - ulauncher
           - dbus-x11 # fix gsettings wallpaper file not found error
           - gnome-tweaks
