@@ -20,7 +20,7 @@ config.window_background_opacity = 1.00
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = false
 {{- if eq .chezmoi.os "linux" }}
-config.window_decorations = "RESIZE"
+config.window_decorations = "NONE"
 {{- end }}
 config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
