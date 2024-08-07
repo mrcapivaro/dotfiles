@@ -16,8 +16,7 @@ return {
       border = "single",
     },
     filetype = {
-      -- python = "python -u '$dir/$fileName'"
-      -- python = "python -u"
+      ps1 = "pwsh --command",
     },
   },
 }
