@@ -9,17 +9,15 @@ sudo dnf copr enable -y {{ . | quote }}
 sudo dnf install -y {{ . | quote }}
 {{   end -}}
 
-if ! ls "/proc/sys/fs/binfmt_misc/WSLInterop" &> /dev/null; then
-
-{{   range .fedora.dnf.packages.gui -}}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{     range .fedora.dnf.packages.gui -}}
   sudo dnf install -y {{ . | quote }}
-{{   end -}}
+{{     end -}}
 
   flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
-{{   range .fedora.flatpak.packages -}}
+{{     range .fedora.flatpak.packages -}}
   flatpak install flathub {{ . | quote }}
+{{     end -}}
 {{   end -}}
-
-fi
 
 {{ end -}}
