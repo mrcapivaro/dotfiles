@@ -1,22 +1,22 @@
 {{ if eq .chezmoi.osRelease.id "fedora" -}}
 #!/bin/bash
 
-{{   range .packages.fedora.dnf.repositories -}}
+{{   range .fedora.dnf.repositories -}}
 sudo dnf copr enable -y {{ . | quote }}
 {{   end -}}
 
-{{   range .packages.fedora.dnf.packages.cli -}}
+{{   range .fedora.dnf.packages.cli -}}
 sudo dnf install -y {{ . | quote }}
 {{   end -}}
 
 if ! ls "/proc/sys/fs/binfmt_misc/WSLInterop" &> /dev/null; then
 
-{{   range .packages.fedora.dnf.packages.gui -}}
+{{   range .fedora.dnf.packages.gui -}}
   sudo dnf install -y {{ . | quote }}
 {{   end -}}
 
   flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
-{{   range .packages.fedora.flatpak.packages -}}
+{{   range .fedora.flatpak.packages -}}
   flatpak install flathub {{ . | quote }}
 {{   end -}}
 
