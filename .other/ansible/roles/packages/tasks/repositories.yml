@@ -1,6 +1,0 @@
----
-- name: Enable COPR packages
-  ansible.builtin.shell: "dnf copr enable {{ item }} -y"
-  with_items:
-    - "atim/starship"
-    - "atim/lazygit"

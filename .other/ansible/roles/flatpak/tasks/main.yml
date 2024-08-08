@@ -1,6 +1,0 @@
----
-- ansible.builtin.import_tasks: remote.yml
-  tags: flatpak.remote
-
-- ansible.builtin.import_tasks: apps.yml
-  tags: flatpak.apps

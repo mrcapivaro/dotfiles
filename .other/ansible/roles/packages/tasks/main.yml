@@ -1,6 +1,0 @@
----
-- ansible.builtin.import_tasks: repositories.yml
-  tags: packages.repositories
-
-- ansible.builtin.import_tasks: apps.yml
-  tags: packages.apps
