@@ -9,7 +9,7 @@ sudo dnf copr enable -y {{ . | quote }}
 sudo dnf install -y {{ . | quote }}
 {{   end -}}
 
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{   if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 {{     range .fedora.dnf.packages.gui -}}
   sudo dnf install -y {{ . | quote }}
 {{     end -}}
