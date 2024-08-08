@@ -14,8 +14,8 @@ M.lsp = {
   "bashls",
   "tsserver",
   -- "eslint_lsp", -- js/ts linter lsp
-  "ansiblels",
   "gopls",
+  "taplo"
 }
 
 M.formatter = {

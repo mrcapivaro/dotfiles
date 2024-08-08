@@ -1,0 +1,153 @@
+[colorscheme]
+name = "catppuccin"
+flavor = "mocha"
+dark_flavor = "mocha"
+light_flavor = "latte"
+accent = "mauve"
+
+[fonts]
+size = 14
+path = "~/.local/share/fonts"
+
+[fonts.jetbrains]
+name = { normal = "JetBrainsMono Nerd Font", mono = "JetBrainsMono Nerd Font" }
+url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
+files = "JetBrains*"
+
+[windows.scoop]
+buckets = [
+  "extras",
+  "nerd-fonts",
+  "games",
+  "versions",
+]
+
+packages.cli = [
+  "aria2",
+  "chezmoi",
+  "direnv",
+  "neovim",
+  "pwsh",
+  "dark",
+  "ripgrep",
+  "fd",
+  "jq",
+  "less",
+  "fzf",
+  "sed",
+  "yazi",
+  "sudo",
+  "git",
+  "gh",
+  "lazygit",
+  "starship",
+  "psreadline",
+  "z",
+]
+
+packages.prog_langs = [
+  "gcc",
+  "gdb",
+  "vcpkg",
+  "cmake",
+  "ninja",
+  "python",
+  "lua",
+  "nodejs",
+  "pnpm",
+]
+
+packages.fonts = [
+  "JetBrainsMono-NF",
+  "JetBrainsMono-NF-Mono",
+]
+
+packages.gui = [
+  "vscode",
+  "freedownloadmanager",
+  "sysinternals",
+  "vlc",
+  "alacritty",
+  "wezterm",
+  "powertoys",
+  "discord",
+  "firefox",
+  "sublime-text",
+  "steam",
+  "obsidian",
+  "screentogif",
+  "spicetify-cli",
+  "7zip",
+]
+
+[fedora.flatpak]
+packages = [
+  "md.obsidian.Obsidian",
+  "com.spotify.Client",
+  "com.discordapp.Discord",
+]
+
+[fedora.dnf]
+repositories = [
+  "atim/starship",
+  "atim/lazygit",
+  "wslutilities/wslu",
+  "wezfurlong/wezterm-nightly",
+]
+
+packages.cli = [
+  "wslu",
+  "git",
+  "gh",
+  "lazygit",
+  "wget",
+  "ranger",
+  "zoxide",
+  "neovim",
+  "tmux",
+  "htop",
+  "neofetch",
+  "starship",
+  "unzip",
+  "fzf",
+  "autoconf",
+  "ripgrep",
+  "direnv",
+  "sed",
+  "fd-find",
+  "findutils",
+  "jq",
+  "make",
+  "gcc",
+  "lua",
+  "luarocks",
+  "nodejs",
+  "npm",
+  "pnpm",
+  "python3",
+  "python3-pip",
+  "python3-numpy",
+  "python3-scipy",
+  "python3-pandas",
+  "python3-matplotlib",
+  "python3-ipython",
+  "golang",
+  "rustup",
+]
+
+packages.gui = [
+  "alacritty",
+  "wezterm",
+  "ulauncher",
+  "dbus-x11", # fix gsettings wallpaper file not found error
+  "gnome-tweaks",
+  "gnome-shell-extension-pop-shell",
+  "gnome-shell-extension-appindicator",
+  "firefox",
+  "flatpak",
+  "rclone",
+  "libreoffice",
+  "imv",
+  "zathura",
+  "zathura-pdf-mupdf",
+]

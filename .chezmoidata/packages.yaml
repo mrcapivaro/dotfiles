@@ -41,11 +41,8 @@ packages:
         - nodejs
         - pnpm
         # fonts
-        - FantasqueSansMono-NF
-        - FantasqueSansMono-NF-Mono
         - JetBrainsMono-NF
         - JetBrainsMono-NF-Mono
-        - CascadiaMono-NF-Mono
         # gui
         - vscode
         - freedownloadmanager
