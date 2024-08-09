@@ -29,6 +29,11 @@ return {
       "<cmd>CompilerRedo<cr>",
       desc = "Redo last Compiler.nvim task",
     },
+    {
+      "<leader>rt",
+      "<cmd>CompilerToggleResults<cr>",
+      desc = "Redo last Compiler.nvim task",
+    },
   },
   opts = {},
 }
