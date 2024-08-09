@@ -22,6 +22,7 @@ return {
       "luap",
       -- shell
       "bash",
+      "powershell",
       -- notes --
       "markdown",
       "markdown_inline",
