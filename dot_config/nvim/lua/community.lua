@@ -11,7 +11,9 @@ return {
 	{ import = "astrocommunity.pack.bash" },
 	{ import = "astrocommunity.pack.html-css" },
 	{ import = "astrocommunity.pack.cpp" },
+	{ import = "astrocommunity.pack.python" },
 	{ import = "astrocommunity.pack.yaml" },
-	-- { import = "astrocommunity.pack.chezmoi" }, -- does not work with windows
   { import = "astrocommunity.pack.toml" },
+  { import = "astrocommunity.code-runner.compiler-nvim" },
+  { import = "astrocommunity.recipes.heirline-nvchad-statusline" },
 }
