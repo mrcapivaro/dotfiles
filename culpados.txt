@@ -1,0 +1,35 @@
+# Possíveis Culpados:
+    ● aerial.nvim 1.52ms  User AstroFile
+    ● astrolsp 2.8ms 󰢱 astrolsp  mason-lspconfig.nvim
+    ● cmp-buffer 8.87ms  nvim-cmp
+    ● cmp-dap 55.95ms  nvim-dap
+    ● cmp-nvim-lsp 2.48ms  nvim-cmp
+    ● cmp-path 2.35ms  nvim-cmp
+    ● cmp_luasnip 2.55ms  nvim-cmp
+    ● friendly-snippets 2.01ms  LuaSnip
+    ● gitsigns.nvim 12.19ms  User AstroGitFile
+    ● guess-indent.nvim 1.4ms 󰢱 guess-indent  AstroNvim
+    ● indent-blankline.nvim 6.72ms  User AstroFile
+    ● lspkind.nvim 2.28ms 󰢱 lspkind  nvim-cmp
+    ● LuaSnip 32.41ms 󰢱 luasnip  nvim-cmp
+    ● mason-lspconfig.nvim 18.13ms  nvim-lspconfig
+    ● mason-null-ls.nvim 13.6ms  none-ls.nvim
+    ● mason-nvim-dap.nvim 92.16ms  Lazy load
+    ● mason.nvim 4.76ms  Lazy load  nvim-treesitter
+    ● neoconf.nvim 5.13ms  nvim-lspconfig
+    ● none-ls.nvim 14ms  User AstroFile
+    ● nvim-autopairs 6.51ms  User AstroFile
+    ● nvim-cmp 54.76ms  cmp-dap
+    ● nvim-colorizer.lua 3.9ms  User AstroFile
+    ● nvim-dap 75.75ms  mason-nvim-dap.nvim
+    ● nvim-dap-ui 17.34ms  nvim-dap
+    ● nvim-lspconfig 23.88ms  User AstroFile
+    ● nvim-nio 2.04ms  nvim-dap-ui
+    ● nvim-treesitter 35.66ms  User AstroFile
+    ● nvim-treesitter-textobjects 6.23ms  nvim-treesitter
+    ● nvim-ts-autotag 3.42ms  User AstroFile
+    ● nvim-ufo 6.97ms  User AstroFile
+    ● nvim-web-devicons 5.6ms 󰢱 nvim-web-devicons  astroui
+    ● promise-async 1.21ms  nvim-ufo
+    ● todo-comments.nvim 2.86ms  User AstroFile
+    ● vim-illuminate 3.32ms  User AstroFile
