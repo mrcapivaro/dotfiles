@@ -1,8 +1,4 @@
 return {
-  -- {
-  --   "Lilja/vim-chezmoi",
-  -- },
-
   {
     "alker0/chezmoi.vim",
     specs = {
@@ -19,6 +15,10 @@ return {
         },
       },
     },
+  },
+
+  {
+    "Lilja/vim-chezmoi",
   },
 
   -- {
