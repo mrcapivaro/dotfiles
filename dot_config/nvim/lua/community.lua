@@ -9,11 +9,11 @@ return {
 	{ import = "astrocommunity.color.nvim-highlight-colors" },
 	{ import = "astrocommunity.pack.lua" },
 	{ import = "astrocommunity.pack.bash" },
+	{ import = "astrocommunity.pack.ps1" },
 	{ import = "astrocommunity.pack.html-css" },
 	{ import = "astrocommunity.pack.cpp" },
 	{ import = "astrocommunity.pack.python" },
 	{ import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.code-runner.compiler-nvim" },
-  { import = "astrocommunity.recipes.heirline-nvchad-statusline" },
 }

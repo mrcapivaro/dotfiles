@@ -2,12 +2,52 @@
 
 ---@type LazySpec
 return {
-  "nvim-treesitter/nvim-treesitter",
-  opts = {
-    ensure_installed = {
-      "lua",
-      "vim",
-      -- add more arguments for adding more treesitter parsers
+	"nvim-treesitter/nvim-treesitter",
+  -- event = { "BufReadPost", "BufNewFile" },
+	opts = {
+    auto_install = true,
+    highlight = { enable = true },
+    indent = {
+      enable = true,
+      disable = { "html" },
     },
-  },
+    ensure_installed = {
+      -- vim --
+      "vim",
+      "vimdoc",
+      "query",
+      -- lua --
+      "lua",
+      "luadoc",
+      "luap",
+      -- shell
+      "bash",
+      -- notes --
+      "markdown",
+      "markdown_inline",
+      -- "norg",
+      -- "org",
+      -- web dev --
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "tsx",
+      -- other --
+      "c",
+      "cpp",
+      "rust",
+      "go",
+      "python",
+      -- config --
+      "toml",
+      "yaml",
+      "ini",
+      "json",
+    },
+    -- incremental_selection = {
+    --   enable = true,
+    --   keymaps = {},
+    -- },
+	},
 }
