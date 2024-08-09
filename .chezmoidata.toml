@@ -6,7 +6,7 @@ light_flavor = "latte"
 accent = "mauve"
 
 [fonts]
-size = 14
+size = 12
 path = "~/.local/share/fonts"
 
 [fonts.jetbrains]
