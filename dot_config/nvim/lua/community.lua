@@ -15,5 +15,4 @@ return {
 	{ import = "astrocommunity.pack.python" },
 	{ import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.toml" },
-  { import = "astrocommunity.code-runner.compiler-nvim" },
 }
