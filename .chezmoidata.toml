@@ -15,12 +15,7 @@ url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrain
 files = "JetBrains*"
 
 [windows.scoop]
-buckets = [
-  "extras",
-  "nerd-fonts",
-  "games",
-  "versions",
-]
+buckets = ["extras", "nerd-fonts", "games", "versions"]
 
 packages.cli = [
   "aria2",
@@ -57,10 +52,7 @@ packages.prog_langs = [
   "pnpm",
 ]
 
-packages.fonts = [
-  "JetBrainsMono-NF",
-  "JetBrainsMono-NF-Mono",
-]
+packages.fonts = ["JetBrainsMono-NF", "JetBrainsMono-NF-Mono"]
 
 packages.gui = [
   "vscode",
@@ -139,7 +131,7 @@ packages.gui = [
   "alacritty",
   "wezterm",
   "ulauncher",
-  "dbus-x11", # fix gsettings wallpaper file not found error
+  "dbus-x11",                           # fix gsettings wallpaper file not found error
   "gnome-tweaks",
   "gnome-shell-extension-pop-shell",
   "gnome-shell-extension-appindicator",
