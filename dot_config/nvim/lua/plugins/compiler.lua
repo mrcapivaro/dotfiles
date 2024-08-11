@@ -21,7 +21,7 @@ return {
   keys = {
     {
       "<leader>ro",
-      "<cmd>CompilerOpen<cr>",
+      "<cmd>CompilerOpen<cr><esc>",
       desc = "Open Compiler.nvim",
     },
     {
