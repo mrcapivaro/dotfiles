@@ -4,7 +4,7 @@ return {
   cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
   keys = {
     {
-      "<leader>ls",
+      "<leader>lo",
       "<cmd>LiveServerToggle<cr>",
       desc = "Toggle Live Server",
     },

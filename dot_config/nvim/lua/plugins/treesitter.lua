@@ -1,10 +1,8 @@
--- Customize Treesitter
-
----@type LazySpec
 return {
-	"nvim-treesitter/nvim-treesitter",
-  -- event = { "BufReadPost", "BufNewFile" },
-	opts = {
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  event = { "BufReadPost", "BufNewFile" },
+  opts = {
     auto_install = true,
     highlight = { enable = true },
     indent = {
@@ -22,7 +20,6 @@ return {
       "luap",
       -- shell
       "bash",
-      "powershell",
       -- notes --
       "markdown",
       "markdown_inline",
@@ -50,5 +47,8 @@ return {
     --   enable = true,
     --   keymaps = {},
     -- },
-	},
+  },
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
