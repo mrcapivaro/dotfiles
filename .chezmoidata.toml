@@ -42,12 +42,13 @@ packages.cli = [
 
 packages.prog_langs = [
   "gcc",
-  "gdb",
   "vcpkg",
   "cmake",
   "ninja",
   "python",
   "lua",
+  "luarocks",
+  "luajit",
   "nodejs",
   "pnpm",
 ]
