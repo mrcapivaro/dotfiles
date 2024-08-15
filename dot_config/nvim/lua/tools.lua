@@ -18,7 +18,16 @@ M.lspconfig = {
   handlers = {
     -- Default Handler
     function(server)
-      require("lspconfig")[server].setup({})
+      local lspconfig = require("lspconfig")
+      local capabilities = vim.tbl_deep_extend(
+        "keep",
+        require("cmp_nvim_lsp").default_capabilities(),
+        lspconfig.util.default_config.capabilities
+      )
+      -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+      lspconfig[server].setup({
+        capabilities = capabilities,
+      })
     end,
     ["clangd"] = function()
       local lspconfig = require("lspconfig")
