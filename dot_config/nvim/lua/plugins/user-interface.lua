@@ -1,5 +1,10 @@
 return {
   {
+    "stevearc/dressing.nvim",
+    opts = {},
+  },
+
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {
@@ -23,7 +28,13 @@ return {
       presets = {
         command_palette = true,
         lsp_doc_border = true,
-        long_message_to_split = true,
+        long_message_to_split = false,
+      },
+      views = {
+        hover = {
+          border = { style = vim.g.FloatBorders },
+          size = { max_width = 80 },
+        },
       },
     },
   },
@@ -68,9 +79,9 @@ return {
       options = {
         themable = true,
         -- separator_style = "slack",
-        -- highlights = function()
-        --   require("catppuccin.groups.integrations.bufferline").get()
-        -- end,
+        highlights = function()
+          require("catppuccin.groups.integrations.bufferline").get()
+        end,
         offsets = {
           {
             filetype = "neo-tree",

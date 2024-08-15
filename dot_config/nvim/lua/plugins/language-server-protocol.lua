@@ -1,35 +1,30 @@
 return {
   {
-    "williamboman/mason.nvim",
-    cmd = "Mason",
-    keys = {
-      {
-        "<leader>lm",
-        "<cmd>Mason<cr>",
-        desc = "Open Mason's menu.",
-      },
-    },
-    opts = {},
-  },
-
-  {
-    "williamboman/mason-lspconfig.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig",
-    },
-    config = function()
-      require("plugins.configs.lsp.mason-lspconfig")
-    end,
-  },
-
-  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      {
+        "williamboman/mason.nvim",
+        cmd = "Mason",
+        keys = {
+          {
+            "<leader>lm",
+            "<cmd>Mason<cr>",
+            desc = "Open Mason's menu.",
+          },
+        },
+        opts = {},
+      },
+      {
+        "williamboman/mason-lspconfig.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        opts = function()
+          local items = require("tools").lspconfig.items
+          return {
+            ensure_installed = items,
+          }
+        end,
+      },
       {
         "folke/neodev.nvim",
         ft = "lua",
@@ -42,20 +37,15 @@ return {
   },
 
   {
-    "jay-babu/mason-null-ls.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "nvimtools/none-ls.nvim",
-    },
-    config = function()
-      require("plugins.configs.lsp.mason-null-ls")
-    end,
-  },
-
-  {
     "nvimtools/none-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      {
+        "jay-babu/mason-null-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+      },
+    },
     config = function()
       require("plugins.configs.lsp.null-ls")
     end,

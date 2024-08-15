@@ -1,30 +1,10 @@
-local lspconfig = require("lspconfig")
-
 -- Server Setup
-local servers = require("ensure-installed").lspconfig
-for _, server in ipairs(servers) do
-  lspconfig[server].setup({})
-end
-
--- UI
-vim.diagnostic.config({
-  float = { border = vim.g.FloatBorders },
+local tools = require("tools").lspconfig
+require("mason-lspconfig").setup({
+  automatic_installation = false,
+  ensure_installed = tools.items,
+  handlers = tools.handlers,
 })
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  -- border = vim.g.FloatBorders,
-  border = "single",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] =
-  vim.lsp.with(vim.lsp.handlers.signature_help, {
-    -- border = vim.g.FloatBorders,
-    border = "single",
-  })
-
-require("lspconfig.ui.windows").default_options = {
-  border = vim.g.FloatBorders,
-}
 
 -- Keymaps
 vim.api.nvim_create_autocmd("LspAttach", {

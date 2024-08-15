@@ -28,6 +28,16 @@ return {
         telescope.live_grep,
         desc = "Live grep a string in the cwd through fzf interface.",
       },
+      {
+        "<leader>fc",
+        telescope.colorscheme,
+        desc = "Live grep a string in the cwd through fzf interface.",
+      },
+      {
+        "<leader>fn",
+        "<cmd>Telescope notify<cr><esc>",
+        desc = "Show notifications list through fzf interface.",
+      },
     }
   end,
 }
