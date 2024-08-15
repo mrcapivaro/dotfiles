@@ -18,14 +18,14 @@ M.lspconfig = {
   handlers = {
     -- Default Handler
     function(server)
-      require("lspconfig")[server].setup({ })
+      require("lspconfig")[server].setup({})
     end,
     ["clangd"] = function()
       local lspconfig = require("lspconfig")
       lspconfig.clangd.setup({
         cmd = {
           "clangd",
-          "--allow-config",
+          "--enable-config",
         },
       })
     end,
@@ -53,6 +53,13 @@ M.null_ls = {
     --   --   extra_args = { "-i", "2", "-ci" },
     --   -- }))
     -- end,
+    prettierd = function(source_name, methods)
+      -- require("mason-null-ls").default_setup(source_name, methods)
+      local null_ls = require("null-ls")
+      null_ls.register(null_ls.builtins.formatting[source_name].with({
+        disabled_filetypes = { "html" },
+      }))
+    end,
   },
 }
 
