@@ -1,5 +1,15 @@
 local lualine = require("lualine")
 
+local navic = require("nvim-navic")
+local NavicComponent = {
+  function()
+    return navic.get_location()
+  end,
+  cond = function()
+    return navic.is_available()
+  end,
+}
+
 local opts = {
   options = {
     icons_enabled = true,
@@ -36,7 +46,11 @@ local opts = {
     lualine_z = { "location" },
   },
   tabline = {},
-  winbar = {},
+  winbar = {
+    lualine_c = {
+      NavicComponent,
+    },
+  },
   inactive_winbar = {},
   extensions = {
     "neo-tree",

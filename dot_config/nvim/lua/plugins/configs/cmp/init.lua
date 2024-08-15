@@ -18,6 +18,52 @@ local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 require("nvim-autopairs").setup()
 
+-- mappings
+local mappings = {
+  ["<Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    elseif luasnip.expand_or_locally_jumpable() then
+      luasnip.expand_or_jump()
+    elseif has_words_before() then
+      cmp.complete()
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+  ["<S-Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    elseif luasnip.jumpable(-1) then
+      luasnip.jump(-1)
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+  ["<C-d>"] = cmp.mapping.scroll_docs(1),
+  ["<C-u>"] = cmp.mapping.scroll_docs(-1),
+  ["<C-.>"] = cmp.mapping.complete(),
+  ["<C-e>"] = cmp.mapping.abort(),
+  ["<Cr>"] = cmp.mapping({
+    i = function(fallback)
+      if cmp.visible() and cmp.get_active_entry() then
+        cmp.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = false,
+        })
+      else
+        fallback()
+      end
+    end,
+    s = cmp.mapping.confirm({ select = false }),
+    c = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+    }),
+  }),
+}
+
+-- ui
 vim.cmd("highlight! CmpBorder guibg=NONE guifg=#585b70")
 local kinds = {
   Text = "  ",
@@ -73,51 +119,8 @@ cmp.setup({
       require("luasnip").lsp_expand(args.body)
     end,
   },
-  mapping = {
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-    ["<C-b>"] = cmp.mapping.scroll_docs(1),
-    ["<C-f>"] = cmp.mapping.scroll_docs(-1),
-    ["<C-.>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.abort(),
-    ["<Cr>"] = cmp.mapping({
-      i = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-          cmp.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = false,
-          })
-        else
-          fallback()
-        end
-      end,
-      s = cmp.mapping.confirm({ select = false }),
-      c = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-      }),
-    }),
-  },
+  mapping = mappings,
   sources = cmp.config.sources({
-    -- { name = "neorg" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
     {
@@ -145,9 +148,8 @@ cmp.setup({
 
 cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = "path" },
-  }, {
-    { name = "cmdline" },
-  }),
+  sources = cmp.config.sources(
+    { { name = "path" } },
+    { { name = "cmdline", option = { ignore_cmds = { "Man", "!" } } } }
+  ),
 })

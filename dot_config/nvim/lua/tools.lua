@@ -18,7 +18,7 @@ M.lspconfig = {
   handlers = {
     -- Default Handler
     function(server)
-      require("lspconfig")[server].setup({})
+      require("lspconfig")[server].setup({ })
     end,
     ["clangd"] = function()
       local lspconfig = require("lspconfig")

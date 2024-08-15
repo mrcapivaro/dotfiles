@@ -32,7 +32,7 @@ return {
       },
     },
     config = function()
-      require("plugins.configs.lsp.lspconfig")
+      require("plugins.configs.lspconfig")
     end,
   },
 
@@ -47,7 +47,7 @@ return {
       },
     },
     config = function()
-      require("plugins.configs.lsp.null-ls")
+      require("plugins.configs.null-ls")
     end,
   },
 }

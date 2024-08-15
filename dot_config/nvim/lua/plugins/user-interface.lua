@@ -99,25 +99,16 @@ return {
     },
   },
 
-  -- {
-  --   "SmiteshP/nvim-navic",
-  --   event = "BufReadPost",
-  --   config = function()
-  --     require("nvim-navic").setup({
-  --       -- icons = require("lspkind").symbol_map,
-  --       separator = "",
-  --       icons = require("lsp.init").symbol_icons,
-  --     })
-  --     vim.api.nvim_create_autocmd("LspAttach", {
-  --       callback = function(args)
-  --         local bufnr = args.buf
-  --         local client = vim.lsp.get_client_by_id(args.data.client_id)
-  --         -- if not vim.tbl_contains({ "copilot", "null-ls", "ltex" }, client.name) then
-  --         --   require("nvim-navic").attach(client, bufnr)
-  --         -- end
-  --         require("nvim-navic").attach(client, bufnr)
-  --       end,
-  --     })
-  --   end,
-  -- },
+  {
+    "SmiteshP/nvim-navic",
+    lazy = true,
+    dependencies = "neovim/nvim-lspconfig",
+    opts = {
+      highlight = true,
+      -- lazy_update_context = true,
+      lsp = {
+        auto_attach = true,
+      },
+    },
+  },
 }

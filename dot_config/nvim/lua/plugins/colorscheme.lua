@@ -46,7 +46,7 @@ return {
       overseer = true,
       neotree = true,
       noice = true,
-      -- mason = true,
+      mason = true,
       markdown = true,
       navic = { enabled = true, },
       telescope = {
