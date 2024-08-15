@@ -1,14 +1,10 @@
 return {
   {
     "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup()
-    end,
+    opts = {},
   },
 
   {
     "tpope/vim-fugitive",
-    -- config = function()
-    -- end,
   },
 }

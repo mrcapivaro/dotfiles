@@ -1,5 +1,4 @@
-local config = require("config")
-
-config.plugins = true
-
-config.start()
+require("options")
+require("plugin-manager")
+require("keymaps")
+require("autocommands")
