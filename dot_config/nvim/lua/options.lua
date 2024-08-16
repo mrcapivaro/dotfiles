@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-vim.g.FloatBorders = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
--- vim.g.FloatBorders = "single" -- same as the above
+-- vim.g.FloatBorders = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+vim.g.FloatBorders = "single" -- same as the above
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.shiftwidth = 2
