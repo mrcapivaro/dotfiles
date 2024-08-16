@@ -1,0 +1,36 @@
+[buildPlans.IosevkaCustom]
+family = "Iosevka Capy"
+spacing = "normal"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = true
+
+[buildPlans.IosevkaCustom.variants]
+inherits = "ss14"
+
+[buildPlans.IosevkaCustom.variants.design]
+zero = "tall-slashed"
+capital-g = "toothed-serifless-hooked"
+capital-j = "serifed"
+i = "serifed-flat-tailed"
+lower-alpha = "crossing"
+capital-gamma = "serifless"
+lower-nu = "casual"
+lower-pi = "tailless"
+lower-upsilon = "casual-serifless"
+punctuation-dot = "round"
+braille-dot = "round"
+asterisk = "turn-hex-low"
+paren = "flat-arc"
+brace = "curly"
+ampersand = "upper-open"
+at = "compact"
+dollar = "open"
+cent = "open"
+percent = "rings-continuous-slash"
+bar = "natural-slope"
+question = "corner"
+lig-ltgteq = "slanted"
+lig-hyphen-chain = "without-notch"
+lig-double-arrow-bar = "without-notch"
+lig-single-arrow-bar = "without-notch"
