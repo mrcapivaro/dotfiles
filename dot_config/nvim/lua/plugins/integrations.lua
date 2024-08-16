@@ -10,6 +10,7 @@ return {
   {
     "mrjones2014/smart-splits.nvim",
     opts = {},
+    lazy = false,
     config = function(_, opts)
       -- Resize splits
       vim.keymap.set("n", "<CS-h>", require("smart-splits").resize_left)
