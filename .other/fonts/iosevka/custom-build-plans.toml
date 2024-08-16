@@ -1,14 +1,14 @@
-[buildPlans.IosevkaCustom]
+[buildPlans.IosevkaCapy]
 family = "Iosevka Capy"
 spacing = "normal"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = true
 
-[buildPlans.IosevkaCustom.variants]
+[buildPlans.IosevkaCapy.variants]
 inherits = "ss14"
 
-[buildPlans.IosevkaCustom.variants.design]
+[buildPlans.IosevkaCapy.variants.design]
 three = "flat-top-serifless"
 six = "closed-contour"
 seven = "straight-serifed"
