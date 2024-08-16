@@ -39,7 +39,7 @@
       "colorScheme": "Catppuccin Mocha",
       "experimental.retroTerminalEffect": false,
       "font": {
-        "face": "CaskaydiaMono Nerd Font Mono",
+        "face": "JetBrainsMono Nerd Font",
         "size": 14.0
       },
       "padding": "2"
