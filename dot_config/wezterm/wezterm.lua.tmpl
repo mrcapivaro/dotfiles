@@ -2,13 +2,13 @@ local config = {}
 local wezterm = require("wezterm")
 local smart_splits = require("smart-splits")
 
-{{- if eq .chezmoi.os "windows" }}
+{{ if eq .chezmoi.os "windows" }}
 -- Windows Specific
 config.default_prog = { "pwsh", "-NoLogo" }
 config.integrated_title_button_style = "Windows"
 config.window_decorations = "INTEGRATED_BUTTONS" .. "|" .. "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
-{{- end }}
+{{ end }}
 
 -- Fonts
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Bold" })
@@ -20,15 +20,15 @@ config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 1.00
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = false
-{{- if eq .chezmoi.os "linux" }}
+{{ if eq .chezmoi.os "linux" }}
 config.window_decorations = "NONE"
 config.hide_tab_bar_if_only_one_tab = true
-{{- end }}
+{{ end }}
 config.window_padding = {
   left = 3,
-  right = 2,
-  top = 2,
-  bottom = 0,
+  right = 3,
+  top = 3,
+  bottom = 3,
 }
 
 -- Key Binds
@@ -41,10 +41,10 @@ config.keys = {
     action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
   },
   {
-    key = "_",
-    mods = "LEADER|SHIFT",
-    action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-  },
+  key = "_",
+  mods = "LEADER|SHIFT",
+  action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+},
   {
     key = "x",
     mods = "LEADER",
