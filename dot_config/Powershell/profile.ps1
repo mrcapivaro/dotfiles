@@ -22,6 +22,9 @@ Set-Alias claer clear
 Set-Alias clera clear
 Set-Alias cler clear
 Set-Alias clar clear
+Set-Alias ".." "cd .."
+Set-Alias "...." "cd ../.."
+Set-Alias "cd.." "cd .."
 
 function which($command) {
     Get-Command -Name $command -ErrorAction SilentlyContinue |
