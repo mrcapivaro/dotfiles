@@ -12,5 +12,5 @@
 # wsl = false
 
 [font]
-normal = [ "IosevkaTree Nerd Font" ]
+normal = [ "IosevkaCapy Nerd Font" ]
 size = 13.0
