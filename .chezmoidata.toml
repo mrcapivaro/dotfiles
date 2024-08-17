@@ -5,19 +5,10 @@ dark_flavor = "mocha"
 light_flavor = "frappe"
 accent = "mauve"
 
-[fonts]
-size = 12
-path = "~/.local/share/fonts"
-
-[fonts.jetbrains]
-name = { normal = "JetBrainsMono Nerd Font", mono = "JetBrainsMono Nerd Font" }
-url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
-files = "JetBrains*"
-
-# Custom Iosevka Font
-[fonts.iosevka]
-name = { normal = "IosevkaCapy Nerd Font", mono = "IosevkaCapy Nerd Font" }
+[font]
 size = 14
+name = "IosevkaCapy Nerd Font"
+path = "~/.local/share/fonts"
 
 [fonts.hack]
 name = { normal = "Hack Nerd Font", mono = "Hack Nerd Font" }

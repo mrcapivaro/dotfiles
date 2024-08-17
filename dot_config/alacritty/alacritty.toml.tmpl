@@ -7,11 +7,11 @@ padding = { x = 2, y = 2 }
 # opacity = 0.95
 
 [font]
-size = 13
-normal = { family = "IosevkaCapy Nerd Font", style = "SemiBold" }
-bold = { family = "IosevkaCapy Nerd Font", style = "ExtraBold" }
-italic = { family = "IosevkaCapy Nerd Font", style = "Italic" }
-bold_italic = { family = "IosevkaCapy Nerd Font", style = "ExtraBold Italic" }
+size = {{ .font.size }}
+normal = { family = {{ .font.name | quote }}, style = "SemiBold" }
+bold = { family = {{ .font.name | quote }}, style = "ExtraBold" }
+italic = { family = {{ .font.name | quote }}, style = "Italic" }
+bold_italic = { family = {{ .font.name | quote }}, style = "ExtraBold Italic" }
 
 {{ if eq .chezmoi.os "windows" -}}
 [shell]
