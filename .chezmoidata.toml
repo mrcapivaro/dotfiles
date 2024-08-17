@@ -61,7 +61,7 @@ packages.prog_langs = [
   "pnpm",
 ]
 
-packages.fonts = ["JetBrainsMono-NF", "JetBrainsMono-NF-Mono"]
+packages.fonts = ["JetBrainsMono-NF", "JetBrainsMono-NF-Mono", "Hack-NF"]
 
 packages.gui = [
   "vscode",
