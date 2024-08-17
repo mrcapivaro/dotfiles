@@ -12,5 +12,5 @@
 # wsl = false
 
 [font]
-normal = [ "JetBrainsMono Nerd Font Mono" ]
-size = 12.0
+normal = [ "IosevkaTree Nerd Font" ]
+size = 13.0
