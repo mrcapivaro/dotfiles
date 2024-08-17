@@ -5,6 +5,13 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-symbols.nvim",
   },
+  opts = {
+    defaults = {
+      file_ignore_patterns = {
+        "node_modules", "build", "dist", "yarn.lock"
+      },
+    },
+  },
   keys = function()
     local telescope = require("telescope.builtin")
     return {
