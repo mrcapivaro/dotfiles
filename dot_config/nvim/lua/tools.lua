@@ -52,8 +52,6 @@ M.null_ls = {
     "prettierd",
     "shfmt",
   },
-  -- TODO: learn to change sources configs without disabling
-  -- automatic sourcing
   handlers = {
     -- shfmt = function(source_name, methods)
     --   require("mason-null-ls").default_setup(source_name, methods)
@@ -62,7 +60,7 @@ M.null_ls = {
     --   --   extra_args = { "-i", "2", "-ci" },
     --   -- }))
     -- end,
-    prettierd = function(source_name, methods)
+    prettierd = function(source_name, _)
       -- require("mason-null-ls").default_setup(source_name, methods)
       local null_ls = require("null-ls")
       null_ls.register(null_ls.builtins.formatting[source_name].with({
