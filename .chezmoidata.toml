@@ -50,9 +50,13 @@ packages.prog_langs = [
   "luajit",
   "nodejs",
   "pnpm",
+  "stack",
 ]
 
-packages.fonts = ["JetBrainsMono-NF", "JetBrainsMono-NF-Mono", "Hack-NF"]
+packages.fonts = [
+  "Hack-NF",
+  "ZedMono-NF",
+]
 
 packages.gui = [
   "vscode",
