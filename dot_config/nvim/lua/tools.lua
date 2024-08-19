@@ -11,6 +11,7 @@ M.lspconfig = {
     "clangd",
     "pyright",
     "ruff_lsp",
+    "hls",
     "bashls",
     "tsserver",
     "taplo",
