@@ -1,6 +1,7 @@
 local config = {}
 local wezterm = require("wezterm")
 local smart_splits = require("smart-splits")
+local features = require("features")
 
 {{ if eq .chezmoi.os "windows" }}
 -- Windows Specific
@@ -15,7 +16,9 @@ config.font = wezterm.font({{ .font.name | quote }}, { weight = "Medium" })
 config.font_size = {{ .font.size }}
 
 -- Tabs and Window
-config.color_scheme = "Catppuccin Mocha"
+local Colorscheme = ""
+Colorscheme = "Catppuccin Mocha"
+config.color_scheme = Colorscheme
 config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 1.00
 config.use_fancy_tab_bar = false
@@ -35,6 +38,13 @@ config.window_padding = {
 config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 500 }
 config.keys = {
   { key = 'Space', mods = 'LEADER', action = wezterm.action.ActivateCommandPalette },
+  {
+    key = "t",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(window, pane)
+      features.theme_switcher(window, pane)
+    end),
+  },
   {
     key = "|",
     mods = "LEADER|SHIFT",
