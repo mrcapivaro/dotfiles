@@ -12,6 +12,10 @@ map("v", "<S-j>", "<cmd>m-2<cr>vv")
 map("x", "<S-k>", ":m '<-2<cr>gv=gv")
 map("x", "<S-j>", ":m '>+1<cr>gv=gv")
 
+-- Better Indent
+map("x", ">", ">gv")
+map("x", "<", "<gv")
+
 -- Movement
 map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
