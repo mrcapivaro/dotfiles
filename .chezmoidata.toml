@@ -37,6 +37,7 @@ packages.cli = [
   "starship",
   "psreadline",
   "z",
+  "bat",
 ]
 
 packages.prog_langs = [
@@ -113,6 +114,8 @@ packages.cli = [
   "fd-find",
   "findutils",
   "jq",
+  "bat",
+  # prog_langs
   "make",
   "gcc",
   "lua",
