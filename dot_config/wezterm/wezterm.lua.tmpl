@@ -105,8 +105,12 @@ config.keys = {
     action = wezterm.action.SpawnCommandInNewTab({
       cwd = wezterm.config_dir,
       args = {
+        {{ if eq .chezmoi.os "windows" -}}
         "pwsh",
-        "--command"
+        "-NoLogo",
+        "-NoProfile",
+        "--command",
+        {{ end -}}
         "sed",
         "-i",
         "'/^local current_theme/c\\local current_theme = "
