@@ -3,6 +3,18 @@ vim.g.maplocalleader = ","
 -- vim.g.FloatBorders = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
 vim.g.FloatBorders = "single" -- same as the above
 
+local statusline = {
+  " %t",
+  "%r",
+  "%m",
+  "%=",
+  "%{&filetype}",
+  " %2p%%",
+  " %3l:%-2c ",
+}
+
+vim.o.statusline = table.concat(statusline, "")
+
 vim.opt.clipboard = "unnamedplus"
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
@@ -33,5 +45,6 @@ vim.opt.updatetime = 50
 vim.opt.virtualedit = "block"
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"
+vim.opt.cursorline = true
 
 vim.cmd("language en_US")

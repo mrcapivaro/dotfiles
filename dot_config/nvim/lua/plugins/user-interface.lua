@@ -61,6 +61,7 @@ return {
 
   {
     "nvim-lualine/lualine.nvim",
+    enabled = false,
     after = "catppuccin",
     event = "UiEnter",
     dependencies = { "nvim-tree/nvim-web-devicons" },
