@@ -1,14 +1,16 @@
 Invoke-Expression (&starship init powershell)
 # Hook OSC 7 and Starship to allow the detection of the cwd in wezterm
 $prompt = ""
-function Invoke-Starship-PreCommand {
-    $current_location = $executionContext.SessionState.Path.CurrentLocation
-    if ($current_location.Provider.Name -eq "FileSystem") {
-        $ansi_escape = [char]27
-        $provider_path = $current_location.ProviderPath -replace "\\", "/"
-        $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
-    }
-    $host.ui.Write($prompt)
+function Invoke-Starship-PreCommand
+{
+  $current_location = $executionContext.SessionState.Path.CurrentLocation
+  if ($current_location.Provider.Name -eq "FileSystem")
+  {
+    $ansi_escape = [char]27
+    $provider_path = $current_location.ProviderPath -replace "\\", "/"
+    $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
+  }
+  $host.ui.Write($prompt)
 }
 
 Import-Module Z
@@ -23,7 +25,16 @@ Set-Alias clera clear
 Set-Alias cler clear
 Set-Alias clar clear
 
-function which($command) {
-    Get-Command -Name $command -ErrorAction SilentlyContinue |
-      Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+function which($command)
+{
+  Get-Command -Name $command -ErrorAction SilentlyContinue |
+    Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+
+function gitall
+{
+  param(
+    [String]$String = "update"
+  )
+  & git add . && git commit -m $String && git push
 }
