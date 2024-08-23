@@ -1,4 +1,6 @@
-require("options")
+require("settings")
 require("plugin-manager")
 require("keymaps")
-require("autocommands")
+require("commands")
+
+-- vim.cmd("language en_US")

@@ -47,16 +47,19 @@ return {
   },
 
   {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    event = "UiEnter",
+    "nvimdev/indentmini.nvim",
+    event = "BufEnter",
     opts = {
-      indent = { char = "│" },
-      scope = {
-        show_start = false,
-        show_end = false,
+      char = "│",
+      exclude = {
+        "markdown",
+        "erlang",
       },
     },
+    config = function(_, opts)
+      require("indentmini").setup(opts)
+      vim.cmd.highlight("default link IndentLine Comment")
+    end,
   },
 
   {
