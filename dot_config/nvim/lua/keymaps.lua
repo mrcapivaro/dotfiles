@@ -20,10 +20,10 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "<C-d>", "<C-d>zz")
 
 -- Buffers
--- map({ "n", "v", "s" }, "<Tab>", "<cmd>bn<cr>", { desc = "Next buffer." })
--- map({ "n", "v", "s" }, "<S-Tab>", "<cmd>bp<cr>", { desc = "Previous buffer." })
-map({ "n", "v", "s" }, "<[b>", "<cmd>bn<cr>", { desc = "Next buffer." })
-map({ "n", "v", "s" }, "<]b>", "<cmd>bp<cr>", { desc = "Previous buffer." })
+map({ "n", "v", "s" }, "<Tab>", "<cmd>bn<cr>", { desc = "Next buffer." })
+map({ "n", "v", "s" }, "<S-Tab>", "<cmd>bp<cr>", { desc = "Previous buffer." })
+map({ "n", "v", "s" }, "[b", "<cmd>bn<cr>", { desc = "Next buffer." })
+map({ "n", "v", "s" }, "]b", "<cmd>bp<cr>", { desc = "Previous buffer." })
 map({ "n", "v", "s" }, "<leader>bd", "<cmd>bd<cr>", { desc = "Close buffer." })
 map({ "n", "v", "s" }, "<leader>bD", "<cmd>bd!<cr>", { desc = "Force close buffer." })
 
