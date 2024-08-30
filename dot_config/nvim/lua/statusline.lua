@@ -86,7 +86,7 @@ end
 
 ---@return string
 M.current_file = function()
-  return vim.fn.expand("%:p:t") .. " "
+  return vim.fn.expand("%")
 end
 
 ---@return string
@@ -142,6 +142,7 @@ end
 M.render = function()
   return table.concat({
     M.mode_name(),
+    M.current_file(),
     M.gitsigns(),
     "%=",
     M.filetype(),
@@ -149,5 +150,7 @@ M.render = function()
     M.position(),
   })
 end
+
+vim.o.statusline = "%!v:lua.require('statusline').render()"
 
 return M

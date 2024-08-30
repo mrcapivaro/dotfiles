@@ -33,7 +33,7 @@ return {
     },
     opts = {
       presets = {
-        command_palette = true,
+        -- command_palette = true,
         lsp_doc_border = true,
         long_message_to_split = false,
       },
@@ -71,6 +71,7 @@ return {
 
   {
     "akinsho/bufferline.nvim",
+    enabled = false,
     version = "*",
     after = "catppuccin",
     event = "UiEnter",

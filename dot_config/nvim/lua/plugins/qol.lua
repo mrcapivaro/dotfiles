@@ -12,7 +12,6 @@ return {
 
   {
     "barrett-ruth/live-server.nvim",
-    build = "pnpm add -g live-server",
     cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
     keys = {
       {
@@ -71,7 +70,7 @@ return {
 
   {
     "ggandor/leap.nvim",
-    lazy = false,
+    event = "InsertEnter",
     config = function()
       local map = vim.keymap.set
       map("n", ";", "<Plug>(leap)")

@@ -1,6 +1,7 @@
 ---User Interace
 vim.g.FloatBorders = "single" -- { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-vim.o.statusline = "%!v:lua.require('statusline').render()"
+require("statusline")
+require("tabline")
 
 ---Keymap Leaders
 vim.g.mapleader = " "

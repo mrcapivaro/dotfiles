@@ -32,8 +32,10 @@ local Sources = cmp.config.sources({
   },
 })
 
-local function disable_cmp_in_comments()
+local function Enabled()
+  -- disable completion in comments
   local context = require("cmp.config.context")
+  -- keep command mode completion enabled when cursor is in a comment
   if vim.api.nvim_get_mode().mode == "c" then
     return true
   else
@@ -52,7 +54,7 @@ cmp.setup({
   mapping = Mapping,
   sources = Sources,
   sorting = defaults.sorting,
-  enabled = disable_cmp_in_comments(),
+  enabled = Enabled,
 })
 
 cmp.setup.cmdline(":", {
