@@ -1,5 +1,12 @@
 return {
   {
+    "nvimdev/dashboard-nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    event = "VimEnter",
+    opts = {},
+  },
+
+  {
     "stevearc/dressing.nvim",
     opts = {},
   },
@@ -63,17 +70,6 @@ return {
   },
 
   {
-    "nvim-lualine/lualine.nvim",
-    enabled = false,
-    after = "catppuccin",
-    event = "UiEnter",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("plugins.configs.lualine")
-    end,
-  },
-
-  {
     "akinsho/bufferline.nvim",
     version = "*",
     after = "catppuccin",
@@ -99,19 +95,6 @@ return {
           delay = 200,
           reveal = { "close" },
         },
-      },
-    },
-  },
-
-  {
-    "SmiteshP/nvim-navic",
-    lazy = true,
-    dependencies = "neovim/nvim-lspconfig",
-    opts = {
-      highlight = true,
-      -- lazy_update_context = true,
-      lsp = {
-        auto_attach = true,
       },
     },
   },

@@ -1,32 +1,39 @@
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
-  cmd = "Neotree",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
-    "MunifTanjim/nui.nvim",
-    -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-  },
+  "stevearc/oil.nvim",
+  lazy = false,
+  event = "VeryLazy",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
     {
       "<leader>e",
-      "<cmd>Neotree left toggle<cr>",
-      desc = "File explorer toggle."
+      function()
+        require("oil").open_float()
+      end,
+      desc = "Open oil.nvim",
     },
   },
   opts = {
-    window = {
-      width = 30,
+    skip_confirm_for_simple_edits = true,
+    use_default_keymaps = false,
+    keymaps = {
+      ["<CR>"] = "actions.select",
+      ["g?"] = "actions.show_help",
+      ["-"] = "actions.parent",
+      ["_"] = "actions.open_cwd",
+      ["gs"] = "actions.change_sort",
+      ["gx"] = "actions.open_external",
+      ["g."] = "actions.toggle_hidden",
+      ["g\\"] = "actions.toggle_trash",
     },
-    close_if_last_window = true,
-    filesystem = {
-      filtered_items = {
-        visible = true,
-        shiw_hidden_content = true,
-        hide_dotfiles = false,
-        hide_gitignored = false,
-      },
+    view_options = {
+      show_hidden = true,
+      case_insensitive = true,
     },
+    float = {
+      border = vim.g.FloatBorders,
+      padding = 5,
+      max_width = 50,
+    },
+    ssh = { border = vim.g.FloatBorders },
   },
 }

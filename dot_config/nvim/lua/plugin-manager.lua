@@ -23,7 +23,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local lazy_opts = {
-  defaults = { lazy = true },
+  defaults = { lazy = false },
   install = { colorscheme = { "catppuccin", "habamax" } },
   performance = {
     rtp = {

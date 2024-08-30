@@ -1,16 +1,6 @@
----User Interface
+---User Interace
 vim.g.FloatBorders = "single" -- { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-require("statusline")
-local statusline = {
-  " %t",
-  "%r",
-  "%m",
-  "%=",
-  "%{&filetype}",
-  " %2p%%",
-  " %3l:%-2c ",
-}
-vim.o.statusline = table.concat(statusline, "")
+vim.o.statusline = "%!v:lua.require('statusline').render()"
 
 ---Keymap Leaders
 vim.g.mapleader = " "

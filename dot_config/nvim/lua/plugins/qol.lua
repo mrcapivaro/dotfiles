@@ -41,7 +41,7 @@ return {
     lazy = false,
     name = "colorizer",
     opts = {
-      filetypes = { "*" },
+      filetypes = { "css", "js", "ts", "html", "python", "c", "cpp", "ruby" },
       user_default_options = {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
@@ -67,5 +67,15 @@ return {
       -- all the sub-options of filetypes apply to buftypes
       buftypes = {},
     },
+  },
+
+  {
+    "ggandor/leap.nvim",
+    lazy = false,
+    config = function()
+      local map = vim.keymap.set
+      map("n", ";", "<Plug>(leap)")
+      map({ "x", "o" }, ";", "<Plug>(leap-forward)")
+    end,
   },
 }
