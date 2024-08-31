@@ -54,10 +54,7 @@ packages.prog_langs = [
   "stack",
 ]
 
-packages.fonts = [
-  "Hack-NF",
-  "ZedMono-NF",
-]
+packages.fonts = ["Hack-NF", "ZedMono-NF"]
 
 packages.gui = [
   "vscode",
@@ -149,4 +146,72 @@ packages.gui = [
   "imv",
   "zathura",
   "zathura-pdf-mupdf",
+]
+
+[artix.flatpak]
+packages = ["com.spotify.Client", "com.discordapp.Discord"]
+
+[artix.pacman]
+packages.cli = [
+  "zsh",
+  "git",
+  "github-cli",
+  "lazygit",
+  "wget",
+  "lf",
+  "zoxide",
+  "neovim",
+  "tmux",
+  "htop",
+  "neofetch",
+  "starship",
+  "unzip",
+  "fzf",
+  "autoconf",
+  "ripgrep",
+  "direnv",
+  "sed",
+  "fd",
+  "findutils",
+  "jq",
+  "bat",
+  "rclone",
+  # prog_langs
+  "make",
+  "cmake",
+  "ninja",
+  "meson",
+  "gcc",
+  "lua",
+  "luajit",
+  "luarocks",
+  "nodejs",
+  "npm",
+  "python",
+  "python-pip",
+  "python-numpy",
+  "python-scipy",
+  "python-pandas",
+  "python-matplotlib",
+  "ipython",
+  "go",
+  "rustup",
+]
+
+packages.gui = [
+  "alacritty",
+  "wezterm",
+  "firefox",
+  "flatpak",
+  "steam",
+  "libreoffice",
+  "zathura",
+  "zathura-pdf-mupdf",
+]
+
+[artix.yay]
+packages.cli = ["keymapper"]
+
+packages.gui = [
+  # "",
 ]
