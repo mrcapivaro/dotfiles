@@ -4,7 +4,10 @@ user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 // Disable focus of menu when pressing alt-left
 user_pref("ui.key.menuAccessKeyFocuses", false);
 
-//
+// Bookmarks toolbar always visible
+user_pref("browser.toolbars.bookmarks.visibility", always);
+
+// Others
 user_pref("app.normandy.first_run", false);
 user_pref("app.normandy.migrationsApplied", 12);
 user_pref("app.normandy.user_id", "feee76c6-439d-4a73-80c7-01a52704e4c4");
