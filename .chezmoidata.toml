@@ -162,6 +162,7 @@ packages.cli = [
   "zoxide",
   "neovim",
   "tree-sitter",
+  "tree-sitter-cli",
   "tmux",
   "htop",
   "neofetch",
