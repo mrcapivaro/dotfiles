@@ -129,7 +129,6 @@ end
 M.render = function()
   return table.concat({
     M.mode_name(),
-    M.current_file(),
     M.gitsigns(),
     "%=",
     M.filetype(),
