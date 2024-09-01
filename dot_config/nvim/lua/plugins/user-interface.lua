@@ -71,7 +71,6 @@ return {
 
   {
     "akinsho/bufferline.nvim",
-    enabled = false,
     version = "*",
     after = "catppuccin",
     event = "UiEnter",

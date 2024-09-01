@@ -1,19 +1,6 @@
 -- Inspired from: https://github.com/MariaSolOs/dotfiles/blob/mac/.config/nvim/lua/statusline.lua
 local M = {}
 
----Helper function to ensure that all used highlights are already
----set and properly configured.
----@param hlstring string
----@return string
----@ignore
-local function get_or_set_highlight(hlstring)
-  local hlname = hlstring
-  -- if not highlights[hlname] then
-  --   vim.api.nvim_set_hl(0, hlname, { fg = "#000000", bg = "#333333" })
-  -- end
-  return hlname
-end
-
 ---@return string
 M.mode_name = function()
   local mode = vim.api.nvim_get_mode().mode
@@ -64,11 +51,11 @@ M.mode_name = function()
     hl = "Command"
   end
   return table.concat({
-    "%#" .. get_or_set_highlight("MiniStatuslineMode" .. hl) .. "#",
+    "%#" .. "MiniStatuslineMode" .. hl .. "#",
     " ",
     mode_alias[mode] or mode,
     " ",
-    "%#" .. get_or_set_highlight("Statusline") .. "#",
+    "%#" .. "Statusline" .. "#",
     " ",
   })
 end
@@ -96,11 +83,11 @@ M.position = function()
   local total_loc = vim.fn.line("$")
   local file_percentage = math.floor(current_loc / total_loc * 100)
   return table.concat({
-    "%#" .. get_or_set_highlight("MiniStatuslineModeNormal") .. "#",
+    "%#" .. "MiniStatuslineModeNormal" .. "#",
     " ",
     current_loc .. ":" .. current_coc .. " " .. file_percentage .. "%%",
     " ",
-    "%#" .. get_or_set_highlight("Statusline") .. "#",
+    "%#" .. "Statusline" .. "#",
     " ",
   })
 end

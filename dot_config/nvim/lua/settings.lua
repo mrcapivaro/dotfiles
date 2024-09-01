@@ -1,7 +1,6 @@
 ---User Interace
 vim.g.FloatBorders = "single" -- { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
 require("statusline")
-require("tabline")
 
 ---Keymap Leaders
 vim.g.mapleader = " "
@@ -24,8 +23,8 @@ local vim_opt = {
   showmode = false,
   completeopt = "menu,menuone,noselect",
   cmdheight = 0,
-  colorcolumn = "88",
-  -- shellslash = false,
+  -- colorcolumn = "88",
+  shellslash = false,
   hlsearch = true,
   incsearch = true,
   autowrite = true,
