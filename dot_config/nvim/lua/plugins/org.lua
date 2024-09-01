@@ -1,10 +1,13 @@
 return {
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    opts = {},
-  },
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		opts = {},
+	},
 
-  {
-    "jbyuki/nabla.nvim",
-  },
+	-- {
+	-- 	"jbyuki/nabla.nvim",
+	-- 	config = function()
+	-- 		require("nabla").enable_virt()
+	-- 	end,
+	-- },
 }
