@@ -70,7 +70,7 @@ return {
 
   {
     "ggandor/leap.nvim",
-    event = "InsertEnter",
+    lazy = false,
     config = function()
       local map = vim.keymap.set
       map("n", ";", "<Plug>(leap)")
