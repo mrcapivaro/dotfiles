@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 set -e
 
-exec keymapperd
+exec keymapperd 2>&1
