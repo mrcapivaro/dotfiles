@@ -37,14 +37,6 @@ case ":$PATH:" in
   *) export PATH="$LOCAL_BIN:$PATH" ;;
 esac
 
-# pnpm
-export PNPM_HOME="/home/mrcapivaro/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
 {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 export BROWSER=wslview
 alias explorer="/mnt/c/Windows/explorer.exe"
