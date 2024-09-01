@@ -2,7 +2,7 @@
 set -e
 
 # Keymapper setup
-KEYMAPPER_SV_DIR="/etc/runit/sv/keymapper"
+KEYMAPPER_SV_DIR="/etc/runit/sv/keymapperd"
 if [ -d "$KEYMAPPER_SV_DIR" ]; then
   echo "The keymapper sv folder already exists at $KEYMAPPER_SV_DIR."
 else
