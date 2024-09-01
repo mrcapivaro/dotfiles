@@ -6,6 +6,5 @@ return {
 
   {
     "jbyuki/nabla.nvim",
-    opts = {},
   },
 }
