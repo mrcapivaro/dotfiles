@@ -42,6 +42,7 @@ packages.cli = [
 
 packages.prog_langs = [
   "gcc",
+  "tree-sitter", # for neovim latex parser
   "vcpkg",
   "cmake",
   "ninja",
