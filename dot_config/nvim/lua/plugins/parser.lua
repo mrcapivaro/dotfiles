@@ -9,18 +9,18 @@ return {
         "vim",
         "vimdoc",
         "query",
+        "regex",
         -- lua --
         "lua",
         "luadoc",
         "luap",
-        -- shell
+        -- shell --
         "bash",
         -- notes --
         "markdown",
         "markdown_inline",
-        -- "norg",
-        -- "org",
-        -- web dev --
+        "latex", -- requires tree-sitter-cli installed
+        -- web --
         "html",
         "css",
         "javascript",

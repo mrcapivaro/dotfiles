@@ -33,11 +33,19 @@ return {
     },
     opts = {
       presets = {
-        -- command_palette = true,
         lsp_doc_border = true,
-        long_message_to_split = false,
+        long_message_to_split = true,
       },
       views = {
+        cmdline_popup = {
+          border = {
+            style = "none",
+            padding = { 1, 1 },
+          },
+          win_options = {
+            winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+          },
+        },
         hover = {
           border = { style = vim.g.FloatBorders },
           size = { max_width = 80 },
