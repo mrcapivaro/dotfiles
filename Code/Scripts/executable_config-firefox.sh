@@ -1,9 +1,19 @@
 #!/bin/sh
 set -e
 
-# Path of the default-release profile
-PROFILE_PATH="$HOME/.mozilla/firefox/$(ls ~/.mozilla/firefox/ | awk '/.*default-release/')"
-CONF_FILES_PATH="$HOME/.local/share/chezmoi/.other/firefox/"
+CONF_FILES_PATH="$HOME/.config/firefox"
+PROFILE_PATH="$HOME/.mozilla/firefox/$(ls $HOME/.mozilla/firefox/ | awk '/default-release/')"
 
-echo "Copying config files for firefox from dotfiles repo to current default-release profile."
-cp -rf "$CONF_FILES_PATH"/* "$PROFILE_PATH"
+if test "$CONF_FILES_PATH/user.js"; then
+	echo "The user.js file already exists inside the default-release profile folder."
+else
+	echo "Creating the user.js symlink."
+	ln -sf "$CONF_FILES_PATH/user.js" "$PROFILE_PATH/user.js"
+fi
+
+if test "$CONF_FILES_PATH/chrome"; then
+	echo "The chrome folder already exists inside the default-release profile folder."
+else
+	echo "Creating the chrome/ symlink."
+	ln -sf "$CONF_FILES_PATH/chrome" "$PROFILE_PATH/chrome"
+fi
