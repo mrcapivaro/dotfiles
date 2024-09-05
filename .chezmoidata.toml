@@ -179,6 +179,8 @@ packages.cli = [
   "jq",
   "bat",
   "rclone",
+  # xserver
+  "xclip",
   # prog_langs
   "make",
   "cmake",

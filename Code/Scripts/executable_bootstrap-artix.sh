@@ -3,7 +3,7 @@ set -e
 
 # Add Arch repos to Artix:
 # https://dev.to/nabbisen/artix-linux-add-arch-linux-repos-extra-community-35ab
-cp /etc/pacman.conf /etc/pacman.conf.bak
+sudo cp /etc/pacman.conf /etc/pacman.conf.bak
 sudo pacman -Syyu --noconfirm artix-archlinux-support
 
 cat <<EOF >>/etc/pacman.conf

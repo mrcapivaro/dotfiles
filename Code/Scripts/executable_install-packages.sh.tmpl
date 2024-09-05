@@ -15,7 +15,7 @@ yes | yay -S {{ . | quote }}
 {{   end -}}
 flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
 {{   range .fedora.flatpak.packages -}}
-  flatpak install flathub {{ . | quote }}
+  yes | flatpak install flathub {{ . | quote }}
 {{   end -}}
 {{ end -}}
 
