@@ -25,6 +25,11 @@ Set-Alias clera clear
 Set-Alias cler clear
 Set-Alias clar clear
 
+function cheat($str)
+{
+  curl "cheat.sh/$str" | less -r
+}
+
 function which($command)
 {
   Get-Command -Name $command -ErrorAction SilentlyContinue |
