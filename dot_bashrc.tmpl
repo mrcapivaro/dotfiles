@@ -4,21 +4,24 @@ eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
 
+alias cd="z"
 alias ..="cd .."
 alias ....="cd ../.."
-alias cd="z"
+
 alias ls="ls --color=auto -F"
+
 alias vi="nvim"
 alias vim="nvim"
+
 alias clera="clear"
+alias clare="clear"
 alias claer="clear"
 alias cler="clear"
 alias clar="clear"
 
 alias less="less -r"
 # remove background color from ls
-LS_COLORS=$LS_COLORS:'tw=00;33:ow=01;33:'
-export LS_COLORS
+export LS_COLORS="$LS_COLORS:tw=00;33:ow=01;33"
 
 function cheat() {
   curl cheat.sh/$@ | less
@@ -30,7 +33,7 @@ function gitall() {
 }
 
 export EDITOR=nvim
-export PAGER=bat
+export PAGER=less
 
 # add .local/bin to path
 export LOCAL_BIN="/home/mrcapivaro/.local/bin"
