@@ -194,6 +194,7 @@ packages.cli = [
   "npm",
   "python",
   "python-pip",
+  "python-pynvim", # for neovim
   "python-numpy",
   "python-scipy",
   "python-pandas",
