@@ -113,7 +113,7 @@ packages.cli = [
   "findutils",
   "jq",
   "bat",
-  # prog_langs
+  ## Programming Languages ##
   "make",
   "gcc",
   "lua",
@@ -179,9 +179,12 @@ packages.cli = [
   "jq",
   "bat",
   "rclone",
-  # xserver
+  ## Drivers ##
+  "libratbag",   # driver for various mices
+  "pipe",        # driver user interface
+  ## XORG ##
   "xclip",
-  # prog_langs
+  ## Programming Languages ##
   "make",
   "cmake",
   "ninja",
