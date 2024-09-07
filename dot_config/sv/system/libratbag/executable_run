@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -e
-
-sv check dbus >/dev/null || exit 1
-
-exec ratbagd 2>&1
