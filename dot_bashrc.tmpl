@@ -24,13 +24,17 @@ alias less="less -r"
 # remove background color from ls
 export LS_COLORS="$LS_COLORS:tw=00;33:ow=01;33"
 
-function cheat() {
+cheat() {
   curl cheat.sh/$@ | less
 }
 
-function gitall() {
+gitall() {
   local message="${*:-update}"
   git add . && git commit -m "$message" && git push
+}
+
+fl() {
+  ls -alF --color=always "$@" | awk '{print $9}'
 }
 
 export EDITOR=nvim
