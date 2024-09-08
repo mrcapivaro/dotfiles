@@ -1,7 +1,12 @@
 return {
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		opts = {},
+		opts = {
+			indent = {
+				enabled = true,
+				per_level = 2,
+			},
+		},
 	},
 
 	-- {
