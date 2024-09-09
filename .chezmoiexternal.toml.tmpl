@@ -8,7 +8,8 @@
 # [".local/bin"]
 # type = "archive"
 # url = "https://github.com/houmain/keymapper/releases/download/4.8.2/keymapper-4.8.2-Linux.tar.gz"
-# include = "*/bin/*"
+# stripComponents = 2
+# include = [ "*/bin/**" ]
 # {{ end -}}
 
 {{ if eq .chezmoi.os "windows" -}}
