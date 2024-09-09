@@ -1,14 +1,20 @@
+#
+# $CHEZMOI_SOURCE/.chezmoiexternal.toml.tmpl
+#
 # Chezmoi Externals Docs:
 # https://www.chezmoi.io/reference/special-files-and-directories/chezmoiexternal-format/
-{{ if eq .chezmoi.os "linux" -}}
-[".local/share/fonts"]
-type = "archive"
-url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"
-{{ end -}}
+
+# {{ if eq .chezmoi.os "linux" -}}
+# [".local/bin"]
+# type = "archive"
+# url = "https://github.com/houmain/keymapper/releases/download/4.8.2/keymapper-4.8.2-Linux.tar.gz"
+# include = "*/bin/*"
+# {{ end -}}
 
 {{ if eq .chezmoi.os "windows" -}}
 ["scoop/shims"]
 type = "archive"
-url = "https://github.com/houmain/keymapper/releases/download/4.7.1/keymapper-4.7.1-win64.zip"
+url = "https://github.com/houmain/keymapper/releases/download/4.8.2/keymapper-4.8.2-win64.zip"
 stripComponents = 1
 {{ end -}}
+
