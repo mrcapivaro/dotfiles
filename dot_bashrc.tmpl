@@ -58,6 +58,7 @@ fl() {
 }
 
 export EDITOR=nvim
+# export VISUAL=zed
 export PAGER=less
 
 # add .local/bin to path
@@ -66,6 +67,11 @@ case ":$PATH:" in
   *":$LOCAL_BIN:"*) ;;
   *) export PATH="$LOCAL_BIN:$PATH" ;;
 esac
+
+# add rust to path
+if [ -d "$HOME/.cargo" ]; then
+  . "$HOME/.cargo/env"
+fi
 
 {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 export BROWSER=wslview

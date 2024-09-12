@@ -4,3 +4,8 @@ fi
 
 # Enable OS7 in bash sessions to let wezterm recognize the cwd
 source "$HOME/.config/wezterm/wezterm-shell-integration.sh"
+
+# add rust to path
+if [ -d "$HOME/.cargo" ]; then
+  . "$HOME/.cargo/env"
+fi
