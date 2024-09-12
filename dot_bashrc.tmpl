@@ -24,6 +24,9 @@ alias less="less -r"
 # remove background color from ls
 export LS_COLORS="$LS_COLORS:tw=00;33:ow=01;33"
 
+alias fonts="fc-list | awk -F: '/.*-Regular.*/ { print \$2 }' | fzf"
+
+
 cheat() {
   curl cheat.sh/$@ | less
 }
