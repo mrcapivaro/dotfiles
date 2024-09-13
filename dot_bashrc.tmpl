@@ -24,7 +24,7 @@ alias less="less -r"
 # remove background color from ls
 export LS_COLORS="$LS_COLORS:tw=00;33:ow=01;33"
 
-alias fonts="fc-list | awk -F: '/.*-Regular.*/ { print \$2 }' | fzf"
+alias fonts='fc-list :family | awk -F: "{print $2}" | sort | uniq | fzf | xclip -selection clipboard'
 
 
 cheat() {

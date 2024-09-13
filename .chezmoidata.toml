@@ -38,6 +38,7 @@ packages.cli = [
   "psreadline",
   "z",
   "bat",
+  "rktools2k3",
 ]
 
 packages.prog_langs = [
