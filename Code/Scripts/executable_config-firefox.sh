@@ -1,19 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-CONF_FILES_PATH="$HOME/.config/firefox"
-PROFILE_PATH="$HOME/.mozilla/firefox/$(ls $HOME/.mozilla/firefox/ | awk '/default-release/')"
+CONFIG_PATH="$HOME/.config/firefox"
+PROFILES_PATH="$HOME/.mozilla/firefox"
+DEF_PROF_NAME=$(awk -F= '/^Default=/ { print $2 }' "$PROFILES_PATH/installs.ini")
+DEF_PROF_PATH="$PROFILES_PATH/$DEF_PROF_NAME"
 
-if [ -e "$CONF_FILES_PATH/user.js" ]; then
-  echo "Creating the user.js symlink."
-  ln -sf "$CONF_FILES_PATH/user.js" "$PROFILE_PATH/user.js"
-else
-  echo "The user.js config file does not exist."
-fi
-
-if [ -d "$CONF_FILES_PATH/chrome" ]; then
-  echo "Creating the chrome/ symlink."
-  ln -sf "$CONF_FILES_PATH/chrome" "$PROFILE_PATH/chrome"
-else
-  echo "The chrome/ config folder does not exist."
-fi
+for file in "$CONFIG_PATH"/*; do
+	ln -s "$file" "$DEF_PROF_PATH"
+done

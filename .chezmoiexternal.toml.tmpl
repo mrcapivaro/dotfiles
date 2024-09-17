@@ -5,20 +5,11 @@
 # https://www.chezmoi.io/reference/special-files-and-directories/chezmoiexternal-format/
 
 {{ if eq .chezmoi.os "linux" -}}
-# [".local/bin"]
-# type = "archive"
-# url = "https://github.com/houmain/keymapper/releases/download/4.8.2/keymapper-4.8.2-Linux.tar.gz"
-# include = [ "*/bin/*" ]
-# stripComponents = 2
-# [".local/share/fonts/ZedMono"]
-# type = "archive"
-# url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/ZedMono.tar.xz"
-# [".local/share/fonts/VictorMono"]
-# type = "archive"
-# url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.tar.xz"
-# [".local/share/fonts/UbuntuMono"]
-# type = "archive"
-# url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz"
+[".local/share/fonts/test"]
+type = "archive"
+url = "https://github.com/mrcapivaro/IosevkaCapy/releases/download/0.0.1/IosevkaCapy.tar.gz"
+include=["IosevkaCapy/NF/*.ttf"]
+stripComponents = 2
 {{ end -}}
 
 {{ if eq .chezmoi.os "windows" -}}
