@@ -1,6 +1,16 @@
 --
 -- ~/.config/awesome/rc.lua
 --
+-- Extensions to try later:
+-- Lain[Widgets]: https://github.com/lcpz/lain
+-- Vicious[Widgets]: https://vicious.readthedocs.io/en/latest/index.html
+-- Bling[Func.]: https://blingcorp.github.io/bling/#/README
+-- Rubato[Anim.]: https://github.com/andOrlando/rubato
+--
+-- Guides & Wiki:
+-- Official Wiki: https://awesomewm.org/apidoc/index.html
+-- Arch Wiki: https://wiki.archlinux.org/title/Awesome
+-- Nice Guide: https://epsi-rns.github.io/desktop/2019/06/17/awesome-modularized-main.html
 
 -- Call LuaRocks if possible
 pcall(require, "luarocks.loader")
@@ -19,24 +29,23 @@ beautiful.init(
     .. "/theme.lua"
 )
 
-require("awful.autofocus")
 require("main.error-handling")
+require("awful.autofocus")
 
--- Table of layouts to cover with awful.layout.inc, order matters.
+-- Layouts to be used. Order matters.
 awful.layout.layouts = {
   awful.layout.suit.spiral,
   awful.layout.suit.floating,
-  -- awful.layout.suit.tile,
 }
 
 require("widgets.wibar")
 
-root.keys(require("main.binds.global"))
-root.buttons(require("main.binds.mouse"))
+root.keys(require("binds.global"))
+root.buttons(require("binds.mouse"))
 
 require("main.rules")
 require("main.signals")
 
 awful.spawn.with_shell(
-  gears.filesystem.get_configuration_dir() .. "autostart.sh"
+  gears.filesystem.get_configuration_dir() .. "autorun.sh"
 )

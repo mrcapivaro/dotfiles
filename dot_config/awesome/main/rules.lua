@@ -2,8 +2,8 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local clientbuttons = require("main.binds.clientbuttons")
-local clientkeys = require("main.binds.clientkeys")
+local clientbuttons = require("binds.clientbuttons")
+local clientkeys = require("binds.clientkeys")
 awful.rules.rules = {
   -- All clients will match this rule.
   {
@@ -41,7 +41,7 @@ awful.rules.rules = {
         "xtightvncviewer",
         "steam",
         "Spotify",
-        "Vesktop",
+        "vesktop",
       },
 
       -- Note that the name property shown in xprop might be set slightly after creation of the client

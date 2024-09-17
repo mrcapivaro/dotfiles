@@ -6,9 +6,9 @@ local mykeyboardlayout = awful.widget.keyboardlayout()
 local mysystray = wibox.widget.systray()
 mysystray.base_size = 18
 
-local taglist_buttons = require("main.binds.taglist")
-local tasklist_buttons = require("main.binds.tasklist")
-local layoutbox_buttons = require("main.binds.layoutbox")
+local taglist_buttons = require("binds.taglist")
+local tasklist_buttons = require("binds.tasklist")
+local layoutbox_buttons = require("binds.layoutbox")
 
 -- Create an Wibar for each screen
 awful.screen.connect_for_each_screen(function(s)
