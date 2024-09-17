@@ -41,7 +41,30 @@ M.lspconfig = {
     end,
     ["lua_ls"] = function()
       local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({})
+      lspconfig.lua_ls.setup({
+        workspace = {
+          checkThirdParty = false,
+          library = vim.tbl_deep_extend(
+            "force",
+            vim.api.nvim_get_runtime_file("", true),
+            {
+              "/usr/share/awesome/lib",
+              "/usr/share/lua",
+            }
+          ),
+        },
+        diagnostics = {
+          globals = {
+            "awesome",
+            "awful",
+            "client",
+            "screen",
+            "tag",
+            "root",
+          },
+        },
+        telemetry = { enabled = false },
+      })
     end,
   },
 }
