@@ -75,6 +75,15 @@ esac
 if [ -d "$HOME/.cargo" ]; then
   . "$HOME/.cargo/env"
 fi
+# end
+
+# add pnpm to path
+export PNPM_HOME="/home/mrcapivaro/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# end
 
 {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 export BROWSER=wslview
