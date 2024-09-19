@@ -3,9 +3,12 @@
 LICENSE
 
 {{- if ne .chezmoi.os "linux" }}
+.config/pipewire
 **/*.sh*
 .bash*
 .inputrc
+.x*
+.X*
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
