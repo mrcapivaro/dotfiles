@@ -2,7 +2,7 @@
 Name=PipeWire
 Comment=Start PipeWire
 Icon=pipewire
-Exec=pipewire -c filter-chain.conf
+Exec=pipewire
 Terminal=false
 Type=Application
 NoDisplay=true
