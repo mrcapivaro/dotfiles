@@ -74,12 +74,12 @@ client.connect_signal("unfocus", function(c)
 end)
 
 -- Turn titlebars on in floating layout
-awful.tag.attached_connect_signal(nil, "property::layout", function(t)
-  local float = t.layout.name == "floating"
-  for _, c in pairs(t:clients()) do
-    c.floating = float
-  end
-end)
+-- awful.tag.attached_connect_signal(nil, "property::layout", function(t)
+--   local float = t.layout.name == "floating"
+--   for _, c in pairs(t:clients()) do
+--     c.floating = float
+--   end
+-- end)
 
 -- Turn titlebars on in floating clients
 client.connect_signal("property::floating", function(c)

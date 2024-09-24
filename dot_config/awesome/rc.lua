@@ -36,10 +36,8 @@ awful.layout.layouts = {
   awful.layout.suit.floating,
 }
 
-
-root.keys(require("binds.global"))
-root.buttons(require("binds.mouse"))
-
+root.keys(require("binds.global-keys"))
+root.buttons(require("binds.global-buttons"))
 require("awful.autofocus")
 require("widgets.wibar")
 require("main.rules")

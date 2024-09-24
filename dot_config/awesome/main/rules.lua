@@ -2,8 +2,8 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 
-local clientbuttons = require("binds.clientbuttons")
-local clientkeys = require("binds.clientkeys")
+local clientbuttons = require("binds.client-buttons")
+local clientkeys = require("binds.client-keys")
 awful.rules.rules = {
   -- All clients will match this rule.
   {

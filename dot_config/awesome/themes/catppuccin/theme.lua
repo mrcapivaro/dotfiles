@@ -7,6 +7,8 @@ local gears = require("gears")
 -- local beautiful = require("beautiful")
 local dpi = require("beautiful.xresources").apply_dpi
 
+awesome.set_preferred_icon_size(32)
+
 M.flavour = "mocha"
 M.colors = require("themes.catppuccin.flavours." .. M.flavour)
 
