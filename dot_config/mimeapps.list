@@ -1,0 +1,28 @@
+[Default Applications]
+image/png=imv.desktop
+image/jpeg=imv.desktop
+text/html=userapp-Firefox-BHEXU2.desktop
+x-scheme-handler/http=userapp-Firefox-BHEXU2.desktop
+x-scheme-handler/https=userapp-Firefox-BHEXU2.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+x-scheme-handler/chrome=userapp-Firefox-BHEXU2.desktop
+application/x-extension-htm=userapp-Firefox-BHEXU2.desktop
+application/x-extension-html=userapp-Firefox-BHEXU2.desktop
+application/x-extension-shtml=userapp-Firefox-BHEXU2.desktop
+application/xhtml+xml=userapp-Firefox-BHEXU2.desktop
+application/x-extension-xhtml=userapp-Firefox-BHEXU2.desktop
+application/x-extension-xht=userapp-Firefox-BHEXU2.desktop
+x-scheme-handler/ror2mm=r2modman.desktop
+
+[Added Associations]
+x-scheme-handler/http=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+x-scheme-handler/https=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+x-scheme-handler/chrome=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+text/html=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/x-extension-htm=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/x-extension-html=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/x-extension-shtml=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/xhtml+xml=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/x-extension-xhtml=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/x-extension-xht=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
