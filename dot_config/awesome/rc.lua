@@ -13,14 +13,13 @@
 -- Arch Wiki:         https://wiki.archlinux.org/title/Awesome
 -- Nice Guide:        https://epsi-rns.github.io/desktop/2019/06/17/awesome-modularized-main.html
 
--- Call LuaRocks if possible
 pcall(require, "luarocks.loader")
 
 -- Default libraries
 local gears = require("gears")
 local awful = require("awful")
 
--- Awesome theming default library
+-- Theming
 local beautiful = require("beautiful")
 local current_theme = "catppuccin"
 beautiful.init(
@@ -30,19 +29,14 @@ beautiful.init(
     .. "/theme.lua"
 )
 
--- Layouts to be used. Order matters.
-awful.layout.layouts = {
-  awful.layout.suit.spiral.dwindle,
-  awful.layout.suit.floating,
-}
+require("main.error-handling")
+require("main.rules")
+require("main.signals")
+require("awful.autofocus")
+require("widgets.wibar")
 
 root.keys(require("binds.global-keys"))
 root.buttons(require("binds.global-buttons"))
-require("awful.autofocus")
-require("widgets.wibar")
-require("main.rules")
-require("main.signals")
-require("main.error-handling")
 
 awful.spawn.with_shell(
   gears.filesystem.get_configuration_dir() .. "autostart.sh"

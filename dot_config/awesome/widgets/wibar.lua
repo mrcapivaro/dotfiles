@@ -8,6 +8,10 @@ local systray = require("widgets.systray")
 require("widgets.tasklist")
 require("widgets.taglist")
 require("widgets.layoutbox")
+
+local beautiful = require("beautiful")
+beautiful.wibar_height = 24
+
 awful.screen.connect_for_each_screen(function(s)
   s.mywibar = awful.wibar({ position = "top", screen = s })
   s.mywibar:setup({
