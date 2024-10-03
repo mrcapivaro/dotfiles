@@ -23,10 +23,10 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local current_theme = "catppuccin"
 beautiful.init(
-  gears.filesystem.get_configuration_dir()
-    .. "themes/"
-    .. current_theme
-    .. "/theme.lua"
+    gears.filesystem.get_configuration_dir()
+        .. "themes/"
+        .. current_theme
+        .. "/theme.lua"
 )
 
 require("main.error-handling")
@@ -39,5 +39,5 @@ root.keys(require("binds.global-keys"))
 root.buttons(require("binds.global-buttons"))
 
 awful.spawn.with_shell(
-  gears.filesystem.get_configuration_dir() .. "autostart.sh"
+    gears.filesystem.get_configuration_dir() .. "autostart.sh"
 )

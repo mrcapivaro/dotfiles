@@ -10,23 +10,30 @@ require("widgets.taglist")
 require("widgets.layoutbox")
 
 local beautiful = require("beautiful")
-beautiful.wibar_height = 24
+beautiful.wibar_height = 30
 
 awful.screen.connect_for_each_screen(function(s)
-  s.mywibar = awful.wibar({ position = "top", screen = s })
-  s.mywibar:setup({
-    layout = wibox.layout.align.horizontal,
-    {
-      layout = wibox.layout.fixed.horizontal,
-      s.layoutbox,
-      s.taglist,
-    },
-    s.tasklist,
-    {
-      layout = wibox.layout.fixed.horizontal,
-      systray,
-      keyboardlayout,
-      textclock,
-    },
-  })
+    s.mywibar = awful.wibar({ position = "top", screen = s })
+    s.mywibar:setup({
+        layout = wibox.layout.align.horizontal,
+        {
+            layout = wibox.layout.fixed.horizontal,
+            s.layoutbox,
+            s.taglist,
+        },
+        {
+            s.tasklist,
+            widget = wibox.container.place,
+        },
+        {
+            layout = wibox.layout.fixed.horizontal,
+            {
+                systray,
+                widget = wibox.container.place,
+                valign = "bottom",
+            },
+            keyboardlayout,
+            textclock,
+        },
+    })
 end)
