@@ -1,17 +1,24 @@
 configuration {
-  modi: "run,drun,window";
-  icon-theme: "Papirus";
-  show-icons: true;
-  terminal: "kitty";
-  drun-display-format: "{icon} {name}";
-  location: 0;
-  disable-history: false;
-  hide-scrollbar: true;
-  display-drun: "   Apps ";
-  display-run: "   Run ";
-  display-window: " 󰕰  Window";
-  display-Network: " 󰤨  Network";
-  sidebar-mode: true;
+    modi: "run,drun,window";
+    icon-theme: "Papirus";
+    font: "IosevkaCapy Nerd Font 14";
+    show-icons: true;
+    terminal: "kitty";
+    run-shell-command: "{terminal} -e {cmd}";
+    drun-display-format: "{icon} {name}";
+    window-format: "{icon} {c} : {t}";
+    steal-focus: true;
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 󰕰  Window";
+    display-Network: " 󰤨  Network";
 }
 
-@theme "catppuccin-mocha"
+window {
+    width: 20%;
+}
+
+@theme "gruvbox-dark"
