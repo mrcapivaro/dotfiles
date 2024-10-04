@@ -24,9 +24,9 @@ local beautiful = require("beautiful")
 local current_theme = "catppuccin"
 beautiful.init(
     gears.filesystem.get_configuration_dir()
-        .. "themes/"
-        .. current_theme
-        .. "/theme.lua"
+    .. "themes/"
+    .. current_theme
+    .. "/theme.lua"
 )
 
 require("main.error-handling")

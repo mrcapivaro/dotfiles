@@ -18,7 +18,11 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         {
             layout = wibox.layout.fixed.horizontal,
-            s.layoutbox,
+            {
+                s.layoutbox,
+                widget = wibox.container.margin,
+                margins = 4,
+            },
             s.taglist,
         },
         {
@@ -32,7 +36,11 @@ awful.screen.connect_for_each_screen(function(s)
                 widget = wibox.container.place,
                 valign = "bottom",
             },
-            keyboardlayout,
+            {
+                keyboardlayout,
+                widget = wibox.container.margin,
+                left = 15,
+            },
             textclock,
         },
     })

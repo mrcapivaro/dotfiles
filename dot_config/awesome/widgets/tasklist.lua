@@ -10,7 +10,7 @@ local template = {
                 id = "icon_role",
                 widget = wibox.widget.imagebox,
             },
-            margins = 3,
+            margins = 4,
             widget = wibox.container.margin,
         },
         id = "background_role",

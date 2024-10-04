@@ -44,13 +44,13 @@ M.menu_submenu_icon = M.default_path .. "default/submenu.png"
 
 -- | Titlebar | --
 M.titlebar_close_button_normal = M.default_path
-  .. "default/titlebar/close_normal.png"
+    .. "default/titlebar/close_normal.png"
 M.titlebar_close_button_focus = M.default_path
-  .. "default/titlebar/close_focus.png"
+    .. "default/titlebar/close_focus.png"
 M.titlebar_minimize_button_normal = M.default_path
-  .. "default/titlebar/minimize_normal.png"
+    .. "default/titlebar/minimize_normal.png"
 M.titlebar_minimize_button_focus = M.default_path
-  .. "default/titlebar/minimize_focus.png"
+    .. "default/titlebar/minimize_focus.png"
 -- M.titlebar_ontop_button_normal_inactive = M.default_path
 --   .. "default/titlebar/ontop_normal_inactive.png"
 -- M.titlebar_ontop_button_focus_inactive = M.default_path
@@ -76,13 +76,13 @@ M.titlebar_minimize_button_focus = M.default_path
 -- M.titlebar_floating_button_focus_active = M.default_path
 --   .. "default/titlebar/floating_focus_active.png"
 M.titlebar_maximized_button_normal_inactive = M.default_path
-  .. "default/titlebar/maximized_normal_inactive.png"
+    .. "default/titlebar/maximized_normal_inactive.png"
 M.titlebar_maximized_button_focus_inactive = M.default_path
-  .. "default/titlebar/maximized_focus_inactive.png"
+    .. "default/titlebar/maximized_focus_inactive.png"
 M.titlebar_maximized_button_normal_active = M.default_path
-  .. "default/titlebar/maximized_normal_active.png"
+    .. "default/titlebar/maximized_normal_active.png"
 M.titlebar_maximized_button_focus_active = M.default_path
-  .. "default/titlebar/maximized_focus_active.png"
+    .. "default/titlebar/maximized_focus_active.png"
 
 -- | Layout Box | --
 M.layout_fairh = M.default_path .. "default/layouts/fairhw.png"
@@ -111,15 +111,15 @@ M.bg_focus = M.colors.crust
 M.bg_urgent = M.colors.red
 
 -- | Tasklist Widget | --
-M.tasklist_align = "center"
-M.tasklist_disable_task_name = true
-M.tasklist_plain_task_name = true
+-- M.tasklist_align = "center"
+-- M.tasklist_plain_task_name = true
+-- M.tasklist_disable_task_name = true
+-- M.tasklist_fg_normal = M.colors.text
+-- M.tasklist_fg_focus = M.colors.text
+-- M.tasklist_fg_urgent = M.colors.text
 M.tasklist_bg_normal = M.colors.crust
 M.tasklist_bg_focus = M.colors.base
 M.tasklist_bg_urgent = M.colors.red
-M.tasklist_fg_normal = M.colors.text
-M.tasklist_fg_focus = M.colors.text
-M.tasklist_fg_urgent = M.colors.text
 
 -- | Systray Widget | --
 M.systray_icon_spacing = dpi(8)
