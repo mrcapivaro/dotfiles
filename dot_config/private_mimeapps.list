@@ -14,6 +14,7 @@ application/xhtml+xml=userapp-Firefox-BHEXU2.desktop
 application/x-extension-xhtml=userapp-Firefox-BHEXU2.desktop
 application/x-extension-xht=userapp-Firefox-BHEXU2.desktop
 x-scheme-handler/ror2mm=r2modman.desktop
+application/pdf=firefox.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
@@ -26,3 +27,4 @@ application/x-extension-shtml=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHE
 application/xhtml+xml=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
 application/x-extension-xhtml=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
 application/x-extension-xht=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
+application/pdf=libreoffice-writer.desktop;firefox.desktop;
