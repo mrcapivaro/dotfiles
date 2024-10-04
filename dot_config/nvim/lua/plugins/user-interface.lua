@@ -57,22 +57,21 @@ return {
         opts = {},
     },
 
-    -- {
-    --     "nvimdev/indentmini.nvim",
-    --     event = "BufEnter",
-    --     opts = {
-    --         minlevel = 2,
-    --         char = "│",
-    --         exclude = {
-    --             "markdown",
-    --             "erlang",
-    --         },
-    --     },
-    --     config = function(_, opts)
-    --         require("indentmini").setup(opts)
-    --         vim.cmd.highlight("default link IndentLine Comment")
-    --     end,
-    -- },
+    {
+        "nvimdev/indentmini.nvim",
+        opts = {
+            char = "┊",
+            exclude = {
+                "markdown",
+            },
+            minlevel = 2,
+        },
+        config = function(_, opts)
+            vim.cmd.highlight("IndentLine guifg=#313244")
+            vim.cmd.highlight("IndentLineCurrent guifg=#585b70")
+            require("indentmini").setup(opts)
+        end,
+    },
 
     {
         "akinsho/bufferline.nvim",

@@ -6,10 +6,9 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
 ---Listchars
-vim.api.nvim_set_hl(0, "Whitespace", { fg = "#313244" })
-vim.opt.listchars = { space = "·", tab = "> " }
+-- vim.api.nvim_set_hl(0, "Whitespace", { fg = "#313244" })
+-- vim.opt.listchars = { space = "·", tab = "> " }
 -- vim.opt.listchars = { space = "·", tab = "> ", eol = "␤" }
--- vim.opt.listchars = { space = "␣", tab = "> " }
 
 ---Vim Options
 local vim_opt = {
