@@ -60,6 +60,10 @@ fl() {
   ls -alF --color=always "$@" | awk '{print $9}'
 }
 
+help() {
+    "$@" --help | $PAGER
+}
+
 export EDITOR=nvim
 # export VISUAL=zed
 export PAGER=nvimpager
