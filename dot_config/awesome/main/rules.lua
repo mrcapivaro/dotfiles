@@ -5,7 +5,6 @@ local clientbuttons = require("binds.client-buttons")
 local clientkeys = require("binds.client-keys")
 
 awful.rules.rules = {
-    -- All clients will match this rule.
     {
         rule = {},
         properties = {
@@ -18,10 +17,11 @@ awful.rules.rules = {
             screen = awful.screen.preferred,
             placement = awful.placement.no_overlap
                 + awful.placement.no_offscreen,
+            titlebars_enabled = false,
+            floating = false,
         },
     },
 
-    -- Floating clients.
     {
         rule_any = {
             instance = {
@@ -35,7 +35,7 @@ awful.rules.rules = {
                 "vesktop",
             },
             name = {
-                "Event Tester", -- xev.
+                "Event Tester",
                 "spotify",
             },
             role = {
@@ -43,10 +43,8 @@ awful.rules.rules = {
                 "ConfigManager",
                 "pop-up",
             },
+            type = { "dialog" },
         },
-        properties = {
-            floating = true,
-            titlebars_enabled = true,
-        },
+        properties = { floating = true },
     },
 }

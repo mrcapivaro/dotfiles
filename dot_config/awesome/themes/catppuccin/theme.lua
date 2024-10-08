@@ -1,27 +1,33 @@
 -- Catppuccin Theme for AwesomeWM
 
-awesome.set_preferred_icon_size(32)
-
 local gears = require("gears")
 -- local wibox = require("wibox")
 -- local beautiful = require("beautiful")
 local dpi = require("beautiful.xresources").apply_dpi
 
+awesome.set_preferred_icon_size(32)
+
 local M = {}
 
+-- | Path | --
 M.default_path = gears.filesystem.get_themes_dir()
 M.path = gears.filesystem.get_configuration_dir() .. "/themes/catppuccin"
 
+-- | Colors | --
 M.flavour = "mocha"
 M.colors = require("themes.catppuccin.flavours." .. M.flavour)
+M.fg_normal = M.colors.text
+M.fg_focus = M.colors.mauve
+M.bg_normal = M.colors.crust
+M.bg_focus = M.colors.base
 
 M.useless_gap = 0
 M.wallpaper = M.path .. "/mountains.png"
 
 -- | Font | --
 M.font_name = "IosevkaCapy Nerd Font"
-M.font_style = "Bold"
-M.font_size = 12
+M.font_style = "SemiBold"
+M.font_size = 11
 M.font = M.font_name .. " " .. M.font_style .. " " .. M.font_size
 
 -- | Taglist | --
@@ -39,8 +45,12 @@ M.border_focus = M.colors.mauve
 M.border_marked = M.colors.mauve
 
 -- | Menu | --
-M.awesome_icon = "/usr/share/void-artwork/splash.png"
+M.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 M.menu_submenu_icon = M.default_path .. "default/submenu.png"
+M.menu_height = dpi(24)
+M.menu_width = dpi(125)
+M.menu_bg_normal = M.colors.crust
+M.menu_bg_focus = M.colors.base
 
 -- | Titlebar | --
 M.titlebar_close_button_normal = M.default_path
@@ -51,30 +61,6 @@ M.titlebar_minimize_button_normal = M.default_path
     .. "default/titlebar/minimize_normal.png"
 M.titlebar_minimize_button_focus = M.default_path
     .. "default/titlebar/minimize_focus.png"
--- M.titlebar_ontop_button_normal_inactive = M.default_path
---   .. "default/titlebar/ontop_normal_inactive.png"
--- M.titlebar_ontop_button_focus_inactive = M.default_path
---   .. "default/titlebar/ontop_focus_inactive.png"
--- M.titlebar_ontop_button_normal_active = M.default_path
---   .. "default/titlebar/ontop_normal_active.png"
--- M.titlebar_ontop_button_focus_active = M.default_path
---   .. "default/titlebar/ontop_focus_active.png"
--- M.titlebar_sticky_button_normal_inactive = M.default_path
---   .. "default/titlebar/sticky_normal_inactive.png"
--- M.titlebar_sticky_button_focus_inactive = M.default_path
---   .. "default/titlebar/sticky_focus_inactive.png"
--- M.titlebar_sticky_button_normal_active = M.default_path
---   .. "default/titlebar/sticky_normal_active.png"
--- M.titlebar_sticky_button_focus_active = M.default_path
---   .. "default/titlebar/sticky_focus_active.png"
--- M.titlebar_floating_button_normal_inactive = M.default_path
---   .. "default/titlebar/floating_normal_inactive.png"
--- M.titlebar_floating_button_focus_inactive = M.default_path
---   .. "default/titlebar/floating_focus_inactive.png"
--- M.titlebar_floating_button_normal_active = M.default_path
---   .. "default/titlebar/floating_normal_active.png"
--- M.titlebar_floating_button_focus_active = M.default_path
---   .. "default/titlebar/floating_focus_active.png"
 M.titlebar_maximized_button_normal_inactive = M.default_path
     .. "default/titlebar/maximized_normal_inactive.png"
 M.titlebar_maximized_button_focus_inactive = M.default_path
@@ -118,7 +104,7 @@ M.bg_urgent = M.colors.red
 -- M.tasklist_fg_focus = M.colors.text
 -- M.tasklist_fg_urgent = M.colors.text
 M.tasklist_bg_normal = M.colors.crust
-M.tasklist_bg_focus = M.colors.base
+M.tasklist_bg_focus = M.colors.mauve
 M.tasklist_bg_urgent = M.colors.red
 
 -- | Systray Widget | --
@@ -128,11 +114,5 @@ M.systray_icon_spacing = dpi(8)
 M.titlebar_bg_focus = M.bg_focus
 M.titlebar_bg_normal = M.bg_normal
 M.titlebar_fg_focus = M.fg_focus
-
--- | Menu Widget | --
-M.menu_height = dpi(28)
-M.menu_width = dpi(180)
-M.menu_bg_normal = M.colors.base .. "66"
-M.menu_bg_focus = M.colors.base .. "bb"
 
 return M

@@ -5,18 +5,22 @@ local dpi = require("beautiful.xresources").apply_dpi
 
 local template = {
     {
-        {
-            {
-                id = "icon_role",
-                widget = wibox.widget.imagebox,
-            },
-            margins = 4,
-            widget = wibox.container.margin,
-        },
+        wibox.widget.base.make_widget(),
+        forced_height = 2,
         id = "background_role",
         widget = wibox.container.background,
     },
-    layout = wibox.layout.stack,
+    {
+        {
+            -- awful.widget.clienticon,
+            id = "icon_role",
+            widget = wibox.widget.imagebox,
+        },
+        widget = wibox.container.margin,
+        margins = 1,
+    },
+    nil,
+    layout = wibox.layout.fixed.vertical,
 }
 
 awful.screen.connect_for_each_screen(function(s)
@@ -25,7 +29,7 @@ awful.screen.connect_for_each_screen(function(s)
         filter = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons,
         layout = {
-            spacing = dpi(2),
+            spacing = dpi(8),
             layout = wibox.layout.fixed.horizontal,
         },
         widget_template = template,

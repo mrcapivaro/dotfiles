@@ -3,14 +3,13 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
--- manage: when a clieent appears
+-- manage: when a client appears
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     if not awesome.startup then
         awful.client.setslave(c)
     end
-
     if
         awesome.startup
         and not c.size_hints.user_position
@@ -35,40 +34,42 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
-    awful.titlebar(c):setup({
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout = wibox.layout.fixed.horizontal,
-        },
-        { -- Middle
-            { -- Title
-                align = "center",
-                widget = awful.titlebar.widget.titlewidget(c),
+    awful.titlebar(c, { size = 24 }):setup({
+        {
+            {
+                awful.titlebar.widget.iconwidget(c),
+                buttons = buttons,
+                layout = wibox.layout.fixed.horizontal,
             },
-            buttons = buttons,
-            layout = wibox.layout.flex.horizontal,
+            {
+                {
+                    align = "center",
+                    widget = awful.titlebar.widget.titlewidget(c),
+                },
+                buttons = buttons,
+                layout = wibox.layout.flex.horizontal,
+            },
+            {
+                awful.titlebar.widget.minimizebutton(c),
+                awful.titlebar.widget.maximizedbutton(c),
+                awful.titlebar.widget.closebutton(c),
+                layout = wibox.layout.fixed.horizontal(),
+            },
+            layout = wibox.layout.align.horizontal,
         },
-        { -- Right
-            awful.titlebar.widget.floatingbutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton(c),
-            awful.titlebar.widget.ontopbutton(c),
-            awful.titlebar.widget.closebutton(c),
-            layout = wibox.layout.fixed.horizontal(),
-        },
-        layout = wibox.layout.align.horizontal,
+        margins = 2,
+        widget = wibox.container.margin,
     })
 end)
 
 client.connect_signal("focus", function(c)
     c.border_color = beautiful.border_focus
 end)
+
 client.connect_signal("unfocus", function(c)
     c.border_color = beautiful.border_normal
 end)
 
--- Turn titlebars on in floating layout
 awful.tag.attached_connect_signal(nil, "property::layout", function(t)
     local float = t.layout.name == "floating"
     for _, c in pairs(t:clients()) do
@@ -76,9 +77,8 @@ awful.tag.attached_connect_signal(nil, "property::layout", function(t)
     end
 end)
 
--- Turn titlebars on in floating clients
 client.connect_signal("property::floating", function(c)
-    if c.floating then
+    if c.floating and not c.titlebars_enabled then
         c.titlebars_enabled = true
         awful.titlebar.show(c)
     else

@@ -12,6 +12,7 @@
 -- Official Wiki:     https://awesomewm.org/apidoc/index.html
 -- Arch Wiki:         https://wiki.archlinux.org/title/Awesome
 -- Nice Guide:        https://epsi-rns.github.io/desktop/2019/06/17/awesome-modularized-main.html
+-- Example Theme:     https://github.com/Relz/awesome-wm-theme
 
 pcall(require, "luarocks.loader")
 

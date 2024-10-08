@@ -1,6 +1,6 @@
 local awful = require("awful")
 -- local wibox = require("wibox")
-local taglist_buttons = require("binds.taglist-button")
+local taglist_buttons = require("binds.taglist-buttons")
 
 awful.layout.layouts = {
     awful.layout.suit.spiral.dwindle,
