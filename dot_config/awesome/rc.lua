@@ -30,14 +30,16 @@ beautiful.init(
     .. "/theme.lua"
 )
 
+root.keys(require("binds.global-keys"))
+root.buttons(require("binds.global-buttons"))
+
+require("awful.autofocus")
 require("main.error-handling")
 require("main.rules")
 require("main.signals")
-require("awful.autofocus")
-require("widgets.wibar")
+-- require("main.keygrabber")
 
-root.keys(require("binds.global-keys"))
-root.buttons(require("binds.global-buttons"))
+require("widgets.wibar")
 
 awful.spawn.with_shell(
     gears.filesystem.get_configuration_dir() .. "autostart.sh"
