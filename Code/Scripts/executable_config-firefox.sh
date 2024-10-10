@@ -7,5 +7,5 @@ DEF_PROF_NAME=$(awk -F= '/^Default=/ { print $2 }' "$PROFILES_PATH/installs.ini"
 DEF_PROF_PATH="$PROFILES_PATH/$DEF_PROF_NAME"
 
 for file in "$CONFIG_PATH"/*; do
-	ln -s "$file" "$DEF_PROF_PATH"
+	ln -sf "$file" "$DEF_PROF_PATH"
 done
