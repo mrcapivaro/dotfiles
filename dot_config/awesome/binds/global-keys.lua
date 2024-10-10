@@ -32,18 +32,15 @@ local M = gears.table.join(
         description = "focus client by direction: down",
         group = "client",
     }),
-
     awful.key({ modkey }, "k", function()
         awful.client.focus.bydirection("up")
     end, { description = "focus client by direction: up", group = "client" }),
-
     awful.key({ modkey }, "h", function()
         awful.client.focus.bydirection("left")
     end, {
         description = "focus client by direction: left",
         group = "client",
     }),
-
     awful.key({ modkey }, "l", function()
         awful.client.focus.bydirection("right")
     end, {
@@ -70,64 +67,12 @@ local M = gears.table.join(
         group = "client",
     }),
 
-    -- awful.key(
-    --   { modkey },
-    --   "u",
-    --   awful.client.urgent.jumpto,
-    --   { description = "jump to urgent client", group = "client" }
-    -- ),
-
-    -- awful.key({ modkey }, "Tab", function()
-    --   awful.client.focus.history.previous()
-    --   if client.focus then
-    --     client.focus:raise()
-    --   end
-    -- end, { description = "go back", group = "client" }),
-
-    -- Standard program
-    -- awful.key({ modkey }, "Return", function()
-    -- 	awful.spawn("rofi -show drun")
-    -- end, { description = "open rofi", group = "launcher" }),
-
     awful.key(
         { modkey },
         "r",
         awesome.restart,
         { description = "reload awesome", group = "awesome" }
     ),
-
-    -- awful.key(
-    --   { modkey, "Control" },
-    --   "q",
-    --   awesome.quit,
-    --   { description = "quit awesome", group = "awesome" }
-    -- ),
-
-    -- awful.key(
-    --   { modkey, "Shift" },
-    --   "h",
-    --   function()
-    --     awful.tag.incnmaster(1, nil, true)
-    --   end,
-    --   { description = "increase the number of master clients", group = "layout" }
-    -- ),
-
-    -- awful.key(
-    --   { modkey, "Shift" },
-    --   "l",
-    --   function()
-    --     awful.tag.incnmaster(-1, nil, true)
-    --   end,
-    --   { description = "decrease the number of master clients", group = "layout" }
-    -- ),
-
-    -- awful.key({ modkey, "Control" }, "h", function()
-    --   awful.tag.incncol(1, nil, true)
-    -- end, { description = "increase the number of columns", group = "layout" }),
-
-    -- awful.key({ modkey, "Control" }, "l", function()
-    --   awful.tag.incncol(-1, nil, true)
-    -- end, { description = "decrease the number of columns", group = "layout" }),
 
     awful.key({ modkey }, "space", function()
         awful.layout.inc(1)
@@ -146,9 +91,6 @@ local M = gears.table.join(
     end, { description = "restore minimized", group = "client" }),
 
     awful.key({}, "Print", function()
-        -- awful.spawn(
-        --   "scrot -s -o /dev/stdout | xclip -selection clipboard -t image/png"
-        -- )
         awful.spawn(
             "scrot -s --exec 'xclip -selection clipboard -t image/png -i $f && rm $f'"
         )
@@ -156,8 +98,6 @@ local M = gears.table.join(
 
     -- Rofi
     awful.key({ "Mod1" }, "Tab", function()
-        -- awful.client.focus.byidx(1)
-        -- NOTE: require `xdotool` and `rofi` to work
         local command = {
             "rofi",
             "-modes window",
@@ -166,11 +106,8 @@ local M = gears.table.join(
             "-kb-accept-entry '!Alt+Tab'",
         }
         awful.spawn.with_shell(table.concat(command, " "))
-        awful.spawn.with_shell("xdotool key --delay 200 a")
     end, { description = "focus next by index", group = "client" }),
-    awful.key({ "Mod1", "Shift" }, "Tab", function()
-        awful.client.focus.byidx(-1)
-    end, { description = "focus previous by index", group = "client" }),
+
     awful.key({ modkey }, "Return", function()
         local command = {
             "rofi",
@@ -179,6 +116,7 @@ local M = gears.table.join(
         }
         awful.spawn(table.concat(command, " "))
     end, { description = "rofi dmenu", group = "launcher" }),
+
     awful.key({ modkey, "Control" }, "Return", function()
         awful.spawn("rofi -modes calc -show calc")
     end, { description = "rofi calc", group = "launcher" })

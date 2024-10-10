@@ -78,11 +78,9 @@ awful.tag.attached_connect_signal(nil, "property::layout", function(t)
 end)
 
 client.connect_signal("property::floating", function(c)
-    if c.floating and not c.titlebars_enabled then
-        c.titlebars_enabled = true
-        awful.titlebar.show(c)
-    else
-        c.titlebars_enabled = false
-        awful.titlebar.hide(c)
+    if not c.floating then
+        return
     end
+    -- c.titlebars_enabled = true
+    -- awful.titlebar.show(c)
 end)

@@ -37,7 +37,7 @@ require("awful.autofocus")
 require("main.error-handling")
 require("main.rules")
 require("main.signals")
--- require("main.keygrabber")
+require("main.keygrabber")
 
 require("widgets.wibar")
 
