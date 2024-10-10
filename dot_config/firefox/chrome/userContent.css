@@ -1,0 +1,9 @@
+/* Workaround for vim-vixen issue
+ * https://github.com/ueokande/vim-vixen/issues/1424
+ */
+.vimvixen-console-frame,
+#vimvixen-console-frame {
+    height: 0px;
+    color-scheme: light !important;
+    /* z-index: -1 !important; */
+}
