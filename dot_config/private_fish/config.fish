@@ -4,24 +4,87 @@ end
 
 fastfetch
 
+# [ Keybinds ] #
+
+function fish_user_key_bindings
+    fish_vi_key_bindings
+    bind yy fish_clipboard_copy
+    bind Y fish_clipboard_copy
+    bind p fish_clipboard_paste
+end
+
 # [ Evaluations ] #
+
 starship init fish | source
 zoxide init fish | source
 direnv hook fish | source
 
 # [ Exports ] #
+
 set -gx EDITOR nvim
 set -gx VISUAL zed
 set -gx PAGER nvimpager
 # export LS_COLORS="$LS_COLORS:tw=00;33:ow=01;33"
 
+# [ 49 ] #
+
+# alias aa=""
+# alias as=""
+# alias ad=""
+# alias af=""
+# alias aj=""
+# alias ak=""
+# alias al=""
+alias ss="tmux -2" # ss = seSSions
+alias sa="xbps-query -Rs" # sa = Search pAckages/Apps
+# alias sd=""
+function sf # sf = Search packages, pipe to Fzf and install
+    sudo xbps-install (xbps-query -Rs $argv | fzf | sed 's/\[.\] \([^ ]*\).*/\1/')
+end
+# alias sj=""
+# alias sk=""
+# alias sl=""
+# alias dd=""
+# alias da=""
+# alias ds=""
+# alias df="df"
+# alias dj=""
+# alias dk=""
+# alias dk=""
+# alias dl=""
+# alias ff=""
+# alias fa=""
+# alias fs=""
+# alias fd=""
+# alias fj=""
+# alias fk=""
+alias fl="yazi" # fl = FiLe manager
+# alias jj=""
+# alias ja=""
+# alias js=""
+# alias jd=""
+# alias jf=""
+# alias jk=""
+# alias jl=""
+# alias kk=""
+# alias ka=""
+# alias ks=""
+# alias kd=""
+# alias kf=""
+# alias kj=""
+# alias kl=""
+# alias ll=""
+# alias la=""
+alias ls="ls --color=always -F" # ls = LiSt files
+# alias ld=""
+# alias lf=""
+# alias lj=""
+# alias lk=""
+
 # [ Aliases ] #
-alias tmux="tmux -2"
 
 alias ..="cd .."
 alias ....="cd ../.."
-
-alias ls="ls --color=auto -F"
 
 alias vi="nvim"
 alias vim="nvim"
@@ -34,12 +97,7 @@ alias clar="clear"
 
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
 
-alias less="less -r"
-
 # [ Functions ] #
-function fl --wraps ls --description "wrapper of ls to print in a list" 
-    ls --color=always -al $argv | awk '{ print $9 }'
-end
 
 function cheat
     curl "cheat.sh/$argv" | less
@@ -68,7 +126,7 @@ end
 
 # Rust
 if test -d "$HOME/.cargo"
-    source "$HOME/.cargo/env"
+    source "$HOME/.cargo/env.fish"
 end
 
 # PNPM
