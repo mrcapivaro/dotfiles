@@ -6,12 +6,9 @@ light_flavor = "frappe"
 accent = "mauve"
 
 [font]
-size = 14
+size = 12
 name = "IosevkaCapy Nerd Font"
 path = "~/.local/share/fonts"
-
-[fonts.hack]
-name = { normal = "Hack Nerd Font", mono = "Hack Nerd Font" }
 
 [windows.scoop]
 buckets = ["extras", "nerd-fonts", "games", "versions"]

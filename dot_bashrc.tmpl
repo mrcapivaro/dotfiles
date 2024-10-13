@@ -147,10 +147,11 @@ rsync() {
 }
 
 {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-export BROWSER=wslview
-alias explorer="/mnt/c/Windows/explorer.exe"
-alias ii="/mnt/c/Windows/explorer.exe"
+# [ WSL Specific ] #
 # to ensure wslg, run wsl --update AFTER installing wsl distro
 # https://github.com/microsoft/wslg/wiki/Diagnosing-%22cannot-open-display%22-type-issues-with-WSLg
+export BROWSER=wslview
 export DISPLAY=:0
+alias explorer="/mnt/c/Windows/explorer.exe"
+alias ii="/mnt/c/Windows/explorer.exe"
 {{- end }}
