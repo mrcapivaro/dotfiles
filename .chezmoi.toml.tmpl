@@ -2,6 +2,11 @@
 autoAdd = true
 autoCommit = true
 
+{{ if eq .chezmoi.os "linux" -}}
+[cd]
+command = "fish"
+{{ end -}}
+
 {{ if eq .chezmoi.os "windows" -}}
 [cd]
 command = "pwsh"
