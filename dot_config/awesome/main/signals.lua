@@ -1,6 +1,4 @@
-local gears = require("gears")
 local awful = require("awful")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- manage: when a client appears
@@ -22,44 +20,7 @@ end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
-    local buttons = gears.table.join(
-        awful.button({}, 1, function()
-            c:emit_signal("request::activate", "titlebar", { raise = true })
-            awful.mouse.client.move(c)
-        end),
-        awful.button({}, 3, function()
-            c:emit_signal("request::activate", "titlebar", { raise = true })
-            awful.mouse.client.resize(c)
-        end)
-    )
-
-    awful.titlebar(c, { size = 24 }):setup({
-        {
-            {
-                awful.titlebar.widget.iconwidget(c),
-                buttons = buttons,
-                layout = wibox.layout.fixed.horizontal,
-            },
-            {
-                {
-                    align = "center",
-                    widget = awful.titlebar.widget.titlewidget(c),
-                },
-                buttons = buttons,
-                layout = wibox.layout.flex.horizontal,
-            },
-            {
-                awful.titlebar.widget.minimizebutton(c),
-                awful.titlebar.widget.maximizedbutton(c),
-                awful.titlebar.widget.closebutton(c),
-                layout = wibox.layout.fixed.horizontal(),
-            },
-            layout = wibox.layout.align.horizontal,
-        },
-        margins = 2,
-        widget = wibox.container.margin,
-    })
+    local titlebar = require("widgets.titlebar")(c)
 end)
 
 client.connect_signal("focus", function(c)
@@ -77,10 +38,14 @@ awful.tag.attached_connect_signal(nil, "property::layout", function(t)
     end
 end)
 
+-- The rules for floating windows already takes care of enabling titlebars for
+-- newly created windows, but not for windows that have their "floating"
+-- property changed after that.
 client.connect_signal("property::floating", function(c)
+    c.titlebars_enabled = c.floating
     if not c.floating then
+        awful.titlebar.hide(c)
         return
     end
-    -- c.titlebars_enabled = true
-    -- awful.titlebar.show(c)
+    awful.titlebar.show(c)
 end)

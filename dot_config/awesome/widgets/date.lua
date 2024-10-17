@@ -1,7 +1,7 @@
 local wibox = require("wibox")
 local awful = require("awful")
 
-local M = wibox.widget.textclock(" %a %d-%m-%Y ")
+local M = wibox.widget.textclock("%a %d-%m-%Y")
 
 -- M:add_button(awful.button({}, 1, function()
 --     -- call a calendar widget popup

@@ -8,40 +8,64 @@ local keyboardlayout = require("widgets.keyboardlayout")
 local systray = require("widgets.systray")
 local launcher = require("widgets.launcher")
 
-require("widgets.tasklist")
+local tasklist = require("widgets.tasklist")
 require("widgets.taglist")
 require("widgets.layoutbox")
 
-beautiful.wibar_height = 24
+local M = {}
 
-awful.screen.connect_for_each_screen(function(s)
-    s.wibar = awful.wibar({ position = "top", screen = s })
-    s.wibar:setup({
-        layout = wibox.layout.align.horizontal,
-        {
-            layout = wibox.layout.fixed.horizontal,
-            s.layoutbox,
-            s.taglist,
-        },
-        {
+M.options = {
+    size = 24,
+    spacing = 8,
+    margins = 4,
+    position = "top",
+}
+
+M.widget_template = {
+
+}
+
+local mt = {}
+
+mt.__call = function(_)
+    beautiful.wibar_height = M.options.size
+    awful.screen.connect_for_each_screen(function(s)
+        s.tasklist = tasklist(s)
+        s.wibar = awful.wibar({ position = M.options.position, screen = s })
+        s.wibar:setup({
             {
-                layout = wibox.layout.fixed.horizontal,
-                launcher,
-                s.tasklist,
+                layout = wibox.layout.align.horizontal,
+                {
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = M.options.spacing,
+                    launcher,
+                    s.taglist,
+                    s.layoutbox,
+                },
+                {
+                    s.tasklist,
+                    widget = wibox.container.place,
+                },
+                {
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = M.options.spacing,
+                    keyboardlayout,
+                    {
+                        systray,
+                        widget = wibox.container.place,
+                        valign = "bottom",
+                        -- halign = "left",
+                    },
+                    date,
+                    time,
+                },
             },
-            widget = wibox.container.place,
-        },
-        {
-            layout = wibox.layout.fixed.horizontal,
-            keyboardlayout,
-            {
-                systray,
-                widget = wibox.container.place,
-                -- valign = "bottom",
-                -- halign = "left",
-            },
-            date,
-            time,
-        },
-    })
-end)
+            widget = wibox.container.margin,
+            margins = M.options.margins,
+        })
+    end)
+end
+
+setmetatable(M, mt)
+
+return M

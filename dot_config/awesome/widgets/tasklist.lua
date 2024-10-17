@@ -1,37 +1,49 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local tasklist_buttons = require("binds.tasklist-buttons")
-local dpi = require("beautiful.xresources").apply_dpi
 
-local template = {
+local tasklist_buttons = require("binds.tasklist-buttons")
+
+local M = {}
+
+M.options = {
+    spacing = 4,
+}
+
+M.widget_template = {
+    {
+        -- id = "clienticon",
+        -- awful.widget.clienticon,
+        id = "icon_role",
+        widget = wibox.widget.imagebox,
+    },
     {
         wibox.widget.base.make_widget(),
         forced_height = 2,
         id = "background_role",
         widget = wibox.container.background,
+        -- opacity = 0.3,
     },
-    {
-        {
-            -- awful.widget.clienticon,
-            id = "icon_role",
-            widget = wibox.widget.imagebox,
-        },
-        widget = wibox.container.margin,
-        margins = 1,
-    },
-    nil,
+    -- layout = wibox.layout.stack,
     layout = wibox.layout.fixed.vertical,
 }
 
-awful.screen.connect_for_each_screen(function(s)
-    s.tasklist = awful.widget.tasklist({
+M.buttons = {}
+
+local mt = {}
+
+mt.__call = function(_, s)
+    return awful.widget.tasklist({
         screen = s,
         filter = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons,
         layout = {
-            spacing = dpi(8),
+            spacing = M.options.spacing,
             layout = wibox.layout.fixed.horizontal,
         },
-        widget_template = template,
+        widget_template = M.widget_template,
     })
-end)
+end
+
+setmetatable(M, mt)
+
+return M

@@ -29,13 +29,9 @@ local os_menu = awful.menu({
     },
 })
 
-local M = {
-    awful.widget.launcher({
-        image = beautiful.awesome_icon,
-        menu = os_menu,
-    }),
-    widget = wibox.container.margin,
-    margins = 4,
-}
+local M = awful.widget.launcher({
+    image = beautiful.awesome_icon,
+    menu = os_menu,
+})
 
 return M

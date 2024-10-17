@@ -41,16 +41,28 @@ awful.rules.rules = {
             role = {
                 "AlarmWindow",
                 "ConfigManager",
-                "pop-up",
-                "Pop-up",
-                "popup",
-                "Popup",
             },
             type = { "dialog" },
         },
         properties = {
             floating = true,
             titlebars_enabled = true,
+            placement = awful.placement.centered,
+        },
+    },
+
+    {
+        rule_any = {
+            role = {
+                "pop-up",
+                "Pop-up",
+                "popup",
+                "Popup",
+            },
+        },
+        properties = {
+            floating = true,
+            titlebars_enabled = false,
             placement = awful.placement.centered,
         },
     },

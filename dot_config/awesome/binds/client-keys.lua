@@ -27,6 +27,11 @@ return gears.table.join(
         c.ontop = not c.ontop
     end, { description = "toggle keep on top", group = "client" }),
 
+    awful.key({ modkey, "Control" }, "t", function(c)
+        c.titlebars_enabled = not c.titlebars_enabled
+        awful.titlebar.toggle(c)
+    end, { description = "toggle titlebars", group = "client" }),
+
     awful.key({ modkey }, "z", function(c)
         c.minimized = true
     end, { description = "minimize", group = "client" }),

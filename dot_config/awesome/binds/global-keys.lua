@@ -1,29 +1,31 @@
 local gears = require("gears")
 local awful = require("awful")
 
+local cyclefocus = require("feats.alt-tab")
 local modkey = require("main.variables").modkey
 
 local M = gears.table.join(
--- {{{ Tags
+    -- Tags
     awful.key(
         { modkey },
         "Left",
         awful.tag.viewprev,
         { description = "view previous", group = "tag" }
     ),
+
     awful.key(
         { modkey },
         "Right",
         awful.tag.viewnext,
         { description = "view next", group = "tag" }
     ),
+
     awful.key(
         { modkey },
         "Tab",
         awful.tag.history.restore,
         { description = "go back", group = "tag" }
     ),
-    -- }}}
 
     -- Relative Client Focus Movement
     awful.key({ modkey }, "j", function()
@@ -32,15 +34,18 @@ local M = gears.table.join(
         description = "focus client by direction: down",
         group = "client",
     }),
+
     awful.key({ modkey }, "k", function()
         awful.client.focus.bydirection("up")
     end, { description = "focus client by direction: up", group = "client" }),
+
     awful.key({ modkey }, "h", function()
         awful.client.focus.bydirection("left")
     end, {
         description = "focus client by direction: left",
         group = "client",
     }),
+
     awful.key({ modkey }, "l", function()
         awful.client.focus.bydirection("right")
     end, {
@@ -54,12 +59,15 @@ local M = gears.table.join(
     awful.key({ modkey, "Control" }, "j", function()
         awful.client.swap.bydirection("down")
     end, { description = "swap client by direction: down", group = "client" }),
+
     awful.key({ modkey, "Control" }, "k", function()
         awful.client.swap.bydirection("up")
     end, { description = "swap client by direction: up", group = "client" }),
+
     awful.key({ modkey, "Control" }, "h", function()
         awful.client.swap.bydirection("left")
     end, { description = "swap client by direction: left", group = "client" }),
+
     awful.key({ modkey, "Control" }, "l", function()
         awful.client.swap.bydirection("right")
     end, {
@@ -96,8 +104,8 @@ local M = gears.table.join(
         )
     end, { description = "Print Screen", group = "other" }),
 
-    -- Rofi
     awful.key({ "Mod1" }, "Tab", function()
+        -- cyclefocus.cycle({ modifier = "Tab" })
         local command = {
             "rofi",
             "-modes window",
@@ -108,6 +116,7 @@ local M = gears.table.join(
         awful.spawn.with_shell(table.concat(command, " "))
     end, { description = "focus next by index", group = "client" }),
 
+    -- Rofi
     awful.key({ modkey }, "Return", function()
         local command = {
             "rofi",
