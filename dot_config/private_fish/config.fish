@@ -8,6 +8,7 @@ fastfetch
 
 function fish_user_key_bindings
     fish_vi_key_bindings
+    bind y fish_clipboard_copy
     bind yy fish_clipboard_copy
     bind Y fish_clipboard_copy
     bind p fish_clipboard_paste
@@ -98,6 +99,10 @@ alias clar="clear"
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
 
 # [ Functions ] #
+
+function fish_greeting
+    return
+end
 
 function cheat
     curl "cheat.sh/$argv" | less
