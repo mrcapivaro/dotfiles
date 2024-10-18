@@ -15,20 +15,33 @@ require("widgets.layoutbox")
 local M = {}
 
 M.options = {
-    size = 24,
+    height = 24,
     spacing = 8,
     margins = 4,
     position = "top",
 }
 
-M.widget_template = {
-
-}
+M.widget_template = {}
 
 local mt = {}
 
-mt.__call = function(_)
-    beautiful.wibar_height = M.options.size
+mt.__call = function(_, args)
+    beautiful.wibar_height =  M.options.height
+    -- beautiful.wibar_stretch = args.stretch
+    -- beautiful.wibar_favor_vertical = args.favor_vertical
+    -- beautiful.wibar_border_width = args.border_width
+    -- beautiful.wibar_border_color = args.border_color
+    -- beautiful.wibar_ontop = args.ontop
+    -- beautiful.wibar_cursor = args.cursor
+    -- beautiful.wibar_opacity = args.opacity
+    -- beautiful.wibar_type = args.type
+    -- beautiful.wibar_width = args.width
+    -- beautiful.wibar_bg = args.bg
+    -- beautiful.wibar_bgimage = args.bgimage
+    -- beautiful.wibar_fg = args.fg
+    -- beautiful.wibar_shape = args.shape
+    -- beautiful.wibar_margins = args.margins
+    -- beautiful.wibar_align = args.align
     awful.screen.connect_for_each_screen(function(s)
         s.tasklist = tasklist(s)
         s.wibar = awful.wibar({ position = M.options.position, screen = s })

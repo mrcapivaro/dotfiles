@@ -1,14 +1,12 @@
 -- Catppuccin Theme for AwesomeWM
 
 local gears = require("gears")
--- local wibox = require("wibox")
--- local beautiful = require("beautiful")
 local dpi = require("beautiful.xresources").apply_dpi
 
 local M = {}
 
 -- | Icons | --
-awesome.set_preferred_icon_size(32)
+awesome.set_preferred_icon_size(16)
 M.icon_theme = "Kitty"
 
 -- | Path | --
@@ -608,23 +606,5 @@ M.notification_opacity = 0.5
 -- wallpaper
 -- M.wallpaper_bg = nil
 -- M.wallpaper_fg = nil
-
--- wibar
--- M.wibar_stretch = true
--- M.wibar_favor_vertical = nil
--- M.wibar_border_width = 1
--- M.wibar_border_color = M.colors.mauve
--- M.wibar_ontop = false
--- M.wibar_cursor = nil
--- M.wibar_opacity = nil
--- M.wibar_type = nil
--- M.wibar_width = nil
--- M.wibar_height = nil
--- M.wibar_bg = nil
--- M.wibar_bgimage = nil
--- M.wibar_fg = nil
--- M.wibar_shape = nil
--- M.wibar_margins = nil
--- M.wibar_align = nil
 
 return M
