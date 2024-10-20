@@ -99,7 +99,10 @@ cyclefocus = {
     -- Default builtin filters.
     -- (meant to get applied always, but you could override them)
     cycle_filters = {
-        function(c, source_c) return not c.minimized end,  --luacheck: no unused args
+        -- NOTE: I changed  the default filter to just `true`, since
+        -- I desire to cycle minimized windows also. There is an issue
+        -- in github asking for this to be the default behavior.
+        function(c, source_c) return true end,  --luacheck: no unused args
     },
 
     -- Experimental: Width of icon column ("max_icon_size", used for margin).

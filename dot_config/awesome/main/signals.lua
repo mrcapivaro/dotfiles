@@ -20,7 +20,8 @@ end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
-    local titlebar = require("widgets.titlebar")(c)
+    local titlebar = require("widgets.titlebar")
+    titlebar(c)
 end)
 
 client.connect_signal("focus", function(c)

@@ -59,15 +59,12 @@ local M = gears.table.join(
     awful.key({ modkey, "Control" }, "j", function()
         awful.client.swap.bydirection("down")
     end, { description = "swap client by direction: down", group = "client" }),
-
     awful.key({ modkey, "Control" }, "k", function()
         awful.client.swap.bydirection("up")
     end, { description = "swap client by direction: up", group = "client" }),
-
     awful.key({ modkey, "Control" }, "h", function()
         awful.client.swap.bydirection("left")
     end, { description = "swap client by direction: left", group = "client" }),
-
     awful.key({ modkey, "Control" }, "l", function()
         awful.client.swap.bydirection("right")
     end, {
@@ -99,22 +96,27 @@ local M = gears.table.join(
     end, { description = "restore minimized", group = "client" }),
 
     awful.key({}, "Print", function()
-        awful.spawn(
-            "scrot -s --exec 'xclip -selection clipboard -t image/png -i $f && rm $f'"
-        )
+        local command = {
+            "scrot",
+            "-s",
+            "--exec 'xclip -selection clipboard -t image/png -i $f && rm $f'",
+        }
+        awful.spawn(table.concat(command, " "))
     end, { description = "Print Screen", group = "other" }),
 
-    awful.key({ "Mod1" }, "Tab", function()
-        -- cyclefocus.cycle({ modifier = "Tab" })
-        local command = {
-            "rofi",
-            "-modes window",
-            "-show window",
-            "-kb-element-next 'Alt+Tab'",
-            "-kb-accept-entry '!Alt+Tab'",
-        }
-        awful.spawn.with_shell(table.concat(command, " "))
-    end, { description = "focus next by index", group = "client" }),
+    -- awful.key({ "Mod1" }, "Tab", function()
+    --     cyclefocus.cycle({ modifier = "Alt_L" })
+    -- end, { description = "focus next by index", group = "client" }),
+
+    cyclefocus.key({ "Mod1" }, "Tab", {
+        cycle_filters = {},
+        keys = { "Tab", "ISO_Left_Tab" },
+    }),
+
+    cyclefocus.key({ "Mod1", "Shift" }, "Tab", {
+        cycle_filters = {},
+        keys = { "Tab", "ISO_Left_Tab" },
+    }),
 
     -- Rofi
     awful.key({ modkey }, "Return", function()

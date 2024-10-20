@@ -21,7 +21,6 @@ M.widget_template = {
         forced_height = 2,
         id = "background_role",
         widget = wibox.container.background,
-        -- opacity = 0.3,
     },
     -- layout = wibox.layout.stack,
     layout = wibox.layout.fixed.vertical,

@@ -5,15 +5,16 @@ local dpi = require("beautiful.xresources").apply_dpi
 
 local M = {}
 
--- | Icons | --
+-- [ Icons ] --
 awesome.set_preferred_icon_size(16)
 M.icon_theme = "Kitty"
 
--- | Path | --
+-- [ Path ] --
 M.default_path = gears.filesystem.get_themes_dir()
 M.path = gears.filesystem.get_configuration_dir() .. "/themes/catppuccin"
+M.icons_path = M.path .. "/icons"
 
--- | Colors | --
+-- [ Colors ] --
 M.flavour = "mocha"
 M.colors = require("themes.catppuccin.flavours." .. M.flavour)
 M.fg_normal = M.colors.text
@@ -26,13 +27,13 @@ M.bg_urgent = M.colors.red
 M.useless_gap = 0
 M.wallpaper = M.path .. "/mountains.png"
 
--- | Font | --
+-- [ Font ] --
 M.font_name = "IosevkaCapy Nerd Font"
 M.font_style = "SemiBold"
 M.font_size = 11
 M.font = M.font_name .. " " .. M.font_style .. " " .. M.font_size
 
--- | Taglist | --
+-- [ Taglist ] --
 M.taglist_spacing = dpi(1)
 -- M.taglist_shape_border_width = dpi(1)
 -- M.taglist_shape_border_color = M.colors.text
@@ -40,39 +41,23 @@ M.taglist_spacing = dpi(1)
 --   gears.shape.rectangle(cr, width, height)
 -- end
 
--- | Border | --
+-- [ Border ] --
 M.border_width = dpi(1)
 M.border_normal = M.colors.base
 M.border_focus = M.colors.overlay0
 M.border_marked = M.colors.red
 
--- | Menu | --
-M.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
+-- [ Menu ] --
+M.awesome_icon = M.path .. "/icons/void-logo-notext.svg"
 M.menu_submenu_icon = M.default_path .. "default/submenu.png"
 M.menu_height = dpi(24)
 M.menu_width = dpi(125)
 M.menu_bg_normal = M.colors.crust
 M.menu_bg_focus = M.colors.base
 
--- | Titlebar | --
-M.titlebar_close_button_normal = M.default_path
-    .. "default/titlebar/close_normal.png"
-M.titlebar_close_button_focus = M.default_path
-    .. "default/titlebar/close_focus.png"
-M.titlebar_minimize_button_normal = M.default_path
-    .. "default/titlebar/minimize_normal.png"
-M.titlebar_minimize_button_focus = M.default_path
-    .. "default/titlebar/minimize_focus.png"
-M.titlebar_maximized_button_normal_inactive = M.default_path
-    .. "default/titlebar/maximized_normal_inactive.png"
-M.titlebar_maximized_button_focus_inactive = M.default_path
-    .. "default/titlebar/maximized_focus_inactive.png"
-M.titlebar_maximized_button_normal_active = M.default_path
-    .. "default/titlebar/maximized_normal_active.png"
-M.titlebar_maximized_button_focus_active = M.default_path
-    .. "default/titlebar/maximized_focus_active.png"
 
--- layout
+-- [ Layout ] --
+
 M.layout_fairh = M.default_path .. "default/layouts/fairhw.png"
 M.layout_fairv = M.default_path .. "default/layouts/fairvw.png"
 M.layout_floating = M.default_path .. "default/layouts/floatingw.png"
@@ -90,58 +75,20 @@ M.layout_cornerne = M.default_path .. "default/layouts/cornernew.png"
 M.layout_cornersw = M.default_path .. "default/layouts/cornersww.png"
 M.layout_cornerse = M.default_path .. "default/layouts/cornersew.png"
 
--- tasklist
-M.tasklist_fg_normal = M.fg_normal
-M.tasklist_fg_focus = M.fg_focus
-M.tasklist_fg_urgent = M.fg_urgent
-M.tasklist_bg_normal = M.bg_normal
+-- [ Tasklist ] --
+
+-- Colors
+M.tasklist_fg_normal = M.colors.text
+M.tasklist_fg_focus = M.colors.mauve
+M.tasklist_fg_urgent = M.colors.red
+M.tasklist_fg_minimize = M.colors.subtext0
+M.tasklist_bg_normal = M.colors.crust
 M.tasklist_bg_focus = M.colors.mauve
-M.tasklist_bg_urgent = M.bg_urgent
--- M.tasklist_fg_minimize = nil
--- M.tasklist_bg_minimize = nil
--- M.tasklist_bg_image_normal = nil
--- M.tasklist_bg_image_focus = nil
--- M.tasklist_bg_image_urgent = nil
--- M.tasklist_bg_image_minimize = nil
--- M.tasklist_disable_icon = nil
--- M.tasklist_disable_task_name = nil
--- M.tasklist_plain_task_name = nil
--- M.tasklist_sticky = nil
--- M.tasklist_ontop = nil
--- M.tasklist_above = nil
--- M.tasklist_below = nil
--- M.tasklist_floating = nil
--- M.tasklist_maximized = nil
--- M.tasklist_maximized_horizontal = nil
--- M.tasklist_maximized_vertical = nil
--- M.tasklist_minimized = nil
--- M.tasklist_align = nil
--- M.tasklist_font = nil
--- M.tasklist_font_focus = nil
--- M.tasklist_font_minimized = nil
--- M.tasklist_font_urgent = nil
--- M.tasklist_spacing = nil
--- M.tasklist_shape = nil
--- M.tasklist_shape_border_width = nil
--- M.tasklist_shape_border_color = nil
--- M.tasklist_shape_focus = nil
--- M.tasklist_shape_border_width_focus = nil
--- M.tasklist_shape_border_color_focus = nil
--- M.tasklist_shape_minimized = nil
--- M.tasklist_shape_border_width_minimized = nil
--- M.tasklist_shape_border_color_minimized = nil
--- M.tasklist_shape_urgent = nil
--- M.tasklist_shape_border_width_urgent = nil
--- M.tasklist_shape_border_color_urgent = nil
--- M.tasklist_icon_size = nil
+M.tasklist_bg_urgent = M.colors.red
+M.tasklist_bg_minimize = M.colors.blue
 
--- | Systray Widget | --
+-- [ Systray Widget ] --
 M.systray_icon_spacing = dpi(8)
-
--- | Titlebar Widget | --
-M.titlebar_bg_focus = M.bg_focus
-M.titlebar_bg_normal = M.bg_normal
-M.titlebar_fg_focus = M.fg_focus
 
 -- Default variables
 -- M.useless_gap = nil
@@ -494,103 +441,6 @@ M.notification_opacity = 0.5
 -- M.taglist_shape_volatile = nil
 -- M.taglist_shape_border_width_volatile = nil
 -- M.taglist_shape_border_color_volatile = nil
-
--- titlebar
--- M.titlebar_fg_normal = nil
--- M.titlebar_bg_normal = nil
--- M.titlebar_bgimage_normal = nil
--- M.titlebar_fg = nil
--- M.titlebar_bg = nil
--- M.titlebar_bgimage = nil
--- M.titlebar_fg_focus = nil
--- M.titlebar_bg_focus = nil
--- M.titlebar_bgimage_focus = nil
--- M.titlebar_fg_urgent = nil
--- M.titlebar_bg_urgent = nil
--- M.titlebar_bgimage_urgent = nil
--- M.titlebar_floating_button_normal = nil
--- M.titlebar_maximized_button_normal = nil
--- M.titlebar_minimize_button_normal = nil
--- M.titlebar_minimize_button_normal_hover = nil
--- M.titlebar_minimize_button_normal_press = nil
--- M.titlebar_close_button_normal = nil
--- M.titlebar_close_button_normal_hover = nil
--- M.titlebar_close_button_normal_press = nil
--- M.titlebar_ontop_button_normal = nil
--- M.titlebar_sticky_button_normal = nil
--- M.titlebar_floating_button_focus = nil
--- M.titlebar_maximized_button_focus = nil
--- M.titlebar_minimize_button_focus = nil
--- M.titlebar_minimize_button_focus_hover = nil
--- M.titlebar_minimize_button_focus_press = nil
--- M.titlebar_close_button_focus = nil
--- M.titlebar_close_button_focus_hover = nil
--- M.titlebar_close_button_focus_press = nil
--- M.titlebar_ontop_button_focus = nil
--- M.titlebar_sticky_button_focus = nil
--- M.titlebar_floating_button_normal_active = nil
--- M.titlebar_floating_button_normal_active_hover = nil
--- M.titlebar_floating_button_normal_active_press = nil
--- M.titlebar_maximized_button_normal_active = nil
--- M.titlebar_maximized_button_normal_active_hover = nil
--- M.titlebar_maximized_button_normal_active_press = nil
--- M.titlebar_ontop_button_normal_active = nil
--- M.titlebar_ontop_button_normal_active_hover = nil
--- M.titlebar_ontop_button_normal_active_press = nil
--- M.titlebar_sticky_button_normal_active = nil
--- M.titlebar_sticky_button_normal_active_hover = nil
--- M.titlebar_sticky_button_normal_active_press = nil
--- M.titlebar_floating_button_focus_active = nil
--- M.titlebar_floating_button_focus_active_hover = nil
--- M.titlebar_floating_button_focus_active_press = nil
--- M.titlebar_maximized_button_focus_active = nil
--- M.titlebar_maximized_button_focus_active_hover = nil
--- M.titlebar_maximized_button_focus_active_press = nil
--- M.titlebar_ontop_button_focus_active = nil
--- M.titlebar_ontop_button_focus_active_hover = nil
--- M.titlebar_ontop_button_focus_active_press = nil
--- M.titlebar_sticky_button_focus_active = nil
--- M.titlebar_sticky_button_focus_active_hover = nil
--- M.titlebar_sticky_button_focus_active_press = nil
--- M.titlebar_floating_button_normal_inactive = nil
--- M.titlebar_floating_button_normal_inactive_hover = nil
--- M.titlebar_floating_button_normal_inactive_press = nil
--- M.titlebar_maximized_button_normal_inactive = nil
--- M.titlebar_maximized_button_normal_inactive_hover = nil
--- M.titlebar_maximized_button_normal_inactive_press = nil
--- M.titlebar_ontop_button_normal_inactive = nil
--- M.titlebar_ontop_button_normal_inactive_hover = nil
--- M.titlebar_ontop_button_normal_inactive_press = nil
--- M.titlebar_sticky_button_normal_inactive = nil
--- M.titlebar_sticky_button_normal_inactive_hover = nil
--- M.titlebar_sticky_button_normal_inactive_press = nil
--- M.titlebar_floating_button_focus_inactive = nil
--- M.titlebar_floating_button_focus_inactive_hover = nil
--- M.titlebar_floating_button_focus_inactive_press = nil
--- M.titlebar_maximized_button_focus_inactive = nil
--- M.titlebar_maximized_button_focus_inactive_hover = nil
--- M.titlebar_maximized_button_focus_inactive_press = nil
--- M.titlebar_ontop_button_focus_inactive = nil
--- M.titlebar_ontop_button_focus_inactive_hover = nil
--- M.titlebar_ontop_button_focus_inactive_press = nil
--- M.titlebar_sticky_button_focus_inactive = nil
--- M.titlebar_sticky_button_focus_inactive_hover = nil
--- M.titlebar_sticky_button_focus_inactive_press = nil
--- M.titlebar_tooltip_messages_close = nil
--- M.titlebar_tooltip_messages_minimize = nil
--- M.titlebar_tooltip_messages_maximized_active = nil
--- M.titlebar_tooltip_messages_maximized_inactive = nil
--- M.titlebar_tooltip_messages_floating_active = nil
--- M.titlebar_tooltip_messages_floating_inactive = nil
--- M.titlebar_tooltip_messages_ontop_active = nil
--- M.titlebar_tooltip_messages_ontop_inactive = nil
--- M.titlebar_tooltip_messages_sticky_active = nil
--- M.titlebar_tooltip_messages_sticky_inactive = nil
--- M.titlebar_tooltip_delay_show = nil
--- M.titlebar_tooltip_margins_leftright = nil
--- M.titlebar_tooltip_margins_topbottom = nil
--- M.titlebar_tooltip_timeout = nil
--- M.titlebar_tooltip_align = nil
 
 -- tooltip
 -- M.tooltip_border_color = nil
