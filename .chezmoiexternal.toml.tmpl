@@ -5,20 +5,26 @@
 # https://www.chezmoi.io/reference/special-files-and-directories/chezmoiexternal-format/
 
 {{ if eq .chezmoi.os "linux" -}}
+
 [".local/share/fonts/IosevkaCapy"]
 type = "archive"
 url = "https://github.com/mrcapivaro/IosevkaCapy/releases/download/0.0.1/IosevkaCapy.tar.gz"
 include=["IosevkaCapy/NF/*.ttf"]
 stripComponents = 2
+
+# ERROR: `chezmoi: zip: unsupported compression algorithm`
 ## [".local/share/fonts/Maple"]
 ## type = "archive"
 ## url = "https://github.com/subframe7536/maple-font/releases/download/v6.4/MapleMono-NF.zip"
+
 {{ end -}}
 
 {{ if eq .chezmoi.os "windows" -}}
+
 ["scoop/shims"]
 type = "archive"
 url = "https://github.com/houmain/keymapper/releases/download/4.8.2/keymapper-4.8.2-win64.zip"
 stripComponents = 1
+
 {{ end -}}
 

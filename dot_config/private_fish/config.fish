@@ -27,7 +27,7 @@ set -gx VISUAL zed
 set -gx PAGER nvimpager
 # export LS_COLORS="$LS_COLORS:tw=00;33:ow=01;33"
 
-# [ 49 ] #
+# [ Aliases ] #
 
 # alias aa=""
 # alias as=""
@@ -48,7 +48,6 @@ end
 # alias dd=""
 # alias da=""
 # alias ds=""
-# alias df="df"
 # alias dj=""
 # alias dk=""
 # alias dk=""
@@ -76,13 +75,11 @@ alias fl="yazi" # fl = FiLe manager
 # alias kl=""
 # alias ll=""
 # alias la=""
-alias ls="ls --color=always -F" # ls = LiSt files
+alias ls="ls --color=always -Fa1" # ls = LiSt files
 # alias ld=""
 # alias lf=""
 # alias lj=""
 # alias lk=""
-
-# [ Aliases ] #
 
 alias ..="cd .."
 alias ....="cd ../.."
