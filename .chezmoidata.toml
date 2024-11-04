@@ -6,7 +6,7 @@ light_flavor = "frappe"
 accent = "mauve"
 
 [font]
-size = 12
+size = 11
 name = "IosevkaCapy Nerd Font"
 path = "~/.local/share/fonts"
 
