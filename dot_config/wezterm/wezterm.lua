@@ -6,6 +6,10 @@ if wezterm.config_builder() then
     config = wezterm.config_builder()
 end
 
+-- Performance
+config.max_fps = 120
+config.animation_fps = 120
+
 -- [ Machine OS Specific ] --
 local is_windows = wezterm.target_triple == "x86_64-pc-windows-msvc"
 
