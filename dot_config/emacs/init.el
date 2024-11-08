@@ -208,7 +208,12 @@
 ;;     - Evil mode keybinds for new zettels/nodes, notes, daily journal, etc;
 ;;     - Embedded Latex and Images;
 ;;     - Private Git Repo integration(Magit?);
-(use-package org)
+(use-package org
+  :custom
+  (org-directory "~/Notes"))
+
+(use-package org-bullets
+  :hook (( org-mode ) . org-bullets-mode))
 
 ;; Package to enable LSP integration in emacs(LSP Mode).
 ;; LSP's and packages for programming languages:
