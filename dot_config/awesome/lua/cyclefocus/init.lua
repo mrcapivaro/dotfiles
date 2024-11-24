@@ -99,9 +99,9 @@ cyclefocus = {
     -- Default builtin filters.
     -- (meant to get applied always, but you could override them)
     cycle_filters = {
-        -- NOTE: I changed  the default filter to just `true`, since
-        -- I desire to cycle minimized windows also. There is an issue
-        -- in github asking for this to be the default behavior.
+        -- I prefer to also cycle through minimized clients.
+        -- function(c, source_c) return not c.minimized end,  --luacheck: no unused args
+
         function(c, source_c) return true end,  --luacheck: no unused args
     },
 
