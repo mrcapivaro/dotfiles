@@ -1,18 +1,20 @@
 # ~/.zshrc
 
-#{{{Vars
+#{{{1 Vars
 export ZCONFDIR="$HOME/.config/zsh"
+
 ## Default Programs
 export EDITOR=nvim
 export VISUAL=zed
 export PAGER=nvimpager
+
 ## Programming Languages
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export LUA_PATH="/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua"
 export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME/.luarocks/lib/lua/5.3/?.so"
-#}}}
+#1}}}
 
-#{{{ Autoconfig
+#{{{1 Autoconfig
 ## compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle :compinstall filename '/home/mrcapivaro/.zshrc'
@@ -27,9 +29,9 @@ HISTSIZE=1000
 SAVEHIST=1000
 setopt autocd
 unsetopt beep extendedglob nomatch
-#}}}
+#1}}}
 
-#{{{Extensions
+#{{{1 Extensions
 ## plugin boilerplate setup function
 # ex: git clone https://github.com/user/name.git
 function use-git-plugin {
@@ -55,18 +57,18 @@ use-git-plugin "zsh-users/zsh-syntax-highlighting"
 use-git-plugin "zsh-users/zsh-autosuggestions"
 use-git-plugin "zsh-users/zsh-history-substring-search"
 use-git-plugin "jeffreytse/zsh-vi-mode"
-#}}}
+#1}}}
 
-#{{{Keybinds
+#{{{1 Keybinds
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "^[[A" up-history
 bindkey "^[[B" down-history
 # bindkey -v
 # bindkey "^G" vi-cmd-mode
-#}}}
+#1}}}
 
-#{{{Aliases
+#{{{1 Aliases
 alias ..="cd .."
 alias ....="cd ../.."
 
@@ -86,9 +88,9 @@ alias fl="yazi"           # terminal FiLe manager
 alias sa="xbps-query -Rs" # Search Apps for package manager
 
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
-#}}}
+#1}}}
 
-#{{{Functions
+#{{{1 Functions
 function cheat {
     curl cheat.sh/$@ | $PAGER
 }
@@ -160,9 +162,9 @@ function rsync {
         --fix-case \
         "$options"
 }
-#}}}
+#1}}}
 
-#{{{Path
+#{{{1 Path
 ##
 function ensure-path {
     local dir=$1
@@ -179,4 +181,4 @@ function ensure-path {
 ensure-path "$HOME/.local/bin" # User
 ensure-path "$HOME/.cargo/bin" # Rust
 ensure-path "$PNPM_HOME"       # Node
-#}}}
+#1}}}
