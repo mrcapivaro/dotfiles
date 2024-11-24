@@ -1,78 +1,104 @@
-# External
+# ~/.zshrc
 
+#{{{Vars
+export ZCONFDIR="$HOME/.config/zsh"
+## Default Programs
+export EDITOR=nvim
+export VISUAL=zed
+export PAGER=nvimpager
+## Programming Languages
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export LUA_PATH="/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua"
+export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME/.luarocks/lib/lua/5.3/?.so"
+#}}}
+
+#{{{ Autoconfig
+## compinstall
+zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+zstyle :compinstall filename '/home/mrcapivaro/.zshrc'
+autoload -Uz compinit; compinit
+## case insensitive path-completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' menu select
+
+## zsh-newuser-install
+HISTFILE=$ZCONFDIR/histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt autocd
+unsetopt beep extendedglob nomatch
+#}}}
+
+#{{{Extensions
+## plugin boilerplate setup function
+# ex: git clone https://github.com/user/name.git
+function use-git-plugin {
+    local gitrepo="$1"
+    local name=${gitrepo#*/}
+    if [ ! -d "$ZCONFDIR/$name" ]; then
+        git clone "https://github.com/$gitrepo.git" "$ZCONFDIR/$name"
+    fi
+    local file="$ZCONFDIR/$name/$name.plugin.zsh"
+    if [ -e "$file" ]; then
+        source "$file"
+    fi
+}
+
+## embedded tools
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+## plugins
+use-git-plugin "Aloxaf/fzf-tab" # must come after compinit and before other plugins
+use-git-plugin "zsh-users/zsh-syntax-highlighting"
+use-git-plugin "zsh-users/zsh-autosuggestions"
+use-git-plugin "zsh-users/zsh-history-substring-search"
+use-git-plugin "jeffreytse/zsh-vi-mode"
+#}}}
 
-#
+#{{{Keybinds
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[A" up-history
+bindkey "^[[B" down-history
+# bindkey -v
+# bindkey "^G" vi-cmd-mode
+#}}}
 
+#{{{Aliases
 alias ..="cd .."
 alias ....="cd ../.."
 
 alias vi="nvim"
 alias vim="nvim"
 
+alias claer="clear"
 alias clera="clear"
 alias clare="clear"
-alias claer="clear"
+alias cleer="clear"
+alias claar="clear"
 alias cler="clear"
 alias clar="clear"
 
-alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
-
 alias ls="ls --color=always -F1"
-alias fl="yazi" # terminal FiLe manager
-alias sa="xbps-query -Rs" # search apps for package manager
+alias fl="yazi"           # terminal FiLe manager
+alias sa="xbps-query -Rs" # Search Apps for package manager
 
-#
+alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
+#}}}
 
-export EDITOR=nvim
-export VISUAL=zed
-export PAGER=nvimpager
-
-
-# [ Path ] #
-
-# add .local/bin to path
-export LOCAL_BIN="/home/mrcapivaro/.local/bin"
-case ":$PATH:" in
-*":$LOCAL_BIN:"*) ;;
-*) export PATH="$LOCAL_BIN:$PATH" ;;
-esac
-
-# add rust to path
-if [ -d "$HOME/.cargo" ]; then
-    . "$HOME/.cargo/env"
-fi
-# end
-
-# add pnpm to path
-export PNPM_HOME="/home/mrcapivaro/.local/share/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# end
-
-# add lua to path
-export LUA_PATH="/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua"
-export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME/.luarocks/lib/lua/5.3/?.so"
-
-# [ Functions ] #
-
-cheat() {
-    curl cheat.sh/$@ | less
+#{{{Functions
+function cheat {
+    curl cheat.sh/$@ | $PAGER
 }
 
-gitall() {
+function gitall {
     local message="${*:-update}"
     git add . && git commit -m "$message" && git push
 }
 
-extract() {
+function extract {
     if [ -f $1 ]; then
         case $1 in
         *.tar.bz2) tar xjf $1 ;;
@@ -92,11 +118,11 @@ extract() {
     fi
 }
 
-help() {
+function help {
     "$@" --help | $PAGER
 }
 
-rsync() {
+function rsync {
     local options=""
     while [[ "$1" != "" ]]; do
         case "$1" in
@@ -134,20 +160,23 @@ rsync() {
         --fix-case \
         "$options"
 }
+#}}}
 
-# The following lines were added by compinstall
-zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
-zstyle :compinstall filename '/home/mrcapivaro/.zshrc'
+#{{{Path
+##
+function ensure-path {
+    local dir=$1
+    case ":$PATH:" in
+        *:"$dir":*)
+            ;;
+        *)
+            export PATH="$dir:$PATH"
+            ;;
+    esac
+}
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.config/zsh/histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt autocd
-unsetopt beep extendedglob nomatch
-bindkey -v
-# End of lines configured by zsh-newuser-install
+##
+ensure-path "$HOME/.local/bin" # User
+ensure-path "$HOME/.cargo/bin" # Rust
+ensure-path "$PNPM_HOME"       # Node
+#}}}
