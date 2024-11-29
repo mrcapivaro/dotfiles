@@ -1,13 +1,12 @@
 {
-  "diagnostics.globals": [
-    "awesome",
-    "client",
-    "root",
-    "screen",
-    "tag",
-    "mouse"
-  ],
-  "workspace.library": [
-    "/usr/share/awesome/lib",
-  ]
+    "diagnostics.globals": [
+        "awesome",
+        "client",
+        "root",
+        "screen",
+        "tag",
+        "mouse"
+    ],
+
+    "workspace.library": ["/usr/share/awesome/lib"]
 }

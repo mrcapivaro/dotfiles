@@ -9,9 +9,9 @@ local naughty = require("naughty")
 local beautiful = require("beautiful")
 
 -- Require external libraries.
-local cyclefocus = require("lua.cyclefocus") -- alt + tab
-local poppin = require("lua.poppin") -- scratch pad clients
-local helpers = require("lua.helpers") -- facilitate config
+local util = require("modules.util")
+local poppin = require("modules.poppin")
+local cyclefocus = require("modules.cyclefocus")
 
 --{{{1 Error Handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -49,9 +49,8 @@ local modkey = "Mod4"
 --{{{2 Global Key Binds
 
 local keybinds = gears.table.join(
-    -- Toggle colorscheme
     awful.key({ modkey }, "t", function()
-        helpers.toggle_colorscheme()
+        util.toggle_colorscheme()
         awesome.restart()
     end, {
         description = "Toggle theme's colorscheme",
@@ -72,35 +71,45 @@ local keybinds = gears.table.join(
         awful.spawn(table.concat(command, " "))
     end, { description = "Print Screen", group = "other" }),
 
-    --{{{3 Tags
+    awful.key({ modkey }, ",", function()
+        local command = {
+            "xdotool"
+        }
+        awful.spawn(table.concat(command, " "))
+    end, { description = "Print Screen", group = "other" }),
 
+    --{{{3 Tags
     awful.key(
-        { modkey },
-        "Left",
+        { modkey, "Shift" },
+        "Tab",
         awful.tag.viewprev,
         { description = "view previous", group = "tag" }
     ),
     awful.key(
         { modkey },
-        "Right",
+        "Tab",
         awful.tag.viewnext,
         { description = "view next", group = "tag" }
     ),
-    awful.key(
-        { modkey },
-        "Tab",
-        awful.tag.history.restore,
-        { description = "go back", group = "tag" }
-    ),
-    awful.key({ modkey }, "space", function()
+    awful.key({ modkey }, ".", function()
         awful.layout.inc(1)
     end, { description = "select next layout", group = "layout" }),
-
-    --}}}
+    --3}}}
 
     --{{{3 Clients
+    awful.key({ modkey, "Control" }, "z", function()
+        local c = awful.client.restore()
+        -- Focus restored client
+        if c then
+            c:emit_signal(
+                "request::activate",
+                "key.unminimize",
+                { raise = true }
+            )
+        end
+    end, { description = "restore minimized", group = "client" }),
 
-    -- Relative Client Focus keybindsovement
+    -- Relative client focus movement
     awful.key({ modkey }, "j", function()
         awful.client.focus.bydirection("down")
     end, {
@@ -122,6 +131,7 @@ local keybinds = gears.table.join(
         description = "focus client by direction: right",
         group = "client",
     }),
+
     --Relative Client Swap
     awful.key({ modkey, "Control" }, "j", function()
         awful.client.swap.bydirection("down")
@@ -138,17 +148,6 @@ local keybinds = gears.table.join(
         description = "swap client by direction: right",
         group = "client",
     }),
-    awful.key({ modkey, "Control" }, "z", function()
-        local c = awful.client.restore()
-        -- Focus restored client
-        if c then
-            c:emit_signal(
-                "request::activate",
-                "key.unminimize",
-                { raise = true }
-            )
-        end
-    end, { description = "restore minimized", group = "client" }),
 
     --3}}}
 
@@ -168,7 +167,7 @@ local keybinds = gears.table.join(
     --{{{3 Poppin Scratchpads
 
     awful.key({ modkey }, "a", function()
-        poppin.pop("terminal", "wezterm", "center", 700)
+        poppin.pop("terminal", "wezterm", "center", 750)
     end, { description = "scratchpad: terminal", group = "scratchpad" }),
 
     awful.key({ modkey }, "s", function()
@@ -176,7 +175,7 @@ local keybinds = gears.table.join(
             "music",
             "flatpak run com.spotify.Client",
             "center",
-            700,
+            750,
             function(c)
                 c.poppin = true
             end
@@ -184,12 +183,7 @@ local keybinds = gears.table.join(
     end, { description = "scratchpad: music app", group = "scratchpad" }),
 
     awful.key({ modkey }, "d", function()
-        poppin.pop(
-            "browser",
-            "firefox --private-window duckduckgo.com",
-            "center",
-            700
-        )
+        poppin.pop("browser", "qutebrowser", "center", 750)
     end, { description = "scratchpad: browser", group = "scratchpad" }),
 
     --3}}}
@@ -205,8 +199,16 @@ local keybinds = gears.table.join(
         awful.spawn(table.concat(command, " "))
     end, { description = "rofi dmenu", group = "launcher" }),
 
-    awful.key({ modkey, "Control" }, "Return", function()
-        awful.spawn("rofi -modes calc -show calc")
+    awful.key({ modkey }, "x", function()
+        awful.spawn(table.concat({
+            "rofi",
+            "-modi calc",
+            "-show calc",
+            "-no-history",
+            "-no-show-match",
+            "-no-sort",
+            "-calc-command \"echo -n '{result}' | xclip -selection clipboard\"",
+        }, " "))
     end, { description = "rofi calc", group = "launcher" })
 
     --3}}}
@@ -291,9 +293,10 @@ local client_keys = gears.table.join(
 root.keys(keybinds)
 --1}}}
 
---{{{1 Theming Module Bootstrap
+--{{{1 Theming
 awesome.set_preferred_icon_size(16)
 
+-- Theming module bootstrap
 local config_dir = gears.filesystem.get_configuration_dir
 beautiful.init({
     path = config_dir(),
@@ -301,8 +304,11 @@ beautiful.init({
     default_path = gears.filesystem.get_themes_dir(),
 })
 
---{{{2 Catppuccin Colorschemes
-beautiful.colorschemes = {
+--{{{2 Colorschemes
+
+beautiful.colorschemes = {}
+
+beautiful.colorschemes.catppuccin = {
     mocha = {
         rosewater = "#f5e0dc",
         flamingo = "#f2cdcd",
@@ -419,45 +425,196 @@ beautiful.colorschemes = {
         crust = "#232634",
     },
 }
+
+beautiful.colorschemes.gruvbox = {
+    dark = {
+        bg0 = "#282828",
+        bg1 = "#3c3836",
+        bg2 = "#504945",
+        bg3 = "#665c54",
+        bg4 = "#7c6f64",
+        fg0 = "#fbf1c7",
+        fg1 = "#ebdbb2",
+        fg2 = "#d5c4a1",
+        fg3 = "#bdae93",
+        fg4 = "#a89984",
+        red = "#fb4934",
+        green = "#b8bb26",
+        yellow = "#fabd2f",
+        blue = "#83a598",
+        purple = "#d3869b",
+        aqua = "#8ec07c",
+        orange = "#fe8019",
+        neutral_red = "#cc241d",
+        neutral_green = "#98971a",
+        neutral_yellow = "#d79921",
+        neutral_blue = "#458588",
+        neutral_purple = "#b16286",
+        neutral_aqua = "#689d6a",
+        dark_red = "#722529",
+        dark_green = "#62693e",
+        dark_aqua = "#49503b",
+        gray = "#928374",
+    },
+
+    light = {
+        bg0 = "#fbf1c7",
+        bg1 = "#ebdbb2",
+        bg2 = "#d5c4a1",
+        bg3 = "#bdae93",
+        bg4 = "#a89984",
+        fg0 = "#282828",
+        fg1 = "#3c3836",
+        fg2 = "#504945",
+        fg3 = "#665c54",
+        fg4 = "#7c6f64",
+        red = "#9d0006",
+        green = "#79740e",
+        yellow = "#b57614",
+        blue = "#076678",
+        purple = "#8f3f71",
+        aqua = "#427b58",
+        orange = "#af3a03",
+        neutral_red = "#cc241d",
+        neutral_green = "#98971a",
+        neutral_yellow = "#d79921",
+        neutral_blue = "#458588",
+        neutral_purple = "#b16286",
+        neutral_aqua = "#689d6a",
+        dark_red = "#fc9487",
+        dark_green = "#d5d39b",
+        dark_aqua = "#e8e5b5",
+        gray = "#928374",
+    },
+}
+
 --2}}}
 
 -- Set the current colorscheme
-beautiful.colorscheme_light = "frappe"
-beautiful.colorscheme_dark = "mocha"
-beautiful.colorscheme = beautiful.colorscheme_dark
-local colors = beautiful.colorschemes.mocha
+local colors = beautiful.colorschemes.gruvbox.dark
 
-helpers.populate_beautiful("", {
+util.populate_beautiful("", {
     icon_theme = "Papirus",
-    gap_single_client = true,
+    gap_single_client = false,
     useless_gap = 0,
     fullscreen_hide_border = true,
 
     font = {
-        name = "Inter Display",
+        name = "Noto Sans",
         weight = "SemiBold",
         size = "9",
     },
 
-    border = {
-        width = 1,
-        normal = colors.base,
-        focus = colors.overlay0,
-        marked = colors.red,
-    },
-
     bg = {
-        normal = colors.crust,
-        focus = colors.base,
+        normal = colors.bg0,
+        focus = colors.bg1,
         urgent = colors.red,
     },
 
     fg = {
-        normal = colors.text,
-        focus = colors.mauve,
+        normal = colors.fg0,
+        focus = colors.yellow,
         urgent = colors.red,
     },
+
+    ---Clients
+    border = {
+        -- normal = colors.bg1,
+        -- focus = colors.bg2,
+        -- marked = colors.red,
+
+        color = {
+            normal = colors.bg0,
+            active = colors.bg4,
+            marked = colors.orange,
+            urgent = colors.red,
+            new = colors.bg0,
+
+            floating = {
+                itself = nil,
+                active = nil,
+                normal = nil,
+                urgent = nil,
+                new = nil,
+            },
+
+            maximized = {
+                itself = nil,
+                active = nil,
+                normal = nil,
+                urgent = nil,
+                new = nil,
+            },
+
+            fullscreen = {
+                itself = nil,
+                active = nil,
+                normal = nil,
+                urgent = nil,
+                new = nil,
+            },
+        },
+
+        width = {
+            itself = 1,
+            normal = nil,
+            active = nil,
+            urgent = nil,
+            new = nil,
+            floating = {
+                itself = nil,
+                normal = nil,
+                active = nil,
+                urgent = nil,
+                new = nil,
+            },
+            maximized = {
+                itself = nil,
+                normal = nil,
+                active = nil,
+                urgent = nil,
+                new = nil,
+            },
+            fullscreen = {
+                itself = nil,
+                normal = nil,
+                active = nil,
+                urgent = nil,
+                new = nil,
+            },
+        },
+    },
+
+    opacity = {
+        itself = nil,
+        normal = nil,
+        active = nil,
+        urgent = nil,
+        new = nil,
+        floating = {
+            itself = nil,
+            normal = nil,
+            active = nil,
+            urgent = nil,
+            new = nil,
+        },
+        maximized = {
+            itself = nil,
+            normal = nil,
+            active = nil,
+            urgent = nil,
+            new = nil,
+        },
+        fullscreen = {
+            itself = nil,
+            normal = nil,
+            active = nil,
+            urgent = nil,
+            new = nil,
+        },
+    },
 })
+
 --1}}}
 
 --{{{1 Widgets
@@ -465,12 +622,12 @@ helpers.populate_beautiful("", {
 ---Not unique to each screen.
 
 --{{{2 Launcher
-helpers.populate_beautiful("menu", {
+util.populate_beautiful("menu", {
     height = 32,
     width = 120,
     bg = {
-        normal = colors.crust,
-        focus = colors.base,
+        normal = colors.bg0,
+        focus = colors.bg1,
     },
     submenu_icon = "/usr/share/awesome/icons/awesome32.png",
 })
@@ -511,7 +668,7 @@ local keyboardbox = awful.widget.keyboardlayout()
 --2}}}
 
 --{{{2 Systray
-helpers.populate_beautiful("systray", {
+util.populate_beautiful("systray", {
     icon_spacing = 10,
     max_rows = 1,
 })
@@ -535,7 +692,7 @@ local time = wibox.widget.textclock("%H:%M")
 
 --{{{2 Notifications
 
-helpers.populate_beautiful("notifications", {
+util.populate_beautiful("notifications", {
     bg = {
         normal = beautiful.bg_normal,
     },
@@ -544,7 +701,7 @@ helpers.populate_beautiful("notifications", {
     },
     border = {
         width = 1,
-        color = colors.text,
+        color = colors.fg0,
     },
 })
 
@@ -566,16 +723,16 @@ local tasklist_buttons = gears.table.join(
     end)
 )
 
-helpers.populate_beautiful("tasklist", {
+util.populate_beautiful("tasklist", {
     fg = {
-        normal = colors.text,
-        focus = colors.mauve,
+        normal = colors.fg0,
+        focus = colors.yellow,
         urgent = colors.red,
         minimize = colors.subtext0,
     },
     bg = {
-        normal = colors.crust,
-        focus = colors.mauve,
+        normal = colors.bg0,
+        focus = colors.yellow,
         urgent = colors.red,
         minimize = colors.blue,
     },
@@ -639,7 +796,7 @@ local taglist_buttons = gears.table.join(
     end)
 )
 
-helpers.populate_beautiful("taglist", {
+util.populate_beautiful("taglist", {
     font = {
         family = "Inter",
         weight = "Bold",
@@ -648,18 +805,18 @@ helpers.populate_beautiful("taglist", {
     spacing = 4,
     disable_icon = nil,
     fg = {
-        focus = colors.mauve,
+        focus = colors.orange,
         urgent = colors.red,
-        occupied = colors.text,
-        empty = colors.text,
-        volatile = colors.blue,
+        occupied = colors.fg0,
+        empty = colors.fg0,
+        volatile = colors.fg0,
     },
     bg = {
-        focus = colors.crust,
-        urgent = colors.crust,
-        occupied = colors.crust,
-        empty = colors.crust,
-        volatile = colors.crust,
+        focus = colors.bg0,
+        urgent = colors.bg0,
+        occupied = colors.bg0,
+        empty = colors.bg0,
+        volatile = colors.bg0,
     },
     squares = {
         sel = nil,
@@ -713,7 +870,7 @@ end)
 
 --{{{2 Layout Box
 local layout_icons_path = beautiful.default_path .. "default/layouts/"
-helpers.populate_beautiful("layout", {
+util.populate_beautiful("layout", {
     fairh = layout_icons_path .. "fairhw.png",
     fairv = layout_icons_path .. "fairvw.png",
     floating = layout_icons_path .. "floatingw.png",
@@ -754,7 +911,7 @@ end)
 --2}}}
 
 --{{{2 Wibar
-helpers.populate_beautiful("wibar", {
+util.populate_beautiful("wibar", {
     height = 24,
 })
 
@@ -801,13 +958,13 @@ end)
 --{{{2 Client Titlebar
 client.connect_signal("request::titlebars", function(c)
     local title_icons = beautiful.icons_path .. "titlebar/"
-    helpers.populate_beautiful("titlebar", {
+    util.populate_beautiful("titlebar", {
         fg = {
-            itself = colors.text,
+            itself = colors.fg0,
             urgent = colors.red,
         },
         bg = {
-            itself = colors.crust,
+            itself = colors.bg0,
         },
         close_button = {
             focus = title_icons .. "close.svg",
@@ -1027,10 +1184,11 @@ end)
 
 ---Focus dependant colored client borders.
 client.connect_signal("unfocus", function(c)
-    c.border_color = beautiful.border_normal
+    c.border_color = beautiful.border_color_normal
 end)
+
 client.connect_signal("focus", function(c)
-    c.border_color = beautiful.border_focus
+    c.border_color = beautiful.border_color_active
 end)
 --}}}
 
@@ -1045,23 +1203,6 @@ gears.timer({
     end,
 })
 
--- Run user autostart .desktop entries
-helpers.safe_table_run({
-    "dex",
-    "--autostart",
-    '--search-paths "$HOME/.config/autostart"',
-})
-
--- Set wallpaper
-helpers.safe_table_run({
-    "feh",
-    '--bg-center "$HOME/.dotfiles/.other/mountains.png"',
-})
-
--- Set screen resolution to 1920x1080
-helpers.table_shell({
-    "xrandr",
-    "--output HDMI-0",
-    '--mode "1920x1080"',
-})
+-- Autostart xdg .desktop entries in ~/.config/autostart.
+awful.spawn.with_shell("~/.config/awesome/autostart.sh")
 --1}}}
