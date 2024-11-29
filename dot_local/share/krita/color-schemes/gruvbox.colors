@@ -89,8 +89,8 @@ ForegroundPositive=0,110,40
 ForegroundVisited=100,74,155
 
 [General]
-ColorScheme=Current Theme
-Name=Current Theme
+ColorScheme=Gruvbox Dark
+Name=Gruvbox Dark
 
 [KDE]
 contrast=7
