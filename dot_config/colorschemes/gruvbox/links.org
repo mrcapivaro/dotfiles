@@ -1,0 +1,4 @@
+#+TITLE: Gruvbox Links
+
+[[https://github.com/nanoqoi/vencord-theme][Vencord Theme by nanoqoi]]
+[[https://github.com/Costeer/Gruvbox-Material-Themes][Gruvbox Material themes by Costeer]]
