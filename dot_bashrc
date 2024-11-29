@@ -63,6 +63,13 @@ ensure-in-path "$LOCAL_BIN"
 ensure-in-path "$HOME/.cargo/bin"
 ensure-in-path "$PNPM_HOME"
 
+## WSL Machine
+# remainder: sometimes, it is necessary to update and install WSL2 and WSLG
+if grep -qi microsoft /proc/version; then
+    export DISPLAY=:0
+    export BROWSER="wslview"
+fi
+
 #1}}}
 
 #{{{1 Functions
