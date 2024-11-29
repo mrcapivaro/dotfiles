@@ -11,24 +11,24 @@ else
     -- config.default_prog = { "fish" }
 end
 
--- 120 guarantees a smoother experience even on 60hz monitors.
 config.max_fps = 120
+config.term = "xterm-kitty"
+config.enable_kitty_graphics = true
 
 --{{{1 Appearance
 
---{{{2Fonts
-config.font = wezterm.font("IosevkaCapy Nerd Font", { weight = "Medium" })
+-- Font
+-- config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
+-- config.font_size = 10
+config.font = wezterm.font("IosevkaCapy Nerd Font", { weight = "Regular" })
 config.font_size = 11
---2}}}
 
---{{{2 Theme
-local dark_theme = "Catppuccin Mocha"
-local light_theme = "Catppuccin Latte"
-local current_theme = "Catppuccin Mocha"
+-- Theme
+local dark_theme = "GruvboxDark"
+local light_theme = "GruvboxLight"
+local current_theme = dark_theme
 config.color_scheme = current_theme
---2}}}
 
---{{{2 Tabs and Window
 -- Window
 config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 1.00
@@ -44,18 +44,18 @@ if is_windows then
 else
     config.window_decorations = "RESIZE"
 end
+
 -- Tabs
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = false
 config.hide_tab_bar_if_only_one_tab = true
---2}}}
 
 --1}}}
 
 --{{{1 Keybinds
 config.disable_default_key_bindings = true
 
-config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 500 }
+config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
 
 config.keys = {
     -- Copy & Paste
@@ -88,14 +88,16 @@ config.keys = {
     },
     {
         key = "q",
-        mods = "LEADER",
+        mods = "LEADER|SHIFT",
         action = wezterm.action.CloseCurrentTab({ confirm = false }),
     },
     --2}}}
 
     --{{{2 Panes
+    -- Pane size adjustment is done in the 'Vim Integration' part.
+
     {
-        key = "d",
+        key = "q",
         mods = "LEADER",
         action = wezterm.action.CloseCurrentPane({ confirm = false }),
     },
@@ -111,13 +113,20 @@ config.keys = {
         mods = "LEADER",
         action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
     },
+
     --2}}}
 
     --{{{2 Other
+
     {
-        key = "o",
-        mods = "CTRL",
-        action = wezterm.action.SendString("clear\r"),
+        key = "+",
+        mods = "SHIFT|CTRL",
+        action = wezterm.action.IncreaseFontSize,
+    },
+    {
+        key = "_",
+        mods = "SHIFT|CTRL",
+        action = wezterm.action.DecreaseFontSize,
     },
     {
         key = ",",
@@ -135,26 +144,13 @@ config.keys = {
         mods = "LEADER",
         action = wezterm.action.ActivateCommandPalette,
     },
-    {
-        key = "\\",
-        mods = "LEADER",
-        action = wezterm.action.SpawnCommandInNewTab({
-            cwd = wezterm.config_dir,
-            args = {
-                "sed",
-                "-i",
-                's/\\(^local current_theme = \\).*/\\1"'
-                    .. (current_theme == dark_theme and light_theme or dark_theme)
-                    .. '"/',
-                "wezterm.lua",
-            },
-        }),
-    },
+
     --2}}}
 }
 --1}}}
 
 --{{{1 Vim Integration
+
 local is_vim = function(pane)
     return pane:get_user_vars().IS_NVIM == "true"
 end
@@ -181,13 +177,15 @@ local split_nav = function(resize_or_move, key)
                 }, pane)
             else
                 if resize_or_move == "resize" then
-                    win:perform_action(
-                        { AdjustPaneSize = { direction_keys[key], 3 } },
+                    win:perform_action({
+                            AdjustPaneSize = { direction_keys[key], 5 },
+                    },
                         pane
                     )
                 else
-                    win:perform_action(
-                        { ActivatePaneDirection = direction_keys[key] },
+                    win:perform_action({
+                            ActivatePaneDirection = direction_keys[key],
+                    },
                         pane
                     )
                 end
@@ -204,6 +202,7 @@ table.insert(config.keys, split_nav("resize", "h"))
 table.insert(config.keys, split_nav("resize", "j"))
 table.insert(config.keys, split_nav("resize", "k"))
 table.insert(config.keys, split_nav("resize", "l"))
+
 --1}}}
 
 return config
