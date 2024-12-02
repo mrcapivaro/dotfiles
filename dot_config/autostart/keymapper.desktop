@@ -1,9 +1,8 @@
 [Desktop Entry]
-Type=Application
+Name=keymapper
+Comment=Start keymapper
+# Icon=keymapper
 Exec=keymapper
-Hidden=false
-X-MATE-Autostart-enabled=true
-Name[en_US]=Keymapper
-Name=Keymapper
-Comment[en_US]=
-Comment=
+Terminal=false
+Type=Application
+NoDisplay=true

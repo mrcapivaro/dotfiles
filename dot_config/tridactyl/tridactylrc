@@ -1,6 +1,5 @@
-"
 " ~/.config/tridactyl/tridactylrc
-"
+
 " SETUP
 "   :nativeinstall  # install tridactyl's native messanger
 "   :source         # source this config
@@ -13,16 +12,8 @@ set newtab about:blank
 
 " Use the browser's native 'find' functionality with `Ctrl+f`
 unbind <C-f>
-
 " Given that `Ctrl+f` is unbind, there is no reason for `Ctrl+b`
 unbind <C-b>
-
-" Change `hint` main keybind from `f` to `;`
-unbind f
-unbind F
-unbind gF
-bind ; hint
-bind <C-;> hint -t
 
 " The default jump of 10 is a bit much.
 bind j scrollline 5
@@ -32,16 +23,17 @@ bind k scrollline -5
 bind J tabnext
 bind K tabprev
 
-" Better ignore
-bind I mode ignore
+" easier enter ignore mode
+bind i mode ignore
+
+" use C-g as esc
+bind <C-g> mode normal
+bind --mode=ignore <C-g> mode normal
+bind --mode=hint <C-g> mode normal
 
 " Automatically enter ignore mode
 autocmd DocStart mail.google.com mode ignore
 autocmd DocStart duckduckgo.com mode ignore
-
-" Youtube
-autocmd DocLoad ^https://www.youtube.com/watch\? mode ignore
-unbindurl youtube.com ;
-bindurl youtube.com ; hint -c [class*="video-stream"]
+autocmd DocLoad https://www.youtube.com/watch* mode ignore
 
 " vim: filetype=vim

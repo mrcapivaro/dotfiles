@@ -348,3 +348,4 @@ application/xml=firefox.desktop;
 application/xml-external-parsed-entity=io.github.zen_browser.zen.desktop;firefox.desktop;
 application/xslt+xml=io.github.zen_browser.zen.desktop;firefox.desktop;
 model/gltf+json=io.github.zen_browser.zen.desktop;firefox.desktop;
+application/postscript=dev.zed.Zed.desktop;

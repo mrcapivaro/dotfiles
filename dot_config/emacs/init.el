@@ -10,8 +10,11 @@
 (setq require-final-newline t)
 
 ;; Enable recent files
-;; (recentf-mode 1)
-;; (setq recentf-max-saved-items 25)
+(recentf-mode 1)
+(setq recentf-max-saved-items 25)
+
+;; Enable minibuffer history
+(savehist-mode 1)
 
 ;; Enable auto-save and backup file handling
 (setq make-backup-files nil)   ;; Disable backup files (e.g., ~)
@@ -74,6 +77,9 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)
 
+;; Show whitespaces
+(require 'whitespace)
+
 ;;;+ Package Manager Setup
 
 ;; Disable 'package.el'
@@ -107,12 +113,44 @@
 
 ;;;+ Packages
 
-;; VIM Emulation
+;;;+ VIM Emulation
 ;; TODO: vim-sneak -> avy/ace-jump <;>
 ;;       C-x and C-c -> <leader>??
 ;;       <leader> = <space> and <localleader> = <,>
 ;;       general.el for keybinds?
-(use-package general)
+
+;; Functions to use in bindings
+(defun switch-to-scratch ()
+  "Switch to the scratch buffer."
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+
+;; (defun switch-to-scratch ()
+;;   "Switch to the scratch buffer."
+;;   (interactive)
+;;   (switch-to-buffer "*scratch*"))
+
+;; Helper package for binding keys
+(use-package general
+  :config
+  (general-evil-setup t)
+  (general-define-key
+   :states 'normal
+   "s" 'avy-goto-char-2)
+  (general-define-key
+   :states 'normal
+   :keymaps 'override
+   :prefix "SPC"
+   "ff" 'dired
+   "fb" 'consult-buffer
+   "bd" 'evil-delete-buffer
+   "bs" #'switch-to-scratch)
+  (general-create-definer mrc/leader-key-def
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+  (general-create-definer mrc/local-leader-deF
+    :prefix ","))
 
 (use-package evil
   :init
@@ -132,6 +170,13 @@
   :config
   (evil-collection-init))
 
+;; vim-leap emacs equivalent
+;; evil-snipe: almost like vim-leap
+(use-package avy
+  :after evil
+  :config
+  (global-set-key (kbd "C-c C-s") 'avy-goto-char-2))
+
 ;; Statusline for emacs that integrates nicely with (Neo)Vim emulation, like
 ;; evil mode(doom-modeline).
 ;; It would be nice to be able to change the cwd in emacs with some sort of
@@ -139,54 +184,60 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
 
-;; Theme
+;;;+ Theme
 (use-package catppuccin-theme)
 (load-theme 'catppuccin :no-confirm)
 
-;; Which Key
+;;;+ Which Key
 (use-package which-key
   :init (which-key-mode)
   :diminish
   :config
   (setq which-key-idle-delay 0.3))
 
-;; Mini Buffer Completion(Ivy), it's integration with emacs builtin
-;; functionality(Counsel) and a Replacement for the builtin emacs package
-;; called I-Search(Swiper).
-(use-package ivy
-  :diminish
-  :bind (("C-s" . save-buffer)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x C-b" . counsel-buffer-or-recentf)
-         :map ivy-minibuffer-map
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         ("<tab>" . ivy-next-line)
-         ("S-<iso-lefttab>" . ivy-previous-line)
-         ("RET" . ivy-alt-done)
-         :map ivy-switch-buffer-map
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         ("<tab>" . ivy-next-line)
-         ("S-<iso-lefttab>" . ivy-previous-line)
-         ("RET" . ivy-alt-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("S-<iso-lefttab>" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
+;;;+ Mini Buffer
+;; source: https://protesilaos.com/codelog/2024-02-17-emacs-modern-minibuffer-packages/
+(use-package vertico
+    :config
+    (setq vertico-cycle t)
+    (setq vertico-resize nil)
+    (vertico-mode 1))
 
-(use-package counsel)
-(use-package swiper)
+(use-package consult)
 
-;; Buffer Autocompletion
-(use-package company
-  :hook (after-init . global-company-mode)
-  :config
-  (setq company-idle-delay 0.3)
-  (setq company-minimum-prefix-length 2))
+(use-package marginalia
+    :config
+    (marginalia-mode 1))
+
+;;;+ Buffer Autocompletion
+
+;; Enable Corfu completion UI
+;; See the Corfu README for more configuration tips.
+(use-package corfu
+  :init
+  (global-corfu-mode))
+
+;; Add extensions
+(use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
+  :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  ;; (add-hook 'completion-at-point-functions #'cape-history)
+  ;; ...
+)
 
 ;; Tab/Bufferline and change buffers with Tab and S-Tab.
 ;; Show only the name of the current file in the buffers tab and it's
@@ -238,7 +289,41 @@
 ;;     - Rust;
 ;;     - Haskell;
 ;;     - Nix;
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         ;; (XXX-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
 
-;; GIT Integration
+(use-package lsp-ui :commands lsp-ui-mode)
+
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; The path to lsp-mode needs to be added to load-path as well as the
+;; path to the `clients' subdirectory.
+(add-to-list 'load-path "~/.local/share/emacs/straight/repos/lsp-mode")
+(add-to-list 'load-path "~/.local/share/emacs/straight/repos/lsp-mode/clients")
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+;;;+ GIT Integration
 (use-package magit
   :bind (("C-x g" . magit-status)))
+
+;;;+ Scratch Buffer
+;; Start with org mode
+(setq initial-major-mode 'org-mode)
+(setq initial-scratch-message "#+Title: Scratch Buffer\n\n")
+
+;;;+ Better Dired
+(use-package dirvish
+  :config
+  (dirvish-override-dired-mode))

@@ -12,14 +12,12 @@ else
 end
 
 config.max_fps = 120
-config.term = "xterm-kitty"
+config.term = "wezterm"
 config.enable_kitty_graphics = true
 
 --{{{1 Appearance
 
 -- Font
--- config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
--- config.font_size = 10
 config.font = wezterm.font("IosevkaCapy Nerd Font", { weight = "Regular" })
 config.font_size = 11
 
@@ -33,10 +31,10 @@ config.color_scheme = current_theme
 config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 1.00
 config.window_padding = {
-    left = 3,
-    right = 3,
-    top = 3,
-    bottom = 3,
+    left = 1,
+    right = 1,
+    top = 1,
+    bottom = 1,
 }
 if is_windows then
     config.integrated_title_button_style = "Windows"
@@ -143,6 +141,18 @@ config.keys = {
         key = "p",
         mods = "LEADER",
         action = wezterm.action.ActivateCommandPalette,
+    },
+
+    {
+        key = "PageUp",
+        mods = "",
+        action = wezterm.action.ScrollByPage(-0.5),
+    },
+
+    {
+        key = "PageDown",
+        mods = "",
+        action = wezterm.action.ScrollByPage(0.5),
     },
 
     --2}}}

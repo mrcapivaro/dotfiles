@@ -1,40 +1,5 @@
 # ~/.bashrc
 
-# Return if not interactive.
-[[ $- != *i* ]] && return
-
-#{{{1 Extensions
-
-eval "$(starship init bash)"
-eval "$(zoxide init bash)"
-eval "$(direnv hook bash)"
-
-#1}}}
-
-#{{{1 Aliases
-
-alias tmux="tmux -2"
-
-alias ..="cd .."
-alias ....="cd ../.."
-
-alias ls="ls --color=auto -F"
-
-alias vi="nvim"
-alias vim="nvim"
-
-alias clera="clear"
-alias clare="clear"
-alias claer="clear"
-alias cler="clear"
-alias clar="clear"
-
-alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
-
-alias less="less -r"
-
-#1}}}
-
 #{{{1 Exports
 
 export EDITOR=nvim
@@ -69,6 +34,41 @@ if grep -qi microsoft /proc/version; then
     export DISPLAY=:0
     export BROWSER="wslview"
 fi
+
+#1}}}
+
+# Return if not interactive.
+[[ $- != *i* ]] && return
+
+#{{{1 Extensions
+
+eval "$(starship init bash)"
+eval "$(zoxide init bash)"
+eval "$(direnv hook bash)"
+
+#1}}}
+
+#{{{1 Aliases
+
+alias tmux="tmux -2"
+
+alias ..="cd .."
+alias ....="cd ../.."
+
+alias ls="ls --color=auto -F"
+
+alias vi="nvim"
+alias vim="nvim"
+
+alias clera="clear"
+alias clare="clear"
+alias claer="clear"
+alias cler="clear"
+alias clar="clear"
+
+alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
+
+alias less="less -r"
 
 #1}}}
 

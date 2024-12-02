@@ -44,6 +44,7 @@ end
 --1}}}
 
 --{{{1 Global & Client Key Binds
+
 local modkey = "Mod4"
 
 --{{{2 Global Key Binds
@@ -73,7 +74,7 @@ local keybinds = gears.table.join(
 
     awful.key({ modkey }, ",", function()
         local command = {
-            "xdotool"
+            "xdotool",
         }
         awful.spawn(table.concat(command, " "))
     end, { description = "Print Screen", group = "other" }),
@@ -132,6 +133,30 @@ local keybinds = gears.table.join(
         group = "client",
     }),
 
+    -- Client master resize
+    -- awful.key({ modkey }, "j", function()
+    --     awful.client.focus.bydirection("down")
+    --     awful.client.moveresize()
+    -- end, {
+    --     description = "focus client by direction: down",
+    --     group = "client",
+    -- }),
+    -- awful.key({ modkey }, "k", function()
+    --     awful.client.focus.bydirection("up")
+    -- end, { description = "focus client by direction: up", group = "client" }),
+    -- awful.key({ modkey }, "h", function()
+    --     awful.client.focus.bydirection("left")
+    -- end, {
+    --     description = "focus client by direction: left",
+    --     group = "client",
+    -- }),
+    -- awful.key({ modkey }, "l", function()
+    --     awful.client.focus.bydirection("right")
+    -- end, {
+    --     description = "focus client by direction: right",
+    --     group = "client",
+    -- }),
+
     --Relative Client Swap
     awful.key({ modkey, "Control" }, "j", function()
         awful.client.swap.bydirection("down")
@@ -155,10 +180,12 @@ local keybinds = gears.table.join(
 
     cyclefocus.key({ "Mod1" }, "Tab", {
         cycle_filters = {},
+        move_mouse_pointer = false,
         keys = { "Tab", "ISO_Left_Tab" },
     }),
     cyclefocus.key({ "Mod1", "Shift" }, "Tab", {
         cycle_filters = {},
+        move_mouse_pointer = false,
         keys = { "Tab", "ISO_Left_Tab" },
     }),
 
@@ -191,25 +218,16 @@ local keybinds = gears.table.join(
     --{{{3 Rofi
 
     awful.key({ modkey }, "Return", function()
-        local command = {
-            "rofi",
-            "-show drun",
-            "-modes drun",
-        }
-        awful.spawn(table.concat(command, " "))
-    end, { description = "rofi dmenu", group = "launcher" }),
+        awful.spawn.with_shell("~/.config/rofi/scripts/launcher.sh")
+    end, { description = "rofi dmenu", group = "rofi" }),
 
     awful.key({ modkey }, "x", function()
-        awful.spawn(table.concat({
-            "rofi",
-            "-modi calc",
-            "-show calc",
-            "-no-history",
-            "-no-show-match",
-            "-no-sort",
-            "-calc-command \"echo -n '{result}' | xclip -selection clipboard\"",
-        }, " "))
-    end, { description = "rofi calc", group = "launcher" })
+        awful.spawn.with_shell("~/.config/rofi/scripts/qalc.sh")
+    end, { description = "rofi calc", group = "rofi" }),
+
+    awful.key({ modkey, "Control" }, "r", function()
+        awful.spawn.with_shell("~/.config/rofi/scripts/powermenu.sh")
+    end, { description = "rofi powermenu", group = "rofi" })
 
     --3}}}
 )
@@ -291,10 +309,10 @@ local client_keys = gears.table.join(
 --2}}}
 
 root.keys(keybinds)
+
 --1}}}
 
 --{{{1 Theming
-awesome.set_preferred_icon_size(16)
 
 -- Theming module bootstrap
 local config_dir = gears.filesystem.get_configuration_dir
@@ -303,6 +321,8 @@ beautiful.init({
     icons_path = config_dir() .. "/icons/",
     default_path = gears.filesystem.get_themes_dir(),
 })
+
+awesome.set_preferred_icon_size(16)
 
 --{{{2 Colorschemes
 
@@ -488,20 +508,22 @@ beautiful.colorschemes.gruvbox = {
     },
 }
 
---2}}}
-
 -- Set the current colorscheme
 local colors = beautiful.colorschemes.gruvbox.dark
 
+--2}}}
+
 util.populate_beautiful("", {
     icon_theme = "Papirus",
-    gap_single_client = false,
-    useless_gap = 0,
+    gap_single_client = true,
+    useless_gap = 2,
     fullscreen_hide_border = true,
+    maximized_hide_border = false,
+    maximized_honor_padding = true,
 
     font = {
-        name = "Noto Sans",
-        weight = "SemiBold",
+        name = "Ubuntu Nerd Font",
+        weight = "Medium",
         size = "9",
     },
 
@@ -516,108 +538,106 @@ util.populate_beautiful("", {
         focus = colors.yellow,
         urgent = colors.red,
     },
-
-    ---Clients
-    border = {
-        -- normal = colors.bg1,
-        -- focus = colors.bg2,
-        -- marked = colors.red,
-
-        color = {
-            normal = colors.bg0,
-            active = colors.bg4,
-            marked = colors.orange,
-            urgent = colors.red,
-            new = colors.bg0,
-
-            floating = {
-                itself = nil,
-                active = nil,
-                normal = nil,
-                urgent = nil,
-                new = nil,
-            },
-
-            maximized = {
-                itself = nil,
-                active = nil,
-                normal = nil,
-                urgent = nil,
-                new = nil,
-            },
-
-            fullscreen = {
-                itself = nil,
-                active = nil,
-                normal = nil,
-                urgent = nil,
-                new = nil,
-            },
-        },
-
-        width = {
-            itself = 1,
-            normal = nil,
-            active = nil,
-            urgent = nil,
-            new = nil,
-            floating = {
-                itself = nil,
-                normal = nil,
-                active = nil,
-                urgent = nil,
-                new = nil,
-            },
-            maximized = {
-                itself = nil,
-                normal = nil,
-                active = nil,
-                urgent = nil,
-                new = nil,
-            },
-            fullscreen = {
-                itself = nil,
-                normal = nil,
-                active = nil,
-                urgent = nil,
-                new = nil,
-            },
-        },
-    },
-
-    opacity = {
-        itself = nil,
-        normal = nil,
-        active = nil,
-        urgent = nil,
-        new = nil,
-        floating = {
-            itself = nil,
-            normal = nil,
-            active = nil,
-            urgent = nil,
-            new = nil,
-        },
-        maximized = {
-            itself = nil,
-            normal = nil,
-            active = nil,
-            urgent = nil,
-            new = nil,
-        },
-        fullscreen = {
-            itself = nil,
-            normal = nil,
-            active = nil,
-            urgent = nil,
-            new = nil,
-        },
-    },
 })
 
 --1}}}
 
 --{{{1 Widgets
+
+---Unique to each client.
+
+--{{{2 Client Titlebar
+
+local title_icons = beautiful.icons_path .. "titlebar/"
+util.populate_beautiful("titlebar", {
+    fg = {
+        itself = colors.fg0,
+        urgent = colors.red,
+    },
+    bg = {
+        itself = colors.bg0,
+    },
+    close_button = {
+        focus = title_icons .. "close.svg",
+        focus_hover = title_icons .. "close_hover.svg",
+    },
+    maximized_button = {
+        focus = {
+            inactive = title_icons .. "maximize.svg",
+            inactive_hover = title_icons .. "maximize_hover.svg",
+            active = title_icons .. "maximize.svg",
+            active_hover = title_icons .. "maximize_hover.svg",
+        },
+        focus_hover = title_icons .. "close_hover.svg",
+    },
+    minimize_button = {
+        focus = title_icons .. "minimize.svg",
+        focus_hover = title_icons .. "minimize_hover.svg",
+    },
+})
+
+client.connect_signal("request::titlebars", function(c)
+    local titlebar_buttons = gears.table.join(
+        awful.button({}, 1, function()
+            c:emit_signal("request::activate", "titlebar", { raise = true })
+            awful.mouse.client.move(c)
+        end),
+        awful.button({}, 3, function()
+            c:emit_signal("request::activate", "titlebar", { raise = true })
+            awful.mouse.client.resize(c)
+        end)
+    )
+
+    c.titlebar = awful.titlebar(c, { size = 24 })
+
+    c.titlebar:setup({
+        layout = wibox.layout.align.horizontal,
+        nil,
+        {
+            {
+                align = "center",
+                widget = awful.titlebar.widget.titlewidget(c),
+            },
+            buttons = titlebar_buttons,
+            layout = wibox.layout.flex.horizontal,
+        },
+        {
+            awful.titlebar.widget.minimizebutton(c),
+            awful.titlebar.widget.maximizedbutton(c),
+            awful.titlebar.widget.closebutton(c),
+            layout = wibox.layout.fixed.horizontal(),
+        },
+    })
+end)
+
+--2}}}
+
+--{{{2 Borders
+
+util.populate_beautiful("border", {
+    color = {
+        normal = colors.bg1,
+        active = colors.bg4,
+    },
+
+    width = {
+        normal = 1,
+        active = 1,
+    },
+})
+
+-- Dynamic border colors
+client.connect_signal("unfocus", function(c)
+    c.border_color = beautiful.border_color_normal
+    c.border_width = beautiful.border_width_normal
+end)
+
+client.connect_signal("focus", function(c)
+    c.border_color = beautiful.border_color_active
+    c.border_width = beautiful.border_width_active
+end)
+
+--2}}}
 
 ---Not unique to each screen.
 
@@ -694,13 +714,13 @@ local time = wibox.widget.textclock("%H:%M")
 
 util.populate_beautiful("notifications", {
     bg = {
-        normal = beautiful.bg_normal,
+        normal = colors.bg4,
     },
     fg = {
-        normal = beautiful.fg_normal,
+        normal = colors.red,
     },
     border = {
-        width = 1,
+        width = 0,
         color = colors.fg0,
     },
 })
@@ -818,37 +838,6 @@ util.populate_beautiful("taglist", {
         empty = colors.bg0,
         volatile = colors.bg0,
     },
-    squares = {
-        sel = nil,
-        sel_empty = nil,
-        unsel = nil,
-        unsel_empty = nil,
-        resize = nil,
-        icon = nil,
-    },
-    shape = {
-        itself = nil,
-        empty = nil,
-        focus = nil,
-        urgent = nil,
-        volatile = nil,
-        border = {
-            width = {
-                itself = nil,
-                empty = nil,
-                focus = nil,
-                urgent = nil,
-                volatile = nil,
-            },
-            color = {
-                itself = nil,
-                empty = nil,
-                focus = nil,
-                urgent = nil,
-                volatile = nil,
-            },
-        },
-    },
 })
 
 awful.screen.connect_for_each_screen(function(s)
@@ -913,6 +902,9 @@ end)
 --{{{2 Wibar
 util.populate_beautiful("wibar", {
     height = 24,
+    border_width = 1,
+    border_color = colors.bg4,
+    stretch = true,
 })
 
 awful.screen.connect_for_each_screen(function(s)
@@ -953,80 +945,6 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 --2}}}
 
----Unique to each client.
-
---{{{2 Client Titlebar
-client.connect_signal("request::titlebars", function(c)
-    local title_icons = beautiful.icons_path .. "titlebar/"
-    util.populate_beautiful("titlebar", {
-        fg = {
-            itself = colors.fg0,
-            urgent = colors.red,
-        },
-        bg = {
-            itself = colors.bg0,
-        },
-        close_button = {
-            focus = title_icons .. "close.svg",
-            focus_hover = title_icons .. "close_hover.svg",
-        },
-        maximized_button = {
-            focus = {
-                inactive = title_icons .. "maximize.svg",
-                inactive_hover = title_icons .. "maximize_hover.svg",
-                active = title_icons .. "maximize.svg",
-                active_hover = title_icons .. "maximize_hover.svg",
-            },
-            focus_hover = title_icons .. "close_hover.svg",
-        },
-        minimize_button = {
-            focus = title_icons .. "minimize.svg",
-            focus_hover = title_icons .. "minimize_hover.svg",
-        },
-    })
-
-    local titlebar_buttons = gears.table.join(
-        awful.button({}, 1, function()
-            c:emit_signal("request::activate", "titlebar", { raise = true })
-            awful.mouse.client.move(c)
-        end),
-        awful.button({}, 3, function()
-            c:emit_signal("request::activate", "titlebar", { raise = true })
-            awful.mouse.client.resize(c)
-        end)
-    )
-
-    c.titlebar = awful.titlebar(c, { size = 24 })
-
-    c.titlebar:setup({
-        {
-            {
-                awful.titlebar.widget.iconwidget(c),
-                buttons = titlebar_buttons,
-                layout = wibox.layout.fixed.horizontal,
-            },
-            widget = wibox.container.margin,
-            margins = 3,
-        },
-        {
-            {
-                align = "center",
-                widget = awful.titlebar.widget.titlewidget(c),
-            },
-            buttons = titlebar_buttons,
-            layout = wibox.layout.flex.horizontal,
-        },
-        {
-            awful.titlebar.widget.minimizebutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.closebutton(c),
-            layout = wibox.layout.fixed.horizontal(),
-        },
-        layout = wibox.layout.align.horizontal,
-    })
-end)
---2}}}
-
 --1}}}
 
 --{{{1 Client Rules
@@ -1048,8 +966,8 @@ awful.rules.rules = {
     {
         rule = {},
         properties = {
-            border_width = beautiful.border_width,
-            border_color = beautiful.border_normal,
+            border_width = beautiful.border_width_normal,
+            border_color = beautiful.border_color_normal,
             focus = awful.client.focus.filter,
             raise = true,
             keys = client_keys,
@@ -1058,7 +976,7 @@ awful.rules.rules = {
             placement = awful.placement.no_overlap
                 + awful.placement.no_offscreen,
             titlebars_enabled = false,
-            floating = false,
+            floating = true,
         },
     },
 
@@ -1083,8 +1001,12 @@ awful.rules.rules = {
             role = {
                 "AlarmWindow",
                 "ConfigManager",
+                "toolbox"
             },
-            type = { "dialog" },
+            type = {
+                "dialog",
+                "toolbox"
+            },
         },
         properties = {
             floating = true,
@@ -1129,6 +1051,7 @@ client.connect_signal("manage", function(c)
     if not awesome.startup then
         awful.client.setslave(c)
     end
+
     if
         awesome.startup
         and not c.size_hints.user_position
@@ -1159,37 +1082,18 @@ awful.tag.attached_connect_signal(nil, "property::layout", function(t)
 end)
 
 client.connect_signal("property::floating", function(c)
-    -- Skip titlebars enabling in poppin clients.
-    local poppin_xprop = c:get_xproperty("poppin.name")
-    if poppin_xprop and #poppin_xprop > 0 then
-        return
-    end
-
     -- Center floating clients.
     awful.placement.centered(c)
 
+    -- Enable titlebars on floating clients
     c.titlebars_enabled = c.floating
     if c.floating then
         awful.titlebar.show(c)
     else
         awful.titlebar.hide(c)
     end
-
-    -- Disable titlebars of poppin clients.
-    if c.poppin then
-        c.titlebars_enabled = false
-        awful.titlebar.hide(c)
-    end
 end)
 
----Focus dependant colored client borders.
-client.connect_signal("unfocus", function(c)
-    c.border_color = beautiful.border_color_normal
-end)
-
-client.connect_signal("focus", function(c)
-    c.border_color = beautiful.border_color_active
-end)
 --}}}
 
 --{{{1 After
@@ -1203,6 +1107,5 @@ gears.timer({
     end,
 })
 
--- Autostart xdg .desktop entries in ~/.config/autostart.
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
 --1}}}

@@ -256,7 +256,7 @@ user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 // Disable focus of menu when pressing alt-left
 user_pref("ui.key.menuAccessKeyFocuses", false);
 // Bookmarks toolbar always visible
-user_pref("browser.toolbars.bookmarks.visibility", "always");
+user_pref("browser.toolbars.bookmarks.visibility", "newtab");
 
 /****************************************************************************
  * SECTION: SMOOTHFOX                                                       *

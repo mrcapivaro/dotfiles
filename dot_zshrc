@@ -1,6 +1,7 @@
 # ~/.zshrc
 
-#{{{1 Vars
+#{{{1 Exports
+
 export ZCONFDIR="$HOME/.config/zsh"
 
 ## Default Programs
@@ -8,30 +9,61 @@ export EDITOR=nvim
 export VISUAL=zed
 export PAGER=nvimpager
 
-## Programming Languages
-export PNPM_HOME="$HOME/.local/share/pnpm"
+## Path
 export LUA_PATH="/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua"
 export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME/.luarocks/lib/lua/5.3/?.so"
+
+function ensure-path {
+    local dir=$1
+    case ":$PATH:" in
+        *:"$dir":*)
+            ;;
+        *)
+            export PATH="$dir:$PATH"
+            ;;
+    esac
+}
+
+export LOCAL_BIN="$HOME/.local/bin"
+export CARGO_BIN="$HOME/.cargo/bin"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+
+ensure-path "$LOCAL_BIN"
+ensure-path "$CARGO_BIN"
+ensure-path "$PNPM_HOME"
+
+## WSL Machine
+# remainder: sometimes, it is necessary to update and install WSL2 and WSLG
+if grep -qi microsoft /proc/version; then
+    export DISPLAY=:0
+    export BROWSER="wslview"
+fi
+
 #1}}}
 
 #{{{1 Autoconfig
+
 ## compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle :compinstall filename '/home/mrcapivaro/.zshrc'
-autoload -Uz compinit; compinit
+autoload -Uz compinit
+compinit
+
 ## case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
 ## zsh-newuser-install
-HISTFILE=$ZCONFDIR/histfile
+HISTFILE="$ZCONFDIR/histfile"
 HISTSIZE=1000
 SAVEHIST=1000
 setopt autocd
 unsetopt beep extendedglob nomatch
+
 #1}}}
 
 #{{{1 Extensions
+
 ## plugin boilerplate setup function
 # ex: git clone https://github.com/user/name.git
 function use-git-plugin {
@@ -46,7 +78,7 @@ function use-git-plugin {
     fi
 }
 
-## embedded tools
+## eval's
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
@@ -56,19 +88,64 @@ use-git-plugin "Aloxaf/fzf-tab" # must come after compinit and before other plug
 use-git-plugin "zsh-users/zsh-syntax-highlighting"
 use-git-plugin "zsh-users/zsh-autosuggestions"
 use-git-plugin "zsh-users/zsh-history-substring-search"
-use-git-plugin "jeffreytse/zsh-vi-mode"
+
 #1}}}
 
 #{{{1 Keybinds
+
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "^[[A" up-history
 bindkey "^[[B" down-history
-# bindkey -v
-# bindkey "^G" vi-cmd-mode
+bindkey "^P" up-history
+bindkey "^N" down-history
+
+## VI Mode
+bindkey -v
+bindkey "^G" vi-cmd-mode
+export KEYTIMEOUT=1 # Remove mode switching delay.
+
+#{{{2 Vim-like Cursor
+# source 1: https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
+# source 2: https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
+# Set cursor style (DECSCUSR), VT520.
+# 0  ⇒  blinking block.
+# 1  ⇒  blinking block (default).
+# 2  ⇒  steady block.
+# 3  ⇒  blinking underline.
+# 4  ⇒  steady underline.
+# 5  ⇒  blinking bar, xterm.
+# 6  ⇒  steady bar, xterm.
+
+# Change cursor on mode change.
+function zle-keymap-select() {
+    if [[ $KEYMAP == vicmd ]] || [[ $1 == "block" ]]; then
+        echo -ne '\e[2 q'
+    elif [[ $KEYMAP == main ]] || [[ $KEYMAP == viins ]] ||
+         [[ $KEYMAP == "" ]] || [[ $1 == "beam" ]]; then
+         echo -ne '\e[6 q'
+    fi
+}
+zle -N zle-keymap-select
+
+# Change cursor on shell init.
+function zle-line-init() {
+    echo -ne '\e[6 q'
+}
+zle -N zle-line-init
+
+#2}}}
+
+# TODO: clipboard wrapper for vi commands in shell
+#
+# 1. Define clipboard manager;
+# 2. Create wrapper for zsh-vi-commands(widgets?);
+# 3. Profit!
+
 #1}}}
 
 #{{{1 Aliases
+
 alias ..="cd .."
 alias ....="cd ../.."
 
@@ -83,102 +160,40 @@ alias claar="clear"
 alias cler="clear"
 alias clar="clear"
 
+alias lf="yazi"
 alias ls="ls --color=always -F1"
-alias fl="yazi"           # terminal FiLe manager
 alias sa="xbps-query -Rs" # Search Apps for package manager
 
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
+
 #1}}}
 
 #{{{1 Functions
-function cheat {
+
+function cheat() {
     curl cheat.sh/$@ | $PAGER
 }
 
-function gitall {
+function learnxy() {
+    local x="$1"
+    if command -v bat &>/dev/null; then
+        local pager="bat --color=always"
+    else
+        local pager=$PAGER
+    fi
+    curl -s "https://learnxinyminutes.com/docs/$x/" |
+        sed -n '/<pre>/,/<\/pre>/p' |
+        sed 's/<[^>]*>//g' |
+        "$pager"
+}
+
+function gitall() {
     local message="${*:-update}"
     git add . && git commit -m "$message" && git push
 }
 
-function extract {
-    if [ -f $1 ]; then
-        case $1 in
-        *.tar.bz2) tar xjf $1 ;;
-        *.tar.gz) tar xzf $1 ;;
-        *.bz2) bunzip2 $1 ;;
-        *.rar) rar x $1 ;;
-        *.gz) gunzip $1 ;;
-        *.tar) tar xf $1 ;;
-        *.tbz2) tar xjf $1 ;;
-        *.tgz) tar xzf $1 ;;
-        *.zip) unzip $1 ;;
-        *.Z) uncompress $1 ;;
-        *) echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
-}
-
-function help {
+function help() {
     "$@" --help | $PAGER
 }
 
-function rsync {
-    local options=""
-    while [[ "$1" != "" ]]; do
-        case "$1" in
-        --dry-run)
-            options+="--dry-run "
-            ;;
-        --resync)
-            options+="--resync "
-            ;;
-        --help)
-            echo "Usage: rbisync [OPTIONS]"
-            echo ""
-            echo "Options:"
-            echo "  --dry-run  Perform a dry run without making changes."
-            echo "  --resync   Force a resynchronization(should be used once)."
-            echo "  --help     Display this help message."
-            return 0
-            ;;
-        *)
-            echo "$1 is not an option."
-            exit 1
-            ;;
-        esac
-        shift
-    done
-    rclone bisync \
-        "$RCLONE_LOCAL" \
-        "$RCLONE_REMOTE" \
-        --create-empty-src-dirs \
-        --compare size,modtime,checksum \
-        --slow-hash-sync-only \
-        --resilient \
-        -MvP \
-        --drive-skip-gdocs \
-        --fix-case \
-        "$options"
-}
-#1}}}
-
-#{{{1 Path
-##
-function ensure-path {
-    local dir=$1
-    case ":$PATH:" in
-        *:"$dir":*)
-            ;;
-        *)
-            export PATH="$dir:$PATH"
-            ;;
-    esac
-}
-
-##
-ensure-path "$HOME/.local/bin" # User
-ensure-path "$HOME/.cargo/bin" # Rust
-ensure-path "$PNPM_HOME"       # Node
 #1}}}

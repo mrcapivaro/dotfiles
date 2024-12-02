@@ -143,6 +143,7 @@ vim.g.FloatBorders = "single" -- { "┌", "─", "┐", "│", "┘", "─", "�
 ---Keymap Leaders
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
+vim.opt.timeoutlen = 2000
 
 ---Listchars
 vim.opt.listchars = { space = ".", tab = "> ", eol = "~" } -- ·␣¬»
@@ -185,6 +186,27 @@ vim.opt.foldmethod = "marker"
 vim.opt.foldlevel = 0
 vim.opt.foldcolumn = "auto:1"
 vim.opt.fillchars:append("fold:-")
+
+-- https://www.reddit.com/r/neovim/comments/1d3iwcz/custom_folds_without_any_plugins/
+-- FoldText = function()
+--     local foldend = vim.v.foldend
+--     local foldstart = vim.v.foldstart
+--     local raw = table.concat( vim.fn.getbufline(vim.api.nvim_get_current_buf(), foldstart), "")
+
+--     local title = raw:match("{{{[0-9](.*)") -- }}}
+
+--     local loc = foldend - foldstart
+--     local level = raw:match("([0-9])")
+--     title = ("*"):rep(level) .. title .. (" (%s) "):format(loc)
+
+--     local fillerchar = "-"
+--     local fillersize = 80 - #title - 1
+--     title = title .. fillerchar:rep(fillersize)
+
+--     return title
+-- end
+
+-- vim.o.foldtext = "v:lua.FoldText()"
 
 --{{{2 Tools
 local tools = {}
@@ -364,6 +386,155 @@ local lazy_opts = {
 
 local plugins = {}
 
+--{{{2 Quality of Life
+table.insert(plugins, {
+    {
+        "mg979/vim-visual-multi",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        opts = { ignore = "^$" },
+    },
+
+    {
+        "barrett-ruth/live-server.nvim",
+        cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
+        keys = {
+            {
+                "<leader>ls",
+                "<cmd>LiveServerToggle<cr>",
+                desc = "Toggle Live Server",
+            },
+        },
+        opts = function()
+            local t = {}
+            -- check for a WSL2 system
+            if
+                vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") == 1
+            then
+                t = {
+                    args = {
+                        "--browser=wslview",
+                    },
+                }
+            end
+            return t
+        end,
+    },
+
+    {
+        "NvChad/nvim-colorizer.lua",
+        event = "VeryLazy",
+        name = "colorizer",
+        opts = {
+            filetypes = {
+                "css",
+                "js",
+                "ts",
+                "html",
+                "python",
+                "ruby",
+                "lua",
+            },
+            user_default_options = {
+                RGB = true, -- #RGB hex codes
+                RRGGBB = true, -- #RRGGBB hex codes
+                names = true, -- "Name" codes like Blue or blue
+                RRGGBBAA = true, -- #RRGGBBAA hex codes
+                AARRGGBB = true, -- 0xAARRGGBB hex codes
+                rgb_fn = true, -- CSS rgb() and rgba() functions
+                hsl_fn = true, -- CSS hsl() and hsla() functions
+                css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+                css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+                -- Available modes for `mode`: foreground, background,  virtualtext
+                mode = "background", -- Set the display mode.
+                -- Available methods are false / true / "normal" / "lsp" / "both"
+                -- True is same as normal
+                tailwind = true, -- Enable tailwind colors
+                -- parsers can contain values used in |user_default_options|
+                sass = { enable = true, parsers = { "css" } }, -- Enable sass colors
+                virtualtext = "■",
+                -- update color values even if buffer is not focused
+                -- example use: cmp_menu, cmp_docs
+                always_update = false,
+            },
+            -- all the sub-options of filetypes apply to buftypes
+            buftypes = {},
+        },
+    },
+
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {
+            prompt = { prefix = { { "&", "FlashPromptIcon" } } },
+        },
+        keys = {
+            {
+                "s",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").jump()
+                end,
+                desc = "Flash",
+            },
+            {
+                "S",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").treesitter()
+                end,
+                desc = "Flash Treesitter",
+            },
+            {
+                "r",
+                mode = "o",
+                function()
+                    require("flash").remote()
+                end,
+                desc = "Remote Flash",
+            },
+            {
+                "R",
+                mode = { "o", "x" },
+                function()
+                    require("flash").treesitter_search()
+                end,
+                desc = "Treesitter Search",
+            },
+            {
+                "gs",
+                mode = { "c" },
+                function()
+                    require("flash").toggle()
+                end,
+                desc = "Toggle Flash Search",
+            },
+        },
+    },
+
+    {
+        "https://github.com/LunarVim/bigfile.nvim",
+        opts = {
+            filesize = 2,
+            features = {
+                "indent_blankline",
+                "illuminate",
+                "lsp",
+                "treesitter",
+                "syntax",
+                "matchparen",
+                "vimopts",
+                "filetype",
+            },
+        },
+    },
+})
+--}}}
+
 --{{{2 Colorscheme
 table.insert(plugins, {
     "ellisonleao/gruvbox.nvim",
@@ -409,6 +580,65 @@ table.insert(plugins, {
         })
     end,
 })
+--}}}
+
+--{{{2 TUI
+
+table.insert(plugins, {
+    {
+        "stevearc/dressing.nvim",
+        opts = {},
+    },
+
+    {
+        "folke/todo-comments.nvim",
+        event = "VeryLazy",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {},
+    },
+
+    {
+        "akinsho/bufferline.nvim",
+        version = "*",
+        after = "catppuccin",
+        event = "UiEnter",
+        dependencies = "nvim-tree/nvim-web-devicons",
+        opts = {
+            options = {
+                themable = true,
+                -- separator_style = "slack",
+                highlights = function()
+                    require("catppuccin.groups.integrations.bufferline").get()
+                end,
+                offsets = {
+                    {
+                        filetype = "neo-tree",
+                        text = "File Explorer",
+                        text_align = "center",
+                        separator = true,
+                    },
+                },
+                hover = {
+                    enabled = true,
+                    delay = 200,
+                    reveal = { "close" },
+                },
+            },
+        },
+    },
+
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {
+            options = {
+                component_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
+            },
+        },
+    },
+})
+
 --}}}
 
 --{{{2 Parser
@@ -497,9 +727,17 @@ table.insert(plugins, {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
             {
-                "<leader>e",
+                "<leader>fe",
                 function()
                     require("oil").open_float()
+                end,
+                desc = "Open oil.nvim",
+            },
+            {
+                "<leader>fE",
+                function()
+                    vim.cmd("vsplit | wincmd r | vertical resize -29")
+                    require("oil").open()
                 end,
                 desc = "Open oil.nvim",
             },
@@ -1184,213 +1422,6 @@ table.insert(plugins, {
 })
 --}}}
 
---{{{2 User Interface
-table.insert(plugins, {
-    {
-        "stevearc/dressing.nvim",
-        opts = {},
-    },
-
-    {
-        "folke/todo-comments.nvim",
-        event = "VeryLazy",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {},
-    },
-
-    {
-        "akinsho/bufferline.nvim",
-        version = "*",
-        after = "catppuccin",
-        event = "UiEnter",
-        dependencies = "nvim-tree/nvim-web-devicons",
-        opts = {
-            options = {
-                themable = true,
-                -- separator_style = "slack",
-                highlights = function()
-                    require("catppuccin.groups.integrations.bufferline").get()
-                end,
-                offsets = {
-                    {
-                        filetype = "neo-tree",
-                        text = "File Explorer",
-                        text_align = "center",
-                        separator = true,
-                    },
-                },
-                hover = {
-                    enabled = true,
-                    delay = 200,
-                    reveal = { "close" },
-                },
-            },
-        },
-    },
-
-    {
-        "nvim-lualine/lualine.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {
-            options = {
-                component_separators = { left = "", right = "" },
-                section_separators = { left = "", right = "" },
-            },
-        },
-    },
-})
-
---}}}
-
---{{{2 Quality of Life
-table.insert(plugins, {
-    {
-        "mg979/vim-visual-multi",
-        event = { "BufReadPre", "BufNewFile" },
-    },
-
-    {
-        "numToStr/Comment.nvim",
-        event = "VeryLazy",
-        opts = { ignore = "^$" },
-    },
-
-    {
-        "barrett-ruth/live-server.nvim",
-        cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
-        keys = {
-            {
-                "<leader>ls",
-                "<cmd>LiveServerToggle<cr>",
-                desc = "Toggle Live Server",
-            },
-        },
-        opts = function()
-            local t = {}
-            -- check for a WSL2 system
-            if
-                vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") == 1
-            then
-                t = {
-                    args = {
-                        "--browser=wslview",
-                    },
-                }
-            end
-            return t
-        end,
-    },
-
-    {
-        "NvChad/nvim-colorizer.lua",
-        event = "VeryLazy",
-        name = "colorizer",
-        opts = {
-            filetypes = {
-                "css",
-                "js",
-                "ts",
-                "html",
-                "python",
-                "ruby",
-                "lua",
-            },
-            user_default_options = {
-                RGB = true, -- #RGB hex codes
-                RRGGBB = true, -- #RRGGBB hex codes
-                names = true, -- "Name" codes like Blue or blue
-                RRGGBBAA = true, -- #RRGGBBAA hex codes
-                AARRGGBB = true, -- 0xAARRGGBB hex codes
-                rgb_fn = true, -- CSS rgb() and rgba() functions
-                hsl_fn = true, -- CSS hsl() and hsla() functions
-                css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-                css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-                -- Available modes for `mode`: foreground, background,  virtualtext
-                mode = "background", -- Set the display mode.
-                -- Available methods are false / true / "normal" / "lsp" / "both"
-                -- True is same as normal
-                tailwind = true, -- Enable tailwind colors
-                -- parsers can contain values used in |user_default_options|
-                sass = { enable = true, parsers = { "css" } }, -- Enable sass colors
-                virtualtext = "■",
-                -- update color values even if buffer is not focused
-                -- example use: cmp_menu, cmp_docs
-                always_update = false,
-            },
-            -- all the sub-options of filetypes apply to buftypes
-            buftypes = {},
-        },
-    },
-
-    {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        opts = {
-            prompt = { prefix = { { "&", "FlashPromptIcon" } } },
-        },
-        keys = {
-            {
-                "s",
-                mode = { "n", "x", "o" },
-                function()
-                    require("flash").jump()
-                end,
-                desc = "Flash",
-            },
-            {
-                "S",
-                mode = { "n", "x", "o" },
-                function()
-                    require("flash").treesitter()
-                end,
-                desc = "Flash Treesitter",
-            },
-            {
-                "r",
-                mode = "o",
-                function()
-                    require("flash").remote()
-                end,
-                desc = "Remote Flash",
-            },
-            {
-                "R",
-                mode = { "o", "x" },
-                function()
-                    require("flash").treesitter_search()
-                end,
-                desc = "Treesitter Search",
-            },
-            {
-                "gs",
-                mode = { "c" },
-                function()
-                    require("flash").toggle()
-                end,
-                desc = "Toggle Flash Search",
-            },
-        },
-    },
-
-    {
-        "https://github.com/LunarVim/bigfile.nvim",
-        opts = {
-            filesize = 2,
-            features = {
-                "indent_blankline",
-                "illuminate",
-                "lsp",
-                "treesitter",
-                "syntax",
-                "matchparen",
-                "vimopts",
-                "filetype",
-            },
-        },
-    },
-})
---}}}
-
 -- Initialize plugins with plugin manager
 require("lazy").setup(plugins, lazy_opts)
 
@@ -1410,6 +1441,10 @@ map(
     { desc = "Write buffer changes." }
 )
 map({ "n", "v", "s" }, "<leader>q", "ZQ", { desc = "Quit without writing." })
+-- TODO: custom function to call ZQ multiple times if needed.
+-- map({ "n", "v", "s" }, "<leader>q", function()
+--     -- Call ZQ and if the current buffer changes to oil.nvim, call ZQ again.
+-- end, { desc = "Quit without writing." })
 map(
     { "i", "n" },
     "<esc>",
@@ -1480,8 +1515,6 @@ map(
     { desc = "Horizontal window split." }
 )
 
--- Other
-map({ "n", "v", "s" }, "<C-P>", ":")
 --1}}}
 
 --{{{1 Commands
