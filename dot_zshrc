@@ -16,11 +16,10 @@ export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME
 function ensure-path {
     local dir=$1
     case ":$PATH:" in
-        *:"$dir":*)
-            ;;
-        *)
-            export PATH="$dir:$PATH"
-            ;;
+    *:"$dir":*) ;;
+    *)
+        export PATH="$dir:$PATH"
+        ;;
     esac
 }
 
@@ -99,8 +98,16 @@ bindkey "^[[A" up-history
 bindkey "^[[B" down-history
 bindkey "^P" up-history
 bindkey "^N" down-history
+# allow ctrl-r and ctrl-s to search the history
+bindkey '^r' history-incremental-search-backward
+bindkey '^s' history-incremental-search-forward
+# allow ctrl-a and ctrl-e to move to beginning/end of line
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
 
 ## VI Mode
+# mostly copied and pasted from oh my zsh:
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
 bindkey -v
 bindkey "^G" vi-cmd-mode
 export KEYTIMEOUT=1 # Remove mode switching delay.
@@ -122,8 +129,8 @@ function zle-keymap-select() {
     if [[ $KEYMAP == vicmd ]] || [[ $1 == "block" ]]; then
         echo -ne '\e[2 q'
     elif [[ $KEYMAP == main ]] || [[ $KEYMAP == viins ]] ||
-         [[ $KEYMAP == "" ]] || [[ $1 == "beam" ]]; then
-         echo -ne '\e[6 q'
+        [[ $KEYMAP == "" ]] || [[ $1 == "beam" ]]; then
+        echo -ne '\e[6 q'
     fi
 }
 zle -N zle-keymap-select
@@ -136,11 +143,54 @@ zle -N zle-line-init
 
 #2}}}
 
-# TODO: clipboard wrapper for vi commands in shell
-#
-# 1. Define clipboard manager;
-# 2. Create wrapper for zsh-vi-commands(widgets?);
-# 3. Profit!
+#{{{2 Vi yank/delete clipboard wraping
+
+function wrap_clipboard_widgets() {
+    # NB: Assume we are the first wrapper and that we only wrap native widgets
+    # See zsh-autosuggestions.zsh for a more generic and more robust wrapper
+    local verb="$1"
+    shift
+
+    # NOTE: Must be changed according to the clipboard manager installed.
+    local copy_cmd="xclip -sel clip"
+    local paste_cmd="xclip -o -sel clip"
+
+    local widget
+    local wrapped_name
+    for widget in "$@"; do
+        wrapped_name="_zsh-vi-${verb}-${widget}"
+        if [ "${verb}" = copy ]; then
+            eval "
+        function ${wrapped_name}() {
+          zle .${widget}
+          printf %s \"\${CUTBUFFER}\" | $copy_cmd 2>/dev/null || true
+        }
+      "
+        else
+            eval "
+        function ${wrapped_name}() {
+          CUTBUFFER=\"\$($paste_cmd 2>/dev/null || echo \$CUTBUFFER)\"
+          zle .${widget}
+        }
+      "
+        fi
+        zle -N "${widget}" "${wrapped_name}"
+    done
+}
+
+wrap_clipboard_widgets copy \
+    vi-yank vi-yank-eol vi-yank-whole-line \
+    vi-change vi-change-eol vi-change-whole-line \
+    vi-kill-line vi-kill-eol vi-backward-kill-word \
+    vi-delete vi-delete-char vi-backward-delete-char
+
+wrap_clipboard_widgets paste \
+    vi-put-{before,after} \
+    put-replace-selection
+
+unfunction wrap_clipboard_widgets
+
+#2}}}
 
 #1}}}
 
@@ -160,7 +210,7 @@ alias claar="clear"
 alias cler="clear"
 alias clar="clear"
 
-alias lf="yazi"
+alias fl="yazi"
 alias ls="ls --color=always -F1"
 alias sa="xbps-query -Rs" # Search Apps for package manager
 
@@ -174,17 +224,18 @@ function cheat() {
     curl cheat.sh/$@ | $PAGER
 }
 
-function learnxy() {
-    local x="$1"
-    if command -v bat &>/dev/null; then
-        local pager="bat --color=always"
-    else
-        local pager=$PAGER
-    fi
-    curl -s "https://learnxinyminutes.com/docs/$x/" |
-        sed -n '/<pre>/,/<\/pre>/p' |
-        sed 's/<[^>]*>//g' |
-        "$pager"
+function xny() {
+    [[ $# -lt 2 ]] && pager=$PAGER || pager=$2
+
+    curl "https://learnxinyminutes.com/docs/$1/" \
+        | sed -n '/<pre>/,/<\/pre>/p' \
+        | sed 's/<[^>]*>//g' \
+        | sed 's/&quot;/"/g' \
+        | sed 's/&gt;/>/g' \
+        | sed 's/&lt;/</g' \
+        | sed "s/&#39;/'/g" \
+        | sed 's/&amp;/&/g' \
+        | $pager
 }
 
 function gitall() {
