@@ -15,6 +15,9 @@ unbind <C-f>
 " Given that `Ctrl+f` is unbind, there is no reason for `Ctrl+b`
 unbind <C-b>
 
+" Used for a vertical bar extension.
+unbind <C-e>
+
 " The default jump of 10 is a bit much.
 bind j scrollline 5
 bind k scrollline -5
@@ -27,6 +30,7 @@ bind K tabprev
 bind i mode ignore
 
 " use C-g as esc
+unbind <C-g>
 bind <C-g> mode normal
 bind --mode=ignore <C-g> mode normal
 bind --mode=hint <C-g> mode normal
