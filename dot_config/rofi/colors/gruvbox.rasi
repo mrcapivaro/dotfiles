@@ -12,5 +12,6 @@
     orange:         #FE8019FF;
     red:            #FB4934FF;
     yellow:         #FABD2FFF;
+    green:          #B8BB26FF;
     font:           "IosevkaCapy Nerd Font 12";
 }
