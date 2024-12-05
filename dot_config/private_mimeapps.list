@@ -1,6 +1,6 @@
 [Default Applications]
-image/png=imv.desktop
-image/jpeg=imv.desktop
+image/png=feh.desktop
+image/jpeg=feh.desktop
 text/html=nvim.desktop
 x-scheme-handler/http=userapp-Firefox-BHEXU2.desktop
 x-scheme-handler/https=userapp-Firefox-BHEXU2.desktop
@@ -349,3 +349,5 @@ application/xml-external-parsed-entity=io.github.zen_browser.zen.desktop;firefox
 application/xslt+xml=io.github.zen_browser.zen.desktop;firefox.desktop;
 model/gltf+json=io.github.zen_browser.zen.desktop;firefox.desktop;
 application/postscript=dev.zed.Zed.desktop;
+image/png=feh.desktop;
+image/jpeg=feh.desktop;
