@@ -1,4 +1,4 @@
-local util = {}
+local M = {}
 
 local beautiful = require("beautiful")
 local awful = require("awful")
@@ -9,7 +9,7 @@ local gears = require("gears")
 ---the keys from the given table by joining the keys as strings.
 ---@param prefix string
 ---@param t table
-util.populate_beautiful = function(prefix, t)
+M.populate_beautiful = function(prefix, t)
     for key, value in pairs(t) do
         local real_key
         if prefix ~= nil and prefix ~= "" then
@@ -29,8 +29,8 @@ util.populate_beautiful = function(prefix, t)
             )
             beautiful[real_key] = font
         elseif value_type == "table" then
-            util.populate_beautiful(real_key, value)
-        elseif key == "itself" then
+            M.populate_beautiful(real_key, value)
+        elseif key == "itself" or type(key) == "number" then
             beautiful[prefix] = value
         elseif value ~= nil then
             beautiful[real_key] = value
@@ -42,7 +42,7 @@ end
 ---@param file_path string
 ---@param match string
 ---@param replace string
-util.sed = function(file_path, match, replace)
+M.sed = function(file_path, match, replace)
     local regex = "s/" .. match .. "/" .. replace .. "/"
     local cmd = "sed -i "
         .. '"'
@@ -57,17 +57,17 @@ end
 
 ---Change the value of the beautiful.colorscheme variable according to it's
 ---current value and the values of beautiful.colorscheme_{dark,light}.
-util.toggle_colorscheme = function()
+M.toggle_colorscheme = function()
     -- toggle logic
     local curr = beautiful.colorscheme
     local dark = beautiful.colorscheme_dark
     local new = curr == dark and "light" or "dark"
 
-    util.sed(
+    M.sed(
         gears.filesystem.get_configuration_dir() .. "rc.lua",
         "\\(^beautiful.colorscheme = beautiful.colorscheme_\\).*",
         "\\1" .. new
     )
 end
 
-return util
+return M

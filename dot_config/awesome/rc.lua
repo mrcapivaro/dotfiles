@@ -43,7 +43,7 @@ do
 end
 --1}}}
 
---{{{1 Global & Client Key Binds
+--{{{1 Key Binds
 
 local modkey = "Mod4"
 
@@ -57,27 +57,42 @@ local keybinds = gears.table.join(
         description = "Toggle theme's colorscheme",
         group = "theme",
     }),
+
     awful.key(
         { modkey },
         "r",
         awesome.restart,
         { description = "reload awesome", group = "awesome" }
     ),
-    awful.key({}, "Print", function()
-        local command = {
-            "scrot",
-            "-s",
-            "--exec 'xclip -selection clipboard -t image/png -i $f && rm $f'",
-        }
-        awful.spawn(table.concat(command, " "))
-    end, { description = "Print Screen", group = "other" }),
 
     awful.key({ modkey }, ",", function()
-        local command = {
-            "xdotool",
-        }
-        awful.spawn(table.concat(command, " "))
-    end, { description = "Print Screen", group = "other" }),
+        awful.spawn.with_shell("xdotool key --delay 100 Scroll_Lock")
+    end, { description = "screenshot", group = "other" }),
+
+    awful.key({}, "Print", function()
+        awful.spawn.with_shell(
+            "maim -m 10 -s | xclip -selection clipboard -t image/png"
+        )
+    end, { description = "screenshot selection", group = "screenshot" }),
+
+    awful.key({ "Shift" }, "Print", function()
+        awful.spawn.with_shell(
+            "maim -m 10 -i $(xdotool getactivewindow) ~/Pictures/lsc.png"
+        )
+    end, {
+        description = "screenshot active window",
+        group = "screenshot",
+    }),
+
+    awful.key(
+        { "Control" },
+        "Print",
+        function()
+            -- import is from image magick
+            awful.spawn.with_shell("import -window root png:- | display")
+        end,
+        { description = "open screenshot in image editor", group = "screenshot" }
+    ),
 
     --{{{3 Tags
     awful.key(
@@ -134,28 +149,13 @@ local keybinds = gears.table.join(
     }),
 
     -- Client master resize
-    -- awful.key({ modkey }, "j", function()
-    --     awful.client.focus.bydirection("down")
-    --     awful.client.moveresize()
-    -- end, {
-    --     description = "focus client by direction: down",
-    --     group = "client",
-    -- }),
-    -- awful.key({ modkey }, "k", function()
-    --     awful.client.focus.bydirection("up")
-    -- end, { description = "focus client by direction: up", group = "client" }),
-    -- awful.key({ modkey }, "h", function()
-    --     awful.client.focus.bydirection("left")
-    -- end, {
-    --     description = "focus client by direction: left",
-    --     group = "client",
-    -- }),
-    -- awful.key({ modkey }, "l", function()
-    --     awful.client.focus.bydirection("right")
-    -- end, {
-    --     description = "focus client by direction: right",
-    --     group = "client",
-    -- }),
+    -- BUG: does not work
+    awful.key({ modkey, "Shift" }, "h", function()
+        awful.tag.incmwfact(-0.05)
+    end, { description = "decrease master", group = "client" }),
+    awful.key({ modkey, "Shift" }, "l", function()
+        awful.tag.incmwfact(0.05)
+    end, { description = "increase master", group = "client" }),
 
     --Relative Client Swap
     awful.key({ modkey, "Control" }, "j", function()
@@ -210,7 +210,7 @@ local keybinds = gears.table.join(
     end, { description = "scratchpad: music app", group = "scratchpad" }),
 
     awful.key({ modkey }, "d", function()
-        poppin.pop("browser", "qutebrowser", "center", 750)
+        poppin.pop("browser", "firefox --private-window", "center", 750)
     end, { description = "scratchpad: browser", group = "scratchpad" }),
 
     --3}}}
@@ -224,6 +224,10 @@ local keybinds = gears.table.join(
     awful.key({ modkey }, "x", function()
         awful.spawn.with_shell("~/.config/rofi/scripts/qalc.sh")
     end, { description = "rofi calc", group = "rofi" }),
+
+    awful.key({ modkey }, ",", function()
+        awful.spawn.with_shell("~/.config/rofi/scripts/symbols.sh")
+    end, { description = "rofi symbols", group = "rofi" }),
 
     awful.key({ modkey, "Control" }, "r", function()
         awful.spawn.with_shell("~/.config/rofi/scripts/powermenu.sh")
@@ -268,6 +272,10 @@ end
 --{{{2 Client Key Binds
 
 local client_keys = gears.table.join(
+    awful.key({ modkey, "Shift" }, "m", function(c)
+        awful.client.setmaster(c)
+    end, { description = "set master", group = "client" }),
+
     awful.key({ "Mod1" }, "Return", function(c)
         c.fullscreen = not c.fullscreen
         c:raise()
@@ -548,35 +556,56 @@ util.populate_beautiful("", {
 
 --{{{2 Client Titlebar
 
+awful.titlebar.enable_tooltip = false
+
 local title_icons = beautiful.icons_path .. "titlebar/"
 util.populate_beautiful("titlebar", {
-    fg = {
-        itself = colors.fg0,
-        urgent = colors.red,
-    },
-    bg = {
-        itself = colors.bg0,
-    },
+    fg = colors.fg0,
+    bg = colors.bg0,
+
     close_button = {
-        focus = title_icons .. "close.svg",
-        focus_hover = title_icons .. "close_hover.svg",
+        normal = {
+            title_icons .. "close.svg",
+            hover = title_icons .. "close_hover.svg",
+        },
+        focus = {
+            title_icons .. "close.svg",
+            hover = title_icons .. "close_hover.svg",
+        },
     },
+
     maximized_button = {
+        normal = {
+            inactive = title_icons .. "maximize.svg",
+            inactive_hover = title_icons .. "maximize_hover.svg",
+            active = title_icons .. "maximize-active.svg",
+            active_hover = title_icons .. "maximize-active_hover.svg",
+        },
         focus = {
             inactive = title_icons .. "maximize.svg",
             inactive_hover = title_icons .. "maximize_hover.svg",
-            active = title_icons .. "maximize.svg",
-            active_hover = title_icons .. "maximize_hover.svg",
+            active = title_icons .. "maximize-active.svg",
+            active_hover = title_icons .. "maximize-active_hover.svg",
         },
-        focus_hover = title_icons .. "close_hover.svg",
     },
+
     minimize_button = {
-        focus = title_icons .. "minimize.svg",
-        focus_hover = title_icons .. "minimize_hover.svg",
+        normal = {
+            title_icons .. "minimize.svg",
+            hover = title_icons .. "minimize_hover.svg",
+        },
+        focus = {
+            title_icons .. "minimize.svg",
+            hover = title_icons .. "minimize_hover.svg",
+        },
     },
 })
 
 client.connect_signal("request::titlebars", function(c)
+    awful.titlebar.fallback_name = "fallback"
+
+    c.titlebar = awful.titlebar(c, { size = 24 })
+
     local titlebar_buttons = gears.table.join(
         awful.button({}, 1, function()
             c:emit_signal("request::activate", "titlebar", { raise = true })
@@ -587,8 +616,6 @@ client.connect_signal("request::titlebars", function(c)
             awful.mouse.client.resize(c)
         end)
     )
-
-    c.titlebar = awful.titlebar(c, { size = 24 })
 
     c.titlebar:setup({
         layout = wibox.layout.align.horizontal,
@@ -602,10 +629,14 @@ client.connect_signal("request::titlebars", function(c)
             layout = wibox.layout.flex.horizontal,
         },
         {
-            awful.titlebar.widget.minimizebutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.closebutton(c),
-            layout = wibox.layout.fixed.horizontal(),
+            widget = wibox.container.margin,
+            margins = 4,
+            {
+                awful.titlebar.widget.minimizebutton(c),
+                awful.titlebar.widget.maximizedbutton(c),
+                awful.titlebar.widget.closebutton(c),
+                layout = wibox.layout.fixed.horizontal,
+            },
         },
     })
 end)
@@ -649,7 +680,7 @@ util.populate_beautiful("menu", {
         normal = colors.bg0,
         focus = colors.bg1,
     },
-    submenu_icon = "/usr/share/awesome/icons/awesome32.png",
+    submenu_icon = beautiful.icons_path .. "/void.svg",
 })
 
 local launcher = awful.widget.launcher({
@@ -748,30 +779,15 @@ util.populate_beautiful("tasklist", {
         normal = colors.fg0,
         focus = colors.yellow,
         urgent = colors.red,
-        minimize = colors.subtext0,
+        minimize = colors.fg0,
     },
     bg = {
-        normal = colors.bg0,
+        normal = colors.orange,
         focus = colors.yellow,
         urgent = colors.red,
         minimize = colors.blue,
     },
 })
-
-local widget_template = {
-    {
-        -- id = "clienticon",
-        -- awful.widget.clienticon,
-        id = "icon_role",
-        widget = wibox.widget.imagebox,
-    },
-    {
-        widget = wibox.container.background,
-        forced_height = 2,
-        bg = "1e1e2e",
-    },
-    layout = wibox.layout.fixed.vertical,
-}
 
 awful.screen.connect_for_each_screen(function(s)
     s.tasklist = awful.widget.tasklist({
@@ -782,7 +798,28 @@ awful.screen.connect_for_each_screen(function(s)
             spacing = 8,
             layout = wibox.layout.fixed.horizontal,
         },
-        widget_template = widget_template,
+        widget_template = {
+            layout = wibox.layout.stack,
+            -- {
+            --     wibox.widget.base.make_widget(),
+            --     id = "background_role",
+            --     forced_height = 2,
+            --     forced_width = 16,
+            --     widget = wibox.container.background,
+            -- },
+            {
+                id = "clienticon",
+                widget = awful.widget.clienticon,
+            },
+            ---@diagnostic disable-next-line: unused-local
+            create_callback = function(self, c, index, objects)
+                self:get_children_by_id("clienticon")[1].client = c
+            end,
+            ---@diagnostic disable-next-line: unused-local
+            -- update_callback = function(self, c, index, objects)
+            --     -- self:get_children_by_id("clienticon")[1].client = c
+            -- end,
+        },
     })
 end)
 --2}}}
@@ -791,6 +828,7 @@ end)
 awful.layout.layouts = {
     awful.layout.suit.spiral.dwindle,
     awful.layout.suit.floating,
+    awful.layout.suit.max,
 }
 
 local taglist_buttons = gears.table.join(
@@ -976,7 +1014,7 @@ awful.rules.rules = {
             placement = awful.placement.no_overlap
                 + awful.placement.no_offscreen,
             titlebars_enabled = false,
-            floating = true,
+            floating = false,
         },
     },
 
@@ -1001,11 +1039,11 @@ awful.rules.rules = {
             role = {
                 "AlarmWindow",
                 "ConfigManager",
-                "toolbox"
+                "toolbox",
             },
             type = {
                 "dialog",
-                "toolbox"
+                "toolbox",
             },
         },
         properties = {
