@@ -1,1 +1,1 @@
-vim.command("LspStop")
+vim.cmd("LspStop")

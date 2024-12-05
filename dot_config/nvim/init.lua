@@ -185,28 +185,31 @@ vim.opt.concealcursor:remove("n")
 vim.opt.foldmethod = "marker"
 vim.opt.foldlevel = 0
 vim.opt.foldcolumn = "auto:1"
-vim.opt.fillchars:append("fold:-")
+vim.opt.fillchars:append("fold: ")
 
 -- https://www.reddit.com/r/neovim/comments/1d3iwcz/custom_folds_without_any_plugins/
--- FoldText = function()
---     local foldend = vim.v.foldend
---     local foldstart = vim.v.foldstart
---     local raw = table.concat( vim.fn.getbufline(vim.api.nvim_get_current_buf(), foldstart), "")
+FoldText = function()
+    local foldend = vim.v.foldend
+    local foldstart = vim.v.foldstart
+    local raw = table.concat(
+        vim.fn.getbufline(vim.api.nvim_get_current_buf(), foldstart),
+        ""
+    )
 
---     local title = raw:match("{{{[0-9](.*)") -- }}}
+    local title = raw:match("{{{[0-9]? ?(.*)") -- }}}
 
---     local loc = foldend - foldstart
---     local level = raw:match("([0-9])")
---     title = ("*"):rep(level) .. title .. (" (%s) "):format(loc)
+    local loc = foldend - foldstart
+    local level = raw:match("([0-9])")
+    title = ("*"):rep(level) .. " " .. title .. (" (%s) "):format(loc)
 
---     local fillerchar = "-"
---     local fillersize = 80 - #title - 1
---     title = title .. fillerchar:rep(fillersize)
+    local fillerchar = "-"
+    local fillersize = 80 - #title - 1
+    title = title .. fillerchar:rep(fillersize)
 
---     return title
--- end
+    return title
+end
 
--- vim.o.foldtext = "v:lua.FoldText()"
+vim.o.foldtext = "v:lua.FoldText()"
 
 --{{{2 Tools
 local tools = {}
@@ -894,6 +897,9 @@ table.insert(plugins, {
 
     {
         "nvim-orgmode/orgmode",
+        dependencies = {
+            { "akinsho/org-bullets.nvim", opts = {} },
+        },
         config = function()
             local orgmode = require("orgmode")
             local org_root = "~/Notes/"
@@ -1374,10 +1380,10 @@ table.insert(plugins, {
         opts = {},
         config = function(_, opts)
             -- Resize splits
-            vim.keymap.set("n", "<CS-h>", require("smart-splits").resize_left)
-            vim.keymap.set("n", "<CS-j>", require("smart-splits").resize_down)
-            vim.keymap.set("n", "<CS-k>", require("smart-splits").resize_up)
-            vim.keymap.set("n", "<CS-l>", require("smart-splits").resize_right)
+            vim.keymap.set("n", "<C-S-h>", require("smart-splits").resize_left)
+            vim.keymap.set("n", "<C-S-j>", require("smart-splits").resize_down)
+            vim.keymap.set("n", "<C-S-k>", require("smart-splits").resize_up)
+            vim.keymap.set("n", "<C-S-l>", require("smart-splits").resize_right)
             -- Move cursor between splits
             vim.keymap.set(
                 "n",
@@ -1431,33 +1437,40 @@ vim.keymap.set({ "n", "v", "s", "x" }, "<leader>ll", "<cmd>Lazy<cr>")
 --1}}}
 
 --{{{1 Keybinds
-local map = vim.keymap.set
 
 -- QoL
-map(
+vim.keymap.set(
+    { "n", "v", "s" },
+    "<leader>re",
+    ":<Up><cr>",
+    { desc = "Run last ex command." }
+)
+vim.keymap.set(
     { "n", "i", "v", "s" },
     "<C-s>",
     "<cmd>w<cr>",
     { desc = "Write buffer changes." }
 )
-map({ "n", "v", "s" }, "<leader>q", "ZQ", { desc = "Quit without writing." })
--- TODO: custom function to call ZQ multiple times if needed.
--- map({ "n", "v", "s" }, "<leader>q", function()
---     -- Call ZQ and if the current buffer changes to oil.nvim, call ZQ again.
--- end, { desc = "Quit without writing." })
-map(
+vim.keymap.set(
+    { "n", "v", "s" },
+    "<leader>q",
+    "ZQ",
+    { desc = "Quit without writing." }
+)
+
+vim.keymap.set(
     { "i", "n" },
     "<esc>",
     "<cmd>noh<cr><esc>",
     { desc = "Escape and clear hlsearch." }
 )
-map(
+vim.keymap.set(
     { "i", "v", "c", "x", "n" },
     "<C-g>",
     "<esc>",
     { desc = "Exit insert mode with one hand." }
 )
-map(
+vim.keymap.set(
     { "i", "n" },
     "<C-g>",
     "<cmd>noh<cr><esc>",
@@ -1465,28 +1478,63 @@ map(
 )
 
 -- Move LoC
-map("v", "<S-k>", "<cmd>m+1<cr>vv")
-map("v", "<S-j>", "<cmd>m-2<cr>vv")
-map("x", "<S-k>", ":m '<-2<cr>gv=gv")
-map("x", "<S-j>", ":m '>+1<cr>gv=gv")
+vim.keymap.set("v", "<S-k>", "<cmd>m+1<cr>vv")
+vim.keymap.set("v", "<S-j>", "<cmd>m-2<cr>vv")
+vim.keymap.set("x", "<S-k>", ":m '<-2<cr>gv=gv")
+vim.keymap.set("x", "<S-j>", ":m '>+1<cr>gv=gv")
 
 -- Better Indent
-map("x", ">", ">gv")
-map("x", "<", "<gv")
+vim.keymap.set("x", ">", ">gv")
+vim.keymap.set("x", "<", "<gv")
 
 -- Movement
-map("n", "<C-u>", "<C-u>zz")
-map("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 -- Buffers
-map({ "n", "v", "s" }, "<Tab>", "<cmd>bn<cr>", { desc = "Next buffer." })
-map({ "n", "v", "s" }, "<S-Tab>", "<cmd>bp<cr>", { desc = "Previous buffer." })
-map({ "n", "v", "s" }, "[b", "<cmd>bn<cr>", { desc = "Next buffer." })
-map({ "n", "v", "s" }, "]b", "<cmd>bp<cr>", { desc = "Previous buffer." })
-map({ "n", "v", "s" }, ";l", "<cmd>bn<cr>", { desc = "Next buffer." })
-map({ "n", "v", "s" }, ";h", "<cmd>bp<cr>", { desc = "Previous buffer." })
-map({ "n", "v", "s" }, "<leader>bd", "<cmd>bd<cr>", { desc = "Close buffer." })
-map(
+vim.keymap.set(
+    { "n", "v", "s" },
+    "<Tab>",
+    "<cmd>bn<cr>",
+    { desc = "Next buffer." }
+)
+vim.keymap.set(
+    { "n", "v", "s" },
+    "<S-Tab>",
+    "<cmd>bp<cr>",
+    { desc = "Previous buffer." }
+)
+vim.keymap.set(
+    { "n", "v", "s" },
+    "[b",
+    "<cmd>bn<cr>",
+    { desc = "Next buffer." }
+)
+vim.keymap.set(
+    { "n", "v", "s" },
+    "]b",
+    "<cmd>bp<cr>",
+    { desc = "Previous buffer." }
+)
+vim.keymap.set(
+    { "n", "v", "s" },
+    ";l",
+    "<cmd>bn<cr>",
+    { desc = "Next buffer." }
+)
+vim.keymap.set(
+    { "n", "v", "s" },
+    ";h",
+    "<cmd>bp<cr>",
+    { desc = "Previous buffer." }
+)
+vim.keymap.set(
+    { "n", "v", "s" },
+    "<leader>bd",
+    "<cmd>bd<cr>",
+    { desc = "Close buffer." }
+)
+vim.keymap.set(
     { "n", "v", "s" },
     "<leader>bD",
     "<cmd>bd!<cr>",
@@ -1494,23 +1542,23 @@ map(
 )
 
 -- Folding
-map(
+vim.keymap.set(
     { "n", "v", "s", "x" },
     "<leader>a",
     "za",
     { desc = "Toggle folding status." }
 )
 
--- Windows
-map(
+-- Splits
+vim.keymap.set(
     { "n", "v", "s" },
-    "|",
+    "<C-w>|",
     "<cmd>vertical split<cr>",
     { desc = "Vertical window split." }
 )
-map(
+vim.keymap.set(
     { "n", "v", "s" },
-    "\\",
+    "<C-w>\\",
     "<cmd>horizontal split<cr>",
     { desc = "Horizontal window split." }
 )
@@ -1518,6 +1566,13 @@ map(
 --1}}}
 
 --{{{1 Commands
+
+vim.api.nvim_create_user_command(
+    "Align",
+    ":!column -t<cr>gv:s/\\v\\s{2}(\\S)/ \\1/g<cr>",
+    { range = true }
+)
+
 local autoft = {
     slint = function()
         vim.bo.filetype = "slint"
@@ -1540,4 +1595,5 @@ end
 --         vim.bo.filetype = "slint"
 --     end,
 -- })
+
 --1}}}
