@@ -1,4 +1,6 @@
 #+TITLE: Gruvbox Links
 
+[[https://github.com/SylEleuth/gruvbox-plus-icon-pack][Icons]]
+[[https://github.com/Fausto-Korpsvart/Gruvbox-GTK-Theme][GTK Theme]]
 [[https://github.com/nanoqoi/vencord-theme][Vencord Theme by nanoqoi]]
 [[https://github.com/Costeer/Gruvbox-Material-Themes][Gruvbox Material themes by Costeer]]
