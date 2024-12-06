@@ -175,6 +175,7 @@ application/xml=firefox.desktop
 application/xml-external-parsed-entity=firefox.desktop
 application/xslt+xml=firefox.desktop
 model/gltf+json=firefox.desktop
+video/mp4=vlc.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-Firefox-SX1VT2.desktop;userapp-Firefox-BHEXU2.desktop;
@@ -351,3 +352,4 @@ model/gltf+json=firefox.desktop;
 application/postscript=dev.zed.Zed.desktop;
 image/png=feh.desktop;
 image/jpeg=feh.desktop;
+video/mp4=vlc.desktop;
