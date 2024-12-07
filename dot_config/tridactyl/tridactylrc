@@ -34,6 +34,8 @@ unbind <C-g>
 bind <C-g> mode normal
 bind --mode=ignore <C-g> mode normal
 bind --mode=hint <C-g> mode normal
+bind --mode=insert <C-g> composite unfocus | mode normal
+bind --mode=visual <C-g> mode normal
 
 " Automatically enter ignore mode
 autocmd DocStart mail.google.com mode ignore
