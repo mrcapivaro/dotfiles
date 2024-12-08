@@ -1,201 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eo pipefail
 
-NAME="fontawesome-menu"
-VERSION="0.001"
-AUTHOR="budRich"
-CONTACT='robstenklippa@gmail.com'
-CREATED="2018-01-23"
-UPDATED="2018-01-23"
+# Set the PWD to the ~/.config/rofi folder
+cd "$HOME/.config/rofi"
 
-if [[ -n $WAYLAND_DISPLAY ]]; then
-    copy=wl-copy
-else
-    copy=xclip -selection clipboard
-fi
+[[ -n $WAYLAND_DISPLAY ]] &&
+    copy="wl-copy" ||
+    copy="xclip -sel clip"
 
-main() {
-    while getopts :vhf:o:p: option; do
-        case "${option}" in
-        f) LISTFILE="${OPTARG}" ;;
-        o) ROFI_OPTIONS="${OPTARG}" ;;
-        p) ROFI_PROMPT="${OPTARG}" ;;
-        h | *) printinfo && exit ;;
-        esac
-    done
+symbols_file="./scripts/symbols.txt"
 
-    echo "$LISTFILE"
+[[ ! -f "$symbols_file" ]] &&
+    echo "$symbols_file not found" &&
+    exit 1
 
-    LISTFILE="${LISTFILE:-symbols.txt}"
-    ROFI_PROMPT="${ROFI_PROMPT:-""}"
+selected="$(cat "$symbols_file" | rofi -dmenu -i -theme "configs/apps.rasi" -p " ")"
 
-    [[ ! -f "$LISTFILE" ]] &&
-        echo "$LISTFILE not found" &&
-        exit 1
+[[ -z $selected ]] && exit 1
 
-    (($# > 1)) && shift $((--OPTIND))
-
-    ROFI_MAGIC='-dmenu -markup-rows'
-
-    output=${1:-icon}
-
-    selected="$(cat "$LISTFILE" |
-        rofi ${ROFI_MAGIC} ${ROFI_OPTIONS} -p "${ROFI_PROMPT}")"
-
-    # Exit if nothing is selected
-    [[ -z $selected ]] && exit 1
-
-    case "$output" in
-    icon)
-
-        echo -ne "$(
-            echo "$selected" |
-                awk -F';' -v RS='>' '
-            NR==2{sub("&#x","",$1);print "\\u" $1;exit}'
-        )" | $copy
-
-        ;;
-
-    unicode)
-
-        echo -n "$(echo "$selected" |
-            awk -F';' -v RS='>' '
-            NR==2{sub("&#x","",$1);print $1;exit}')" |
-            $copy
-
-        ;;
-
-    name)
-
-        echo -n "$(echo "$selected" |
-            cut -d\' -f2)" |
-            $copy
-
-        ;;
-
-    esac
-
-}
-
-printinfo() {
-    case "$1" in
-    m) printf '%s' "${about}" ;;
-
-    f)
-        printf '%s' "${bouthead}"
-        printf '%s' "${about}"
-        printf '%s' "${boutfoot}"
-        ;;
-
-    '' | *)
-        printf '%s' "${about}" | awk '
-        BEGIN{ind=0}
-        $0~/^```/{
-            if(ind!="1"){ind="1"}
-            else{ind="0"}
-            print ""
-        }
-        $0!~/^```/{
-            gsub("[`*]","",$0)
-            if(ind=="1"){$0="   " $0}
-        i    print $0
-        }
-        '
-        ;;
-    esac
-}
-
-bouthead="
-${NAME^^} 1 ${CREATED} Linux \"User Manuals\"
-=======================================
-
-NAME
-----
-"
-
-boutfoot="
-AUTHOR
-------
-
-${AUTHOR} <${CONTACT}>
-<https://budrich.github.io>
-
-SEE ALSO
---------
-
-rofi(1), xclip(1)
-<https://raw.githubusercontent.com/wstam88/rofi-fontawesome/>, 
-<http://fontawesome.io>
-"
-
-about='
-`fontawesome-menu` - Display all FontAwesome icons in a rofi menu
-
-SYNOPSIS
---------
-
-`fontawesome-menu` [`-v`|`-h`] [-f *LISTFILE*] [-p PROMPT] [OUTPUT]
-
-DESCRIPTION
------------
-
-If `fontawesome-menu` is executed without options 
-or arguments, a list of all FontAwesome 5 Free 
-icons is displayed in a rofi menu. The selected icon
-will be put into the clipboard.
-
-OPTIONS
--------
-
-`-v`  
-  Show version and exit.
-
-`-h`  
-  Show help and exit.
-
-`-f` *LISTFILE*  
-  File containing objects to display in the menu. 
-  Defaults to *fa5-icon-list.txt*. More lists can
-  be found here:  
-  <https://raw.githubusercontent.com/wstam88/rofi-fontawesome/> 
-
-`-p` PROMPT  
-  PROMPT to display in the menu. Defaults to nothing.
-
-`-o` *ROFI-OPTIONS*  
-  Additional options to pass to `rofi`. Put the all options 
-  in one quoted string. Example:
-  `fontawesome-menu -o '"'"'-i -columns 6 -width 100 -lines 20 -bw 2 -yoffset -2 -location 1'"'"'`
-
-OUTPUT  
-  Can be one of: icon|name|unicode  
-  icon    - Puts the icon in the clipboard (default)  
-  name    - Puts the name in the clipboard   
-  unicode - Puts the unicode in the clipboard  
-
-EXAMPLES
---------  
-
-``` text
-$ fontawesome-menu \
-    -o "-columns 6 -width 100 -location 1 -lines 20 -i" \
-    -p "Select icon: " \
-    name
-``` 
-
-DEPENDENCIES
-------------
-
-rofi  
-fontawesome  
-xclip  
-'
-
-if [ "$1" = "md" ]; then
-    printinfo m
-    exit
-elif [ "$1" = "man" ]; then
-    printinfo f
-    exit
-else
-    main "${@}"
-fi
+echo -ne $(echo "$selected" | cut -d $'\t' -f 1) | $copy

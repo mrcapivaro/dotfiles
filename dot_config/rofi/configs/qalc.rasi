@@ -1,0 +1,25 @@
+/**
+ *
+ * Author : mrcapivaro
+ * Github : @mrcapivaro
+ *
+ * Inspired from : @adi1090x
+ * 
+ * Rofi Theme File
+ * Rofi Version: ???
+ **/
+
+@import "../colors/gruvbox.rasi"
+@import "./common.rasi"
+
+configuration {
+    display-calc:               " :";
+}
+
+mainbox {
+    children:                    [ "inputbar", "message" ];
+}
+
+textbox {
+    padding: 16px;
+}
