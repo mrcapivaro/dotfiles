@@ -8,7 +8,7 @@ cd "$HOME/.config/rofi"
     copy="wl-copy" ||
     copy="xclip -sel clip"
 
-symbols_file="./scripts/symbols.txt"
+symbols_file="./scripts/symbols/symbols.txt"
 
 [[ ! -f "$symbols_file" ]] &&
     echo "$symbols_file not found" &&
