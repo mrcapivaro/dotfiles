@@ -1,7 +1,6 @@
-/*
- * Vertical Tabs
+/* {{{1 Vertical Tabs 
  * src: https://codeberg.org/ranmaru22/firefox-vertical-tabs/src/branch/main/userChrome.css
- */
+ * */
 
 :root {
     /* Delay before expanding tabs */
@@ -323,8 +322,9 @@
     display: none;
 }
 
-/*
- * Center Bookmark Items and remove labels
+/* 1}}} */
+
+/* {{{1 Center Bookmark Items and remove labels
  * src: https://www.reddit.com/r/firefox/comments/c13l9x/how_can_i_center_the_bookmarks_toolbar/
  */
 
@@ -344,6 +344,8 @@ toolbarbutton.bookmark-item {
 toolbarbutton.bookmark-item:hover {
     transform: scale(1.1);
 }
+
+/* 1}}} */
 
 /* Fix bug where the hovered sidebar gets 'underneath' the web content.
  * Introduced at firefox 133.
