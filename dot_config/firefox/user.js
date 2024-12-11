@@ -1,22 +1,14 @@
-//
-/* You may copy+paste this file and use it as it is.
- *
- * If you make changes to your about:config while the program is running, the
- * changes will be overwritten by the user.js when the application restarts.
- *
- * To make lasting changes to preferences, you will have to edit the user.js.
- */
-
 /****************************************************************************
  * Betterfox                                                                *
  * "Ad meliora"                                                             *
- * version: 129                                                             *
+ * version: 133                                                             *
  * url: https://github.com/yokoffing/Betterfox                              *
- ****************************************************************************/
+****************************************************************************/
 
-/****************************************************************************
- * SECTION: FASTFOX                                                         *
- ****************************************************************************/
+// {{{1 Betterfox
+
+// {{{2 Fastfox
+
 /** GENERAL ***/
 user_pref("content.notify.interval", 100000);
 
@@ -26,7 +18,7 @@ user_pref("gfx.canvas.accelerated.cache-size", 512);
 user_pref("gfx.content.skia-font-cache-size", 20);
 
 /** DISK CACHE ***/
-user_pref("browser.cache.jsbc_compression_level", 3);
+user_pref("browser.cache.disk.enable", true);
 
 /** MEDIA CACHE ***/
 user_pref("media.memory_cache_max_size", 65536);
@@ -54,22 +46,14 @@ user_pref("network.predictor.enable-prefetch", false);
 /** EXPERIMENTAL ***/
 user_pref("layout.css.grid-template-masonry-value.enabled", true);
 user_pref("dom.enable_web_task_scheduling", true);
-user_pref("dom.security.sanitizer.enabled", true);
 
-/****************************************************************************
- * SECTION: SECUREFOX                                                       *
- ****************************************************************************/
+// 2}}}
+// {{{2 Securefox
+
 /** TRACKING PROTECTION ***/
 user_pref("browser.contentblocking.category", "strict");
-user_pref(
-  "urlclassifier.trackingSkipURLs",
-  "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com",
-);
-user_pref(
-  "urlclassifier.features.socialtracking.skipURLs",
-  "*.instagram.com, *.twitter.com, *.twimg.com",
-);
-user_pref("network.cookie.sameSite.noneRequiresSecure", true);
+user_pref("urlclassifier.trackingSkipURLs", "*.reddit.com, *.twitter.com, *.twimg.com, *.tiktok.com");
+user_pref("urlclassifier.features.socialtracking.skipURLs", "*.instagram.com, *.twitter.com, *.twimg.com");
 user_pref("browser.download.start_downloads_in_tmp_dir", true);
 user_pref("browser.helperApps.deleteTempFileOnExit", true);
 user_pref("browser.uitour.enabled", false);
@@ -90,6 +74,7 @@ user_pref("browser.privatebrowsing.forceMediaMemoryCache", true);
 user_pref("browser.sessionstore.interval", 60000);
 
 /** SHUTDOWN & SANITIZING ***/
+user_pref("browser.privatebrowsing.resetPBM.enabled", true);
 user_pref("privacy.history.custom", true);
 
 /** SEARCH / URL BAR ***/
@@ -99,8 +84,6 @@ user_pref("browser.search.separatePrivateDefault.ui.enabled", true);
 user_pref("browser.urlbar.update2.engineAliasRefresh", true);
 user_pref("browser.search.suggest.enabled", false);
 user_pref("browser.urlbar.quicksuggest.enabled", false);
-user_pref("browser.urlbar.suggest.quicksuggest.sponsored", false);
-user_pref("browser.urlbar.suggest.quicksuggest.nonsponsored", false);
 user_pref("browser.urlbar.groupLabels.enabled", false);
 user_pref("browser.formfill.enable", false);
 user_pref("security.insecure_connection_text.enabled", true);
@@ -119,7 +102,9 @@ user_pref("editor.truncate_user_pastes", false);
 /** MIXED CONTENT + CROSS-SITE ***/
 user_pref("security.mixed_content.block_display_content", true);
 user_pref("pdfjs.enableScripting", false);
-user_pref("extensions.postDownloadThirdPartyPrompt", false);
+
+/** EXTENSIONS ***/
+user_pref("extensions.enabledScopes", 5);
 
 /** HEADERS / REFERERS ***/
 user_pref("network.http.referer.XOriginTrimmingPolicy", 2);
@@ -127,18 +112,14 @@ user_pref("network.http.referer.XOriginTrimmingPolicy", 2);
 /** CONTAINERS ***/
 user_pref("privacy.userContext.ui.enabled", true);
 
-/** WEBRTC ***/
-user_pref("media.peerconnection.ice.proxy_only_if_behind_proxy", true);
-user_pref("media.peerconnection.ice.default_address_only", true);
-
 /** SAFE BROWSING ***/
 user_pref("browser.safebrowsing.downloads.remote.enabled", false);
 
 /** MOZILLA ***/
 user_pref("permissions.default.desktop-notification", 2);
 user_pref("permissions.default.geo", 2);
+user_pref("browser.search.update", false);
 user_pref("permissions.manager.defaultsUrl", "");
-user_pref("webchannel.allowObject.urlWhitelist", "");
 
 /** TELEMETRY ***/
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
@@ -166,49 +147,32 @@ user_pref("app.normandy.api_url", "");
 /** CRASH REPORTS ***/
 user_pref("breakpad.reportURL", "");
 user_pref("browser.tabs.crashReporting.sendReport", false);
-user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false);
 
 /** DETECTION ***/
 user_pref("captivedetect.canonicalURL", "");
 user_pref("network.captive-portal-service.enabled", false);
 user_pref("network.connectivity-service.enabled", false);
 
-/****************************************************************************
- * SECTION: PESKYFOX                                                        *
- ****************************************************************************/
+// 2}}}
+// {{{2 Peskyfox
+
 /** MOZILLA UI ***/
 user_pref("browser.privatebrowsing.vpnpromourl", "");
 user_pref("extensions.getAddons.showPane", false);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 user_pref("browser.discovery.enabled", false);
 user_pref("browser.shell.checkDefaultBrowser", false);
-user_pref(
-  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons",
-  false,
-);
-user_pref(
-  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features",
-  false,
-);
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
 user_pref("browser.preferences.moreFromMozilla", false);
 user_pref("browser.aboutConfig.showWarning", false);
 user_pref("browser.aboutwelcome.enabled", false);
-user_pref("browser.tabs.tabmanager.enabled", false);
 user_pref("browser.profiles.enabled", true);
 
 /** THEME ADJUSTMENTS ***/
-// enable userChrome.css
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("browser.compactmode.show", true);
-user_pref("browser.display.focus_ring_on_anything", true);
-user_pref("browser.display.focus_ring_style", 0);
-user_pref("browser.display.focus_ring_width", 0);
-user_pref("layout.css.prefers-color-scheme.content-override", 2);
 user_pref("browser.privateWindowSeparation.enabled", false); // WINDOWS
-user_pref(
-  "browser.newtabpage.activity-stream.newtabWallpapers.v2.enabled",
-  true,
-);
 
 /** COOKIE BANNER HANDLING ***/
 user_pref("cookiebanners.service.mode", 1);
@@ -217,7 +181,6 @@ user_pref("cookiebanners.service.mode.privateBrowsing", 1);
 /** FULLSCREEN NOTICE ***/
 user_pref("full-screen-api.transition-duration.enter", "0 0");
 user_pref("full-screen-api.transition-duration.leave", "0 0");
-user_pref("full-screen-api.warning.delay", -1);
 user_pref("full-screen-api.warning.timeout", 0);
 
 /** URL BAR ***/
@@ -227,6 +190,7 @@ user_pref("browser.urlbar.trending.featureGate", false);
 
 /** NEW TAB PAGE ***/
 user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
+user_pref("browser.newtabpage.activity-stream.showWeather", false);
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 
 /** POCKET ***/
@@ -244,26 +208,106 @@ user_pref("browser.menu.showViewImageInfo", true);
 user_pref("findbar.highlightAll", true);
 user_pref("layout.word_select.eat_space_to_next_word", false);
 
-/****************************************************************************
- * START: MY OVERRIDES                                                      *
- ****************************************************************************/
+// 2}}}
+// {{{2 Smoothfox
+
+// visit https://github.com/yokoffing/Betterfox/blob/main/Smoothfox.js
+// Enter your scrolling overrides below this line:
+
+/****************************************************************************************
+ * Smoothfox                                                                            *
+ * "Faber est suae quisque fortunae"                                                    *
+ * priority: better scrolling                                                           *
+ * version: 126.1                                                                       *
+ * url: https://github.com/yokoffing/Betterfox                                          *
+ ***************************************************************************************/
+
+// Use only one option at a time!
+// Reset prefs if you decide to use different option.
+
+/****************************************************************************************
+ * OPTION: SHARPEN SCROLLING                                                           *
+****************************************************************************************/
+// credit: https://github.com/black7375/Firefox-UI-Fix
+// only sharpen scrolling
+user_pref("apz.overscroll.enabled", true); // DEFAULT NON-LINUX
+user_pref("general.smoothScroll", true); // DEFAULT
+user_pref("mousewheel.min_line_scroll_amount", 10); // 10-40; adjust this number to your liking; default=5
+user_pref("general.smoothScroll.mouseWheel.durationMinMS", 80); // default=50
+user_pref("general.smoothScroll.currentVelocityWeighting", "0.15"); // default=.25
+user_pref("general.smoothScroll.stopDecelerationWeighting", "0.6"); // default=.4
+// Firefox Nightly only:
+// [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1846935
+// user_pref("general.smoothScroll.msdPhysics.enabled", false); // [FF122+ Nightly]
+
+/****************************************************************************************
+ * OPTION: INSTANT SCROLLING (SIMPLE ADJUSTMENT)                                       *
+****************************************************************************************/
+// recommended for 60hz+ displays
+// user_pref("apz.overscroll.enabled", true); // DEFAULT NON-LINUX
+// user_pref("general.smoothScroll", true); // DEFAULT
+// user_pref("mousewheel.default.delta_multiplier_y", 275); // 250-400; adjust this number to your liking
+
+// Firefox Nightly only:
+// [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1846935
+// user_pref("general.smoothScroll.msdPhysics.enabled", false); // [FF122+ Nightly]
+
+/****************************************************************************************
+ * OPTION: SMOOTH SCROLLING                                                            *
+****************************************************************************************/
+// recommended for 90hz+ displays
+// user_pref("apz.overscroll.enabled", true); // DEFAULT NON-LINUX
+// user_pref("general.smoothScroll", true); // DEFAULT
+// user_pref("general.smoothScroll.msdPhysics.enabled", true);
+// user_pref("mousewheel.default.delta_multiplier_y", 300); // 250-400; adjust this number to your liking
+
+/****************************************************************************************
+ * OPTION: NATURAL SMOOTH SCROLLING V3 [MODIFIED]                                      *
+****************************************************************************************/
+// credit: https://github.com/AveYo/fox/blob/cf56d1194f4e5958169f9cf335cd175daa48d349/Natural%20Smooth%20Scrolling%20for%20user.js
+// recommended for 120hz+ displays
+// largely matches Chrome flags: Windows Scrolling Personality and Smooth Scrolling
+// user_pref("apz.overscroll.enabled", true); // DEFAULT NON-LINUX
+// user_pref("general.smoothScroll", true); // DEFAULT
+// user_pref("general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS", 12);
+// user_pref("general.smoothScroll.msdPhysics.enabled", true);
+// user_pref("general.smoothScroll.msdPhysics.motionBeginSpringConstant", 600);
+// user_pref("general.smoothScroll.msdPhysics.regularSpringConstant", 650);
+// user_pref("general.smoothScroll.msdPhysics.slowdownMinDeltaMS", 25);
+// user_pref("general.smoothScroll.msdPhysics.slowdownMinDeltaRatio", "2");
+// user_pref("general.smoothScroll.msdPhysics.slowdownSpringConstant", 250);
+// user_pref("general.smoothScroll.currentVelocityWeighting", "1");
+// user_pref("general.smoothScroll.stopDecelerationWeighting", "1");
+// user_pref("mousewheel.default.delta_multiplier_y", 300); // 250-400; adjust this number to your liking
+
+// 2}}}
+// {{{2 My overrides
+
 // visit https://github.com/yokoffing/Betterfox/wiki/Common-Overrides
 // visit https://github.com/yokoffing/Betterfox/wiki/Optional-Hardening
 // Enter your personal overrides below this line:
 
-// Allow the use of chrome/userChrome.css
+// Allow the use of `$firefox_profile/chrome/userChrome.css`.
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-// Disable focus of menu when pressing alt-left
+
+// Disable focus of menu when pressing alt-left.
 user_pref("ui.key.menuAccessKeyFocuses", false);
-// Bookmarks toolbar always visible
+
+// Bookmarks toolbar visible only in newtab.
 user_pref("browser.toolbars.bookmarks.visibility", "newtab");
 
-/****************************************************************************
- * SECTION: SMOOTHFOX                                                       *
- ****************************************************************************/
-// visit https://github.com/yokoffing/Betterfox/blob/main/Smoothfox.js
-// Enter your scrolling overrides below this line:
+// PREF: preferred color scheme for websites and sub-pages
+// 0 = Dark theme
+// 1 = Light theme
+// 2 = match OS theme [Betterfox default]
+user_pref("layout.css.prefers-color-scheme.content-override", 0);
 
-/****************************************************************************
- * END: BETTERFOX                                                           *
- ****************************************************************************/
+// PREF: improve font rendering by using DirectWrite everywhere like Chrome [WINDOWS]
+user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
+user_pref("gfx.font_rendering.cleartype_params.cleartype_level", 100);
+user_pref("gfx.font_rendering.cleartype_params.force_gdi_classic_for_families", "");
+user_pref("gfx.font_rendering.directwrite.use_gdi_table_loading", false);
+
+// 2}}}
+
+// 1}}}
