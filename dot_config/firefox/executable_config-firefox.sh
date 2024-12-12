@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+## Useful links:
+## https://github.com/CachyOS/CachyOS-Browser-Settings/blob/master/distribution/policies.json
+## https://github.com/yokoffing/Betterfox
+## https://codeberg.org/ranmaru22/firefox-vertical-tabs || https://github.com/demirbas1/firefox
+
 firefox_system_dir="/etc/firefox/policies"
 config_dir="$HOME/.config/firefox"
 profiles_dir="$HOME/.mozilla/firefox"
