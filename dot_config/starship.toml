@@ -1,33 +1,33 @@
-"$schema" = 'https://starship.rs/config-schema.json'
-
+"$schema"   = 'https://starship.rs/config-schema.json'
 add_newline = true
-palette = 'gruvbox_dark'
+palette     = 'gruvbox_dark'
 
 [character]
-success_symbol = '[\$](green)'
-error_symbol = '[\$](red)'
-vimcmd_symbol = '[\$](blue)'
-vimcmd_visual_symbol = '[\$](purple)'
-vimcmd_replace_one_symbol = '[\$](red)'
-vimcmd_replace_symbol = '[\$](red)'
+success_symbol            = '[\$](green)'
+error_symbol              = '[\$](red)'
+vimcmd_symbol             = '[\$](blue)'
+vimcmd_visual_symbol      = '[\$](purple)'
+vimcmd_replace_one_symbol = '[\$](yellow)'
+vimcmd_replace_symbol     = '[\$](orange)'
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
-format = '[$user]($style) in '
+style_user  = "bg:color_orange fg:color_fg0"
+style_root  = "bg:color_orange fg:color_fg0"
+format      = '[$user]($style)[@](aqua)' 
 
-## Colorschemes
+[hostname]
+ssh_only = false
+format = "[$ssh_symbol$hostname]($fg0) in "
+
 [palettes.gruvbox_dark]
-fg0 = '#fbf1c7'
-bg1 = '#3c3836'
-bg3 = '#665c54'
-
-red = '#cc241d'
-green = '#98971a'
-blue = '#458588'
-
+fg0    = '#fbf1c7'
+bg1    = '#3c3836'
+bg3    = '#665c54'
+red    = '#cc241d'
+green  = '#98971a'
+blue   = '#458588'
 yellow = '#d79921'
 purple = '#b16286'
 orange = '#d65d0e'
-aqua = '#689d6a'
+aqua   = '#689d6a'
