@@ -1,0 +1,39 @@
+#!/bin/sh
+
+export ZCONFDIR="$HOME/.config/zsh"
+
+## Default Programs
+export EDITOR=nvim
+export PAGER=nvimpager
+export VISUAL=zed
+export BROWSER=firefox
+export TERMINAL=wezterm
+export TERMINAL_PROG=wezterm
+
+## Path
+append-path() {
+    local dir=$1
+    case ":$PATH:" in
+    *:"$dir":*) ;;
+    *)
+        export PATH="$dir:$PATH"
+        ;;
+    esac
+}
+
+export LUA_PATH="/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua"
+export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME/.luarocks/lib/lua/5.3/?.so"
+export LOCAL_BIN="$HOME/.local/bin"
+export CARGO_BIN="$HOME/.cargo/bin"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+
+append-path "$LOCAL_BIN"
+append-path "$CARGO_BIN"
+append-path "$PNPM_HOME"
+
+## WSL Machine
+# Sometimes, it is necessary to update and install WSL2 and WSLG manually.
+if grep -qi microsoft /proc/version; then
+    export DISPLAY=:0
+    export BROWSER="wslview"
+fi

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+alias tmux="tmux -2"
+
+alias ..="cd .."
+alias ....="cd ../.."
+
+alias ls="ls --color=auto -Fa1"
+
+alias vi="nvim"
+alias vim="nvim"
+
+alias clera="clear"
+alias clare="clear"
+alias claer="clear"
+alias cler="clear"
+alias clar="clear"
+
+alias fl="yazi"
+alias ls="ls --color=always -F1"
+alias sa="xbps-query -Rs" # Search Apps for package manager
+
+alias fzf="fzf --reverse"
+alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"

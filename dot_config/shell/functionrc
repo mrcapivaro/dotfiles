@@ -1,0 +1,42 @@
+#!/bin/sh
+
+cheat() {
+    curl cheat.sh/$@ | $PAGER
+}
+
+xny() {
+    [[ $# -lt 2 ]] && pager=$PAGER || pager=$2
+
+    curl "https://learnxinyminutes.com/docs/$1/" |
+        sed -n '/<pre>/,/<\/pre>/p' |
+        sed 's/<[^>]*>//g' |
+        sed 's/&quot;/"/g' |
+        sed 's/&gt;/>/g' |
+        sed 's/&lt;/</g' |
+        sed "s/&#39;/'/g" |
+        sed 's/&amp;/&/g' |
+        $pager
+}
+
+gitall() {
+    local message="${*:-update}"
+    git add . && git commit -m "$message" && git push
+}
+
+help() {
+    "$@" --help | $PAGER
+}
+
+yacd() {
+    local tmp=$(mktemp -uq)
+    trap 'rm -f $tmp >/dev/null 2>&1' QUIT EXIT INT HUP TERM PWR
+    yazi --cwd-file "$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        local dir="$(cat "$tmp")"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+
+fedit() {
+    $EDITOR $(fd . --hidden --type file | fzf --reverse)
+}
