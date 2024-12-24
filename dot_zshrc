@@ -1,46 +1,15 @@
 # ~/.zshrc
 
-#{{{1 Exports
+AGSHCONFDIR="$HOME/.config/shell"
+AGSHALIASRC="$HOME/.config/shell/aliasrc"
+AGSHFUNCTIONRC="$HOME/.config/shell/functionrc"
+AGSHPROFILE="$HOME/.config/shell/profile"
 
-export ZCONFDIR="$HOME/.config/zsh"
+[ -f "$AGSHALIASRC" ] && . "$AGSHALIASRC"
+[ -f "$AGSHFUNCTIONRC" ] && . "$AGSHFUNCTIONRC"
+[ -f "$AGSHPROFILE" ] && . "$AGSHPROFILE"
 
-## Default Programs
-export EDITOR=nvim
-export VISUAL=zed
-export PAGER=nvimpager
-
-## Path
-export LUA_PATH="/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua;$HOME/.luarocks/share/lua/5.3/?.lua;$HOME/.luarocks/share/lua/5.3/?/init.lua"
-export LUA_CPATH="/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so;$HOME/.luarocks/lib/lua/5.3/?.so"
-
-function ensure-path {
-    local dir=$1
-    case ":$PATH:" in
-    *:"$dir":*) ;;
-    *)
-        export PATH="$dir:$PATH"
-        ;;
-    esac
-}
-
-export LOCAL_BIN="$HOME/.local/bin"
-export CARGO_BIN="$HOME/.cargo/bin"
-export PNPM_HOME="$HOME/.local/share/pnpm"
-
-ensure-path "$LOCAL_BIN"
-ensure-path "$CARGO_BIN"
-ensure-path "$PNPM_HOME"
-
-## WSL Machine
-# remainder: sometimes, it is necessary to update and install WSL2 and WSLG
-if grep -qi microsoft /proc/version; then
-    export DISPLAY=:0
-    export BROWSER="wslview"
-fi
-
-#1}}}
-
-#{{{1 Autoconfig
+# Autoconfig {{{1
 
 ## compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
@@ -59,13 +28,12 @@ SAVEHIST=1000
 setopt autocd
 unsetopt beep extendedglob nomatch
 
-#1}}}
-
-#{{{1 Extensions
+# 1}}}
+# Extensions {{{1
 
 ## plugin boilerplate setup function
 # ex: git clone https://github.com/user/name.git
-function use-git-plugin {
+use-git-plugin() {
     local gitrepo="$1"
     local name=${gitrepo#*/}
     if [ ! -d "$ZCONFDIR/$name" ]; then
@@ -79,8 +47,11 @@ function use-git-plugin {
 
 ## eval's
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
+eval "$(zoxide init zsh)"
+
+# Substitute 'cd' with 'z' if possible.
+command -v z >/dev/null 2>&1 && alias cd="z"
 
 ## plugins
 use-git-plugin "Aloxaf/fzf-tab" # must come after compinit and before other plugins
@@ -88,22 +59,26 @@ use-git-plugin "zsh-users/zsh-syntax-highlighting"
 use-git-plugin "zsh-users/zsh-autosuggestions"
 use-git-plugin "zsh-users/zsh-history-substring-search"
 
-#1}}}
+# 1}}}
+# Keybinds {{{1
 
-#{{{1 Keybinds
+bindkey -s '^o' '^uyacd\n'
+bindkey -s '^f' 'fedit\n'
 
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
-bindkey "^[[A" up-history
-bindkey "^[[B" down-history
-bindkey "^P" up-history
-bindkey "^N" down-history
-# allow ctrl-r and ctrl-s to search the history
-bindkey '^r' history-incremental-search-backward
-bindkey '^s' history-incremental-search-forward
-# allow ctrl-a and ctrl-e to move to beginning/end of line
+
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
+
+bindkey "^[[A" up-history
+bindkey "^[[B" down-history
+
+bindkey "^N" up-history
+bindkey "^P" down-history
+
+bindkey '^r' history-incremental-search-backward
+bindkey '^s' history-incremental-search-forward
 
 ## VI Mode
 # mostly copied and pasted from oh my zsh:
@@ -112,20 +87,13 @@ bindkey -v
 bindkey "^G" vi-cmd-mode
 export KEYTIMEOUT=1 # Remove mode switching delay.
 
-#{{{2 Vim-like Cursor
-# source 1: https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
-# source 2: https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-# Set cursor style (DECSCUSR), VT520.
-# 0  ⇒  blinking block.
-# 1  ⇒  blinking block (default).
-# 2  ⇒  steady block.
-# 3  ⇒  blinking underline.
-# 4  ⇒  steady underline.
-# 5  ⇒  blinking bar, xterm.
-# 6  ⇒  steady bar, xterm.
+# Mode dependant cursor {{{2
+
+# https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
 
 # Change cursor on mode change.
-function zle-keymap-select() {
+zle-keymap-select() {
     if [[ $KEYMAP == vicmd ]] || [[ $1 == "block" ]]; then
         echo -ne '\e[2 q'
     elif [[ $KEYMAP == main ]] || [[ $KEYMAP == viins ]] ||
@@ -136,16 +104,15 @@ function zle-keymap-select() {
 zle -N zle-keymap-select
 
 # Change cursor on shell init.
-function zle-line-init() {
+zle-line-init() {
     echo -ne '\e[6 q'
 }
 zle -N zle-line-init
 
-#2}}}
+# 2}}}
+# System clipboard integration {{{2
 
-#{{{2 Vi yank/delete clipboard wraping
-
-function wrap_clipboard_widgets() {
+wrap_clipboard_widgets() {
     # NB: Assume we are the first wrapper and that we only wrap native widgets
     # See zsh-autosuggestions.zsh for a more generic and more robust wrapper
     local verb="$1"
@@ -161,14 +128,14 @@ function wrap_clipboard_widgets() {
         wrapped_name="_zsh-vi-${verb}-${widget}"
         if [ "${verb}" = copy ]; then
             eval "
-        function ${wrapped_name}() {
+        ${wrapped_name}() {
           zle .${widget}
           printf %s \"\${CUTBUFFER}\" | $copy_cmd 2>/dev/null || true
         }
       "
         else
             eval "
-        function ${wrapped_name}() {
+        ${wrapped_name}() {
           CUTBUFFER=\"\$($paste_cmd 2>/dev/null || echo \$CUTBUFFER)\"
           zle .${widget}
         }
@@ -178,11 +145,16 @@ function wrap_clipboard_widgets() {
     done
 }
 
+# wrap_clipboard_widgets copy \
+#     vi-yank vi-yank-eol vi-yank-whole-line \
+#     vi-change vi-change-eol vi-change-whole-line \
+#     vi-kill-line vi-kill-eol vi-backward-kill-word \
+#     vi-delete vi-delete-char vi-backward-delete-char
+
 wrap_clipboard_widgets copy \
     vi-yank vi-yank-eol vi-yank-whole-line \
     vi-change vi-change-eol vi-change-whole-line \
-    vi-kill-line vi-kill-eol vi-backward-kill-word \
-    vi-delete vi-delete-char vi-backward-delete-char
+    vi-kill-line vi-kill-eol vi-delete vi-delete-char
 
 wrap_clipboard_widgets paste \
     vi-put-{before,after} \
@@ -190,61 +162,6 @@ wrap_clipboard_widgets paste \
 
 unfunction wrap_clipboard_widgets
 
-#2}}}
+# 2}}}
 
-#1}}}
-
-#{{{1 Aliases
-
-alias ..="cd .."
-alias ....="cd ../.."
-
-alias vi="nvim"
-alias vim="nvim"
-
-alias claer="clear"
-alias clera="clear"
-alias clare="clear"
-alias cleer="clear"
-alias claar="clear"
-alias cler="clear"
-alias clar="clear"
-
-alias fl="yazi"
-alias ls="ls --color=always -F1"
-alias sa="xbps-query -Rs" # Search Apps for package manager
-
-alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
-
-#1}}}
-
-#{{{1 Functions
-
-function cheat() {
-    curl cheat.sh/$@ | $PAGER
-}
-
-function xny() {
-    [[ $# -lt 2 ]] && pager=$PAGER || pager=$2
-
-    curl "https://learnxinyminutes.com/docs/$1/" \
-        | sed -n '/<pre>/,/<\/pre>/p' \
-        | sed 's/<[^>]*>//g' \
-        | sed 's/&quot;/"/g' \
-        | sed 's/&gt;/>/g' \
-        | sed 's/&lt;/</g' \
-        | sed "s/&#39;/'/g" \
-        | sed 's/&amp;/&/g' \
-        | $pager
-}
-
-function gitall() {
-    local message="${*:-update}"
-    git add . && git commit -m "$message" && git push
-}
-
-function help() {
-    "$@" --help | $PAGER
-}
-
-#1}}}
+# 1}}}
