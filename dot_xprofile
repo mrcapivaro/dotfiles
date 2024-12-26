@@ -1,0 +1,4 @@
+#!/bin/sh
+
+PROFILERC="$HOME/.config/shell/profilerc"
+[ -f "$PROFILERC" ] && . "$PROFILERC"
