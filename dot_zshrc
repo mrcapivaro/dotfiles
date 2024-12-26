@@ -1,13 +1,12 @@
 # ~/.zshrc
 
-AGSHCONFDIR="$HOME/.config/shell"
-AGSHALIASRC="$HOME/.config/shell/aliasrc"
-AGSHFUNCTIONRC="$HOME/.config/shell/functionrc"
-AGSHPROFILE="$HOME/.config/shell/profile"
+ALIASRC="$HOME/.config/shell/aliasrc"
+FUNCTIONRC="$HOME/.config/shell/functionrc"
+PROFILERC="$HOME/.config/shell/profilerc"
 
-[ -f "$AGSHALIASRC" ] && . "$AGSHALIASRC"
-[ -f "$AGSHFUNCTIONRC" ] && . "$AGSHFUNCTIONRC"
-[ -f "$AGSHPROFILE" ] && . "$AGSHPROFILE"
+[ -f "$ALIASRC" ] && . "$ALIASRC"
+[ -f "$FUNCTIONRC" ] && . "$FUNCTIONRC"
+[ -f "$PROFILERC" ] && . "$PROFILERC"
 
 # Autoconfig {{{1
 
@@ -62,29 +61,10 @@ use-git-plugin "zsh-users/zsh-history-substring-search"
 # 1}}}
 # Keybinds {{{1
 
-bindkey -s '^o' '^uyacd\n'
-bindkey -s '^f' 'fedit\n'
-
-bindkey "^[[H" beginning-of-line
-bindkey "^[[F" end-of-line
-
-bindkey '^a' beginning-of-line
-bindkey '^e' end-of-line
-
-bindkey "^[[A" up-history
-bindkey "^[[B" down-history
-
-bindkey "^N" up-history
-bindkey "^P" down-history
-
-bindkey '^r' history-incremental-search-backward
-bindkey '^s' history-incremental-search-forward
-
 ## VI Mode
 # mostly copied and pasted from oh my zsh:
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
 bindkey -v
-bindkey "^G" vi-cmd-mode
 export KEYTIMEOUT=1 # Remove mode switching delay.
 
 # Mode dependant cursor {{{2
@@ -163,5 +143,28 @@ wrap_clipboard_widgets paste \
 unfunction wrap_clipboard_widgets
 
 # 2}}}
+
+bindkey "^G" vi-cmd-mode
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd '^e' edit-command-line
+bindkey '^e' edit-command-line
+
+bindkey -s '^o' 'lfcd\n'
+bindkey -s '^f' 'fe\n'
+
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+
+bindkey "^[[A" up-history
+bindkey "^[[B" down-history
+
+bindkey "^N" up-history
+bindkey "^P" down-history
+
+bindkey '^r' history-incremental-search-backward
+bindkey '^s' history-incremental-search-forward
 
 # 1}}}
