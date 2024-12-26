@@ -1,16 +1,15 @@
 # ~/.bashrc
 
-AGSHCONFDIR="$HOME/.config/shell"
-AGSHPROFILE="$HOME/.config/shell/profile"
-[ -f "$AGSHPROFILE" ] && . "$AGSHPROFILE"
+PROFILERC="$HOME/.config/shell/profilerc"
+[ -f "$PROFILERC" ] && . "$PROFILERC"
 
 # Return if not interactive.
 [[ $- != *i* ]] && return
 
-AGSHALIASRC="$HOME/.config/shell/aliasrc"
-AGSHFUNCTIONRC="$HOME/.config/shell/functionrc"
-[ -f "$AGSHFUNCTIONRC" ] && . "$AGSHFUNCTIONRC"
-[ -f "$AGSHALIASRC" ] && . "$AGSHALIASRC"
+ALIASRC="$HOME/.config/shell/aliasrc"
+FUNCTIONRC="$HOME/.config/shell/functionrc"
+[ -f "$FUNCTIONRC" ] && . "$FUNCTIONRC"
+[ -f "$ALIASRC" ] && . "$ALIASRC"
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
