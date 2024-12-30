@@ -1,0 +1,73 @@
+;; ~/.config/kanata/kanata.kbd
+
+;; docs:
+;; https://jtroo.github.io/config.html
+
+(defcfg process-unmapped-keys yes)
+
+(defsrc
+    tab  q w e r t y u i o p [
+    caps a s d f g h j k l ; '
+    lsft z x c v b n m , . / rsft
+    lctl rmet lalt spc ralt rctl)
+
+(defvirtualkeys
+    ;; Used for Virtual Alt Tab
+    alt lalt)
+
+(defalias
+    escctlcaps (tap-hold-press 1000 200 esc lctl)
+    symlk (layer-while-held symbols)
+
+    ;;;Virtual Alt Tab
+    ;; Since I use the left alt key as a navigation layer key, it is impossible
+    ;; to use alt tab in kanata with it. To fix it, I used the code in this
+    ;; github discussions post:
+    ;; https://github.com/jtroo/kanata/discussions/1164
+    navlk (tap-hold-press 200 200 lalt (multi (layer-while-held navigation) (on-release release-virtualkey alt) ))
+    valttab (macro (on-press press-virtualkey alt) 5 tab)
+
+    ;;;Shifted Symbols
+    ! S-1
+    @ S-2
+    # S-3
+    $ S-4
+    % S-5
+    ^ S-6
+    & S-7
+    * S-8
+    ( S-9
+    ) S-0
+    { S-[
+    } S-]
+    | S-\
+)
+
+(deflayermap (default)
+    caps @escctlcaps
+    ralt @symlk
+    lalt @navlk)
+
+(deflayermap (symbols)
+    q -
+    w +
+    e S-2
+    r S-5
+    t S-6
+    a =
+    s S-4
+    d S-7
+    f S-3
+    g S-8
+    b S--)
+
+(deflayermap (navigation)
+    tab @valttab
+    u home
+    i end
+    o prtsc
+    p caps
+    h left
+    j down
+    k up
+    l right)
