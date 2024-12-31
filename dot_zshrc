@@ -1,11 +1,9 @@
 # ~/.zshrc
 
 ALIASRC="$HOME/.config/shell/aliasrc"
-FUNCTIONRC="$HOME/.config/shell/functionrc"
 PROFILERC="$HOME/.config/shell/profilerc"
 
 [ -f "$ALIASRC" ] && . "$ALIASRC"
-[ -f "$FUNCTIONRC" ] && . "$FUNCTIONRC"
 [ -f "$PROFILERC" ] && . "$PROFILERC"
 
 # Autoconfig {{{1
@@ -46,10 +44,10 @@ use-git-plugin() {
 
 ## eval's
 eval "$(starship init zsh)"
-eval "$(direnv hook zsh)"
-eval "$(zoxide init zsh)"
 
-# Substitute 'cd' with 'z' if possible.
+eval "$(direnv hook zsh)"
+
+eval "$(zoxide init zsh)"
 command -v z >/dev/null 2>&1 && alias cd="z"
 
 ## plugins
