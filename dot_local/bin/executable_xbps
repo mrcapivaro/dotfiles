@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    echo "Usage: xbps [subcommand] <args>"
+    exit 0
+}
+
+main() {
+    local subcommand="$1"
+    shift
+    case "$subcommand" in
+        query | q)
+            xbps-query -Rs "$@"
+            ;;
+        fquery | fq)
+            xbpq-query -Rs "$@" | fzf --reverse
+            ;;
+        install | i)
+            sudo xbps-install "$@"
+            ;;
+        finstall | fi)
+            local package="$(xbps-query -Rs "$@" |
+                             fzf --reverse |
+                             awk -F ' ' '{gsub(/-[0-9._+]+/, ""); print $2}')"
+            sudo xbps-install $package
+            ;;
+        sync | s)
+            sudo xbps-install -S "$@"
+            ;;
+        update | u)
+            sudo xbps-install -Su "$@"
+            ;;
+        remove | r)
+            sudo xbps-remove "$@"
+            ;;
+        help | h | --help | -h)
+            usage
+            ;;
+        *)
+            echo "'$subcommand' is not a subcommand."
+            echo "Call 'xbps help' for help."
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

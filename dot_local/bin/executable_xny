@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+main() {
+    curl "https://learnxinyminutes.com/$@/" |
+        # sed -n '/<pre>/,/<\/pre>/p' |
+        sed 's/<[^>]*>//g' |
+        sed 's/&quot;/"/g' |
+        sed 's/&gt;/>/g' |
+        sed 's/&lt;/</g' |
+        sed "s/&#39;/'/g" |
+        sed 's/&amp;/&/g' |
+        $PAGER
+}
+
+main "$@"

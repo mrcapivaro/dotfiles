@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LOCAL_REPO="$HOME/Org"
+REMOTE_REPO="drive:AutoSync/Org"
+
+function main() {
+    while [[ "$1" != "" ]]; do
+        case "$1" in
+            roam)
+                shift
+                if [[ "$@" == "" ]]; then
+                    local choosen_file="$(fd . "$LOCAL_REPO/roam" --hidden --type file | fzf --reverse)"
+                    $EDITOR "$choosen_file"
+                else
+                    local name="$(echo "$@" | tr ' ' '-')"
+                    $EDITOR "$LOCAL_REPO/roam/$name.org"
+                fi
+                ;;
+            *)
+                echo "$1 is not an option or subcommand."
+                exit 1
+                ;;
+        esac
+        shift
+    done
+}
+
+rclone_bisync_wrapper() {
+    # source: official docs
+    rclone bisync \
+        "$LOCAL_REPO" \
+        "$REMOTE_REPO" \
+        --create-empty-src-dirs \
+        --compare size,modtime,checksum \
+        --slow-hash-sync-only \
+        --resilient \
+        -MvP \
+        --drive-skip-gdocs \
+        --fix-case
+}
+
+main "$@"
