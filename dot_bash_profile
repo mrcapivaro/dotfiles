@@ -1,6 +1,4 @@
-if [ -f "$HOME/.bashrc" ]; then
-    source "$HOME/.bashrc"
-fi
+[ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
 
 # Enable OS7 in bash sessions to let wezterm recognize the cwd
 source "$HOME/.config/wezterm/shell-integration.sh"
