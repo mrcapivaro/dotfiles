@@ -7,8 +7,6 @@ PROFILERC="$HOME/.config/shell/profilerc"
 [[ $- != *i* ]] && return
 
 ALIASRC="$HOME/.config/shell/aliasrc"
-FUNCTIONRC="$HOME/.config/shell/functionrc"
-[ -f "$FUNCTIONRC" ] && . "$FUNCTIONRC"
 [ -f "$ALIASRC" ] && . "$ALIASRC"
 
 eval "$(starship init bash)"
