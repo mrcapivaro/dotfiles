@@ -1,4 +1,5 @@
 # ~/.zshrc
+# vim: ft=bash
 
 ALIASRC="$HOME/.config/shell/aliasrc"
 PROFILERC="$HOME/.config/shell/profilerc"
@@ -33,13 +34,13 @@ unsetopt beep extendedglob nomatch
 use-git-plugin() {
     local gitrepo="$1"
     local name=${gitrepo#*/}
-    if [ ! -d "$ZCONFDIR/$name" ]; then
-        git clone "https://github.com/$gitrepo.git" "$ZCONFDIR/$name"
+    local plugins_dir="$HOME/.local/share/zsh/plugins"
+    [ ! -d "$plugins_dir" ] && mkdir -p "$plugins_dir"
+    if [ ! -d "$plugins_dir/$name" ]; then
+        git clone "https://github.com/$gitrepo.git" "$plugins_dir/$name"
     fi
-    local file="$ZCONFDIR/$name/$name.plugin.zsh"
-    if [ -e "$file" ]; then
-        source "$file"
-    fi
+    local plugin_init_file="$plugins_dir/$name/$name.plugin.zsh"
+    [ -e "$plugin_init_file" ] && . "$plugin_init_file"
 }
 
 ## eval's
