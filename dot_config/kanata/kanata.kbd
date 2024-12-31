@@ -68,19 +68,21 @@
     g @&
     z \
     x @|
-    c @$
-    v @^
+    c @^
+    v @$
     b @_
 
-    h `
-    j @paro
-    k @parc
-    l @{
-    ; @}
-    m [
-    , ])
+    j @{
+    k @}
+    l `)
 
 (deflayermap (navigation)
+    ;; some symbols
+    d @paro
+    f @parc
+    a [
+    s ]
+
     ;; live reload of kanata config
     r lrld
 
