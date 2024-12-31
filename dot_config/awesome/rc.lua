@@ -1,3 +1,5 @@
+-- ~/.config/awesome/rc.lua
+
 -- Ensure that LuaRocks libraries can be called.
 pcall(require, "luarocks.loader")
 
@@ -12,8 +14,10 @@ local beautiful = require("beautiful")
 local util = require("modules.util")
 local poppin = require("modules.poppin")
 local cyclefocus = require("modules.cyclefocus")
+local gruvbox = require("modules.gruvbox")
 
---{{{1 Error Handling
+-- Error Handling {{{1
+
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -41,33 +45,41 @@ do
         in_error = false
     end)
 end
---1}}}
 
---{{{1 Key Binds
+-- 1}}}
+-- Global Keybinds {{{1
 
 local modkey = "Mod4"
+local global_keybinds = {}
 
---{{{2 Global Key Binds
+-- Misc {{{2
 
-local keybinds = gears.table.join(
-    awful.key({ modkey }, "t", function()
-        util.toggle_colorscheme()
+global_keybinds = gears.table.join(
+    global_keybinds,
+
+    awful.key({ modkey }, "r", function()
+        local is_conf_valid = awful.spawn.with_shell("awesome -k")
+        if not is_conf_valid then
+            naughty.notify({
+                title = "Awesome WM restart failed!",
+                text = "The config file is invalid.",
+            })
+            return
+        end
         awesome.restart()
-    end, {
-        description = "Toggle theme's colorscheme",
-        group = "theme",
-    }),
+    end, { description = "reload awesome", group = "awesome" }),
 
-    awful.key(
-        { modkey },
-        "r",
-        awesome.restart,
-        { description = "reload awesome", group = "awesome" }
-    ),
-
-    awful.key({ modkey }, ",", function()
+    -- TODO: remake the change keyb layout bind
+    awful.key({ modkey }, "'", function()
         awful.spawn.with_shell("xdotool key --delay 100 Scroll_Lock")
-    end, { description = "screenshot", group = "other" }),
+    end, { description = "screenshot", group = "other" })
+)
+
+-- 2}}}
+-- Print Screen {{{2
+
+global_keybinds = gears.table.join(
+    global_keybinds,
 
     awful.key({}, "Print", function()
         awful.spawn.with_shell(
@@ -84,35 +96,20 @@ local keybinds = gears.table.join(
         group = "screenshot",
     }),
 
-    awful.key(
-        { "Control" },
-        "Print",
-        function()
-            -- import is from image magick
-            awful.spawn.with_shell("import -window root png:- | display")
-        end,
-        { description = "open screenshot in image editor", group = "screenshot" }
-    ),
+    awful.key({ "Control" }, "Print", function()
+        -- import is from image magick
+        awful.spawn.with_shell("import -window root png:- | display")
+    end, {
+        description = "open screenshot in image editor",
+        group = "screenshot",
+    })
+)
 
-    --{{{3 Tags
-    awful.key(
-        { modkey, "Shift" },
-        "Tab",
-        awful.tag.viewprev,
-        { description = "view previous", group = "tag" }
-    ),
-    awful.key(
-        { modkey },
-        "Tab",
-        awful.tag.viewnext,
-        { description = "view next", group = "tag" }
-    ),
-    awful.key({ modkey }, ".", function()
-        awful.layout.inc(1)
-    end, { description = "select next layout", group = "layout" }),
-    --3}}}
+-- 2}}}
+-- Clients {{{2
 
-    --{{{3 Clients
+global_keybinds = gears.table.join(
+    global_keybinds,
     awful.key({ modkey, "Control" }, "z", function()
         local c = awful.client.restore()
         -- Focus restored client
@@ -172,12 +169,14 @@ local keybinds = gears.table.join(
     end, {
         description = "swap client by direction: right",
         group = "client",
-    }),
+    })
+)
 
-    --3}}}
+-- 2}}}
+-- Alt + Tab {{{2
 
-    --{{{3 Alt + Tab
-
+global_keybinds = gears.table.join(
+    global_keybinds,
     cyclefocus.key({ "Mod1" }, "Tab", {
         cycle_filters = {},
         move_mouse_pointer = false,
@@ -187,14 +186,18 @@ local keybinds = gears.table.join(
         cycle_filters = {},
         move_mouse_pointer = false,
         keys = { "Tab", "ISO_Left_Tab" },
-    }),
+    })
+)
 
-    --3}}}
+-- 2}}}
+-- Scratchpads {{{2
 
-    --{{{3 Poppin Scratchpads
-
+global_keybinds = gears.table.join(
+    global_keybinds,
     awful.key({ modkey }, "a", function()
-        poppin.pop("terminal", "wezterm", "center", 750)
+        poppin.pop("terminal", "wezterm", "center", 750, function(c)
+            c.titlebars_enabled = false
+        end)
     end, { description = "scratchpad: terminal", group = "scratchpad" }),
 
     awful.key({ modkey }, "s", function()
@@ -204,19 +207,29 @@ local keybinds = gears.table.join(
             "center",
             750,
             function(c)
-                c.poppin = true
+                c.titlebars_enabled = false
             end
         )
     end, { description = "scratchpad: music app", group = "scratchpad" }),
 
     awful.key({ modkey }, "d", function()
-        poppin.pop("browser", "firefox --private-window", "center", 750)
-    end, { description = "scratchpad: browser", group = "scratchpad" }),
+        poppin.pop(
+            "browser",
+            "firefox --private-window",
+            "center",
+            750,
+            function(c)
+                c.titlebars_enabled = false
+            end
+        )
+    end, { description = "scratchpad: browser", group = "scratchpad" })
+)
 
-    --3}}}
+-- 2}}}
+-- Rofi {{{2
 
-    --{{{3 Rofi
-
+global_keybinds = gears.table.join(
+    global_keybinds,
     awful.key({ modkey }, "Return", function()
         awful.spawn.with_shell("~/.config/rofi/scripts/launcher.sh")
     end, { description = "rofi dmenu", group = "rofi" }),
@@ -232,16 +245,34 @@ local keybinds = gears.table.join(
     awful.key({ modkey, "Control" }, "r", function()
         awful.spawn.with_shell("~/.config/rofi/scripts/powermenu.sh")
     end, { description = "rofi powermenu", group = "rofi" })
-
-    --3}}}
 )
 
---{{{3 Tag Keys
+-- 2}}}
+-- Tags {{{2
+
+global_keybinds = gears.table.join(
+    global_keybinds,
+    awful.key(
+        { modkey, "Shift" },
+        "Tab",
+        awful.tag.viewprev,
+        { description = "view previous", group = "tag" }
+    ),
+    awful.key(
+        { modkey },
+        "Tab",
+        awful.tag.viewnext,
+        { description = "view next", group = "tag" }
+    ),
+    awful.key({ modkey }, "/", function()
+        awful.layout.inc(1)
+    end, { description = "select next layout", group = "layout" })
+)
 
 local tags_keys = { "q", "w", "e" }
 for i, key in ipairs(tags_keys) do
-    keybinds = gears.table.join(
-        keybinds,
+    global_keybinds = gears.table.join(
+        global_keybinds,
         awful.key({ modkey }, key, function()
             local screen = awful.screen.focused()
             local tag = screen.tags[i]
@@ -265,11 +296,28 @@ for i, key in ipairs(tags_keys) do
     )
 end
 
---3}}}
+-- 2}}}
 
---2}}}
+root.keys(global_keybinds)
 
---{{{2 Client Key Binds
+-- 1}}}
+-- Clients and Tags {{{1
+
+-- Client Keybinds and Buttons {{{2
+
+local client_buttons = gears.table.join(
+    awful.button({}, 1, function(c)
+        c:emit_signal("request::activate", "mouse_click", { raise = true })
+    end),
+    awful.button({ modkey }, 1, function(c)
+        c:emit_signal("request::activate", "mouse_click", { raise = true })
+        awful.mouse.client.move(c)
+    end),
+    awful.button({ modkey }, 3, function(c)
+        c:emit_signal("request::activate", "mouse_click", { raise = true })
+        awful.mouse.client.resize(c)
+    end)
+)
 
 local client_keys = gears.table.join(
     awful.key({ modkey, "Shift" }, "m", function(c)
@@ -314,220 +362,187 @@ local client_keys = gears.table.join(
     end, { description = "toggle maximize", group = "client" })
 )
 
---2}}}
+-- 2}}}
+-- Client Signals and Rules {{{2
 
-root.keys(keybinds)
+-- Used to allow automatic change of focus when clients are killed or created.
+require("awful.autofocus")
 
---1}}}
+awful.rules.rules = {
+    {
+        rule = {},
+        properties = {
+            border_width = beautiful.border_width_normal,
+            border_color = beautiful.border_color_normal,
+            focus = awful.client.focus.filter,
+            raise = true,
+            keys = client_keys,
+            buttons = client_buttons,
+            screen = awful.screen.preferred,
+            placement = awful.placement.no_overlap
+                + awful.placement.no_offscreen,
+            titlebars_enabled = false,
+            floating = false,
+        },
+    },
 
---{{{1 Theming
+    {
+        rule_any = {
+            instance = {
+                "DTA",
+                "copyq",
+                "pinentry",
+            },
+            class = {
+                "steam",
+                "Spotify",
+                "vesktop",
+                "discord",
+                "zenity",
+            },
+            name = {
+                "Event Tester",
+                "spotify",
+            },
+            role = {
+                "AlarmWindow",
+                "ConfigManager",
+                "toolbox",
+            },
+            type = {
+                "dialog",
+                "toolbox",
+            },
+        },
+        properties = {
+            floating = true,
+            placement = awful.placement.centered,
+        },
+    },
 
--- Theming module bootstrap
-local config_dir = gears.filesystem.get_configuration_dir
-beautiful.init({
-    path = config_dir(),
-    icons_path = config_dir() .. "/icons/",
-    default_path = gears.filesystem.get_themes_dir(),
-})
+    {
+        rule_any = {
+            role = {
+                "pop-up",
+                "Pop-up",
+                "popup",
+                "Popup",
+            },
+        },
+        properties = {
+            floating = true,
+            requests_no_titlebar = true,
+            placement = awful.placement.centered,
+        },
+    },
+
+    -- emacs not occupying all screen space in tile mode bug.
+    -- source: https://superuser.com/questions/751075/emacs-maximized-but-leaves-few-pixels-in-awesome-wm
+    {
+        rule = { class = "Emacs" },
+        properties = { size_hints_honor = false },
+    },
+}
+
+local user_signals = {
+    -- The "manage" signal triggers when a client starts, but after the rules
+    -- are applied.
+    manage = function(c)
+        -- Set the windows at the slave,
+        -- i.e. put it at the end of others instead of setting it master.
+        if not awesome.startup then
+            awful.client.setslave(c)
+        end
+
+        if
+            awesome.startup
+            and not c.size_hints.user_position
+            and not c.size_hints.program_position
+        then
+            -- Prevent clients from being unreachable after screen count changes.
+            awful.placement.no_offscreen(c)
+        end
+    end,
+    properties = {
+        floating = function(c)
+            c.titlebars_enabled = c.floating
+        end,
+        titlebars_enabled = function(c)
+            if c.titlebars_enabled then
+                awful.titlebar.show(c)
+            else
+                awful.titlebar.hide(c)
+            end
+        end,
+        requests_no_titlebar = function(c)
+            c.titlebars_enabled = false
+        end,
+        fullscreen = function(c)
+            if not c.fullscreen then
+                return
+            end
+            -- Adjust the geometry of fullscreen clients to always cover the
+            -- entire screen.
+            gears.timer.delayed_call(function()
+                if c.valid then
+                    c:geometry(c.screen.geometry)
+                end
+            end)
+        end,
+    },
+}
+
+client.connect_signal("manage", user_signals.manage)
+for sig_name, sig_cb in pairs(user_signals) do
+    client.connect_signal("property::" .. sig_name, sig_cb)
+end
+
+-- 2}}}
+-- Tags Creation and Behavior {{{2
+
+awful.layout.layouts = {
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.floating,
+    awful.layout.suit.max,
+}
+
+awful.screen.connect_for_each_screen(function(s)
+    -- Setup a set of tags for each screen.
+    -- Symbols:  
+    awful.tag({ "", "", "" }, s, awful.layout.layouts[1])
+end)
+
+-- Set all clients to floating when the layout changes to floating.
+awful.tag.attached_connect_signal(nil, "property::layout", function(t)
+    local float = t.layout.name == "floating"
+    for _, c in pairs(t:clients()) do
+        c.floating = float
+    end
+end)
+
+-- 2}}}
+
+-- 1}}}
+-- Theming and Widgets {{{1
+
+-- Theming Bootstrap {{{2
+
+local colors = gruvbox.dark
+local config_dir = gears.filesystem.get_configuration_dir()
 
 awesome.set_preferred_icon_size(16)
-
---{{{2 Colorschemes
-
-beautiful.colorschemes = {}
-
-beautiful.colorschemes.catppuccin = {
-    mocha = {
-        rosewater = "#f5e0dc",
-        flamingo = "#f2cdcd",
-        pink = "#f5c2e7",
-        mauve = "#cba6f7",
-        red = "#f38ba8",
-        maroon = "#eba0ac",
-        peach = "#fab387",
-        yellow = "#f9e2af",
-        green = "#a6e3a1",
-        teal = "#94e2d5",
-        sky = "#89dceb",
-        sapphire = "#74c7ec",
-        blue = "#89b4fa",
-        lavender = "#b4befe",
-        text = "#cdd6f4",
-        subtext1 = "#bac2de",
-        subtext0 = "#a6adc8",
-        overlay2 = "#9399b2",
-        overlay1 = "#7f849c",
-        overlay0 = "#6c7086",
-        surface2 = "#585b70",
-        surface1 = "#45475a",
-        surface0 = "#313244",
-        base = "#1e1e2e",
-        mantle = "#181825",
-        crust = "#11111b",
-    },
-
-    latte = {
-        rosewater = "#dc8a78",
-        flamingo = "#dd7878",
-        pink = "#ea76cb",
-        mauve = "#8839ef",
-        red = "#d20f39",
-        maroon = "#e64553",
-        peach = "#fe640b",
-        yellow = "#df8e1d",
-        green = "#40a02b",
-        teal = "#179299",
-        sky = "#04a5e5",
-        sapphire = "#209fb5",
-        blue = "#1e66f5",
-        lavender = "#7287fd",
-        text = "#4c4f69",
-        subtext1 = "#5c5f77",
-        subtext0 = "#6c6f85",
-        overlay2 = "#7c7f93",
-        overlay1 = "#8c8fa1",
-        overlay0 = "#9ca0b0",
-        surface2 = "#acb0be",
-        surface1 = "#bcc0cc",
-        surface0 = "#ccd0da",
-        base = "#eff1f5",
-        mantle = "#e6e9ef",
-        crust = "#dce0e8",
-    },
-
-    machiatto = {
-        rosewater = "#f4dbd6",
-        flamingo = "#f0c6c6",
-        pink = "#f5bde6",
-        mauve = "#c6a0f6",
-        red = "#ed8796",
-        maroon = "#ee99a0",
-        peach = "#f5a97f",
-        yellow = "#eed49f",
-        green = "#a6da95",
-        teal = "#8bd5ca",
-        sky = "#91d7e3",
-        sapphire = "#7dc4e4",
-        blue = "#8aadf4",
-        lavender = "#b7bdf8",
-        text = "#cad3f5",
-        subtext1 = "#b8c0e0",
-        subtext0 = "#a5adcb",
-        overlay2 = "#939ab7",
-        overlay1 = "#8087a2",
-        overlay0 = "#6e738d",
-        surface2 = "#5b6078",
-        surface1 = "#494d64",
-        surface0 = "#363a4f",
-        base = "#24273a",
-        mantle = "#1e2030",
-        crust = "#181926",
-    },
-
-    frappe = {
-        rosewater = "#f2d5cf",
-        flamingo = "#eebebe",
-        pink = "#f4b8e4",
-        mauve = "#ca9ee6",
-        red = "#e78284",
-        maroon = "#ea999c",
-        peach = "#ef9f76",
-        yellow = "#e5c890",
-        green = "#a6d189",
-        teal = "#81c8be",
-        sky = "#99d1db",
-        sapphire = "#85c1dc",
-        blue = "#8caaee",
-        lavender = "#babbf1",
-        text = "#c6d0f5",
-        subtext1 = "#b5bfe2",
-        subtext0 = "#a5adce",
-        overlay2 = "#949cbb",
-        overlay1 = "#838ba7",
-        overlay0 = "#737994",
-        surface2 = "#626880",
-        surface1 = "#51576d",
-        surface0 = "#414559",
-        base = "#303446",
-        mantle = "#292c3c",
-        crust = "#232634",
-    },
-}
-
-beautiful.colorschemes.gruvbox = {
-    dark = {
-        bg0 = "#282828",
-        bg1 = "#3c3836",
-        bg2 = "#504945",
-        bg3 = "#665c54",
-        bg4 = "#7c6f64",
-        fg0 = "#fbf1c7",
-        fg1 = "#ebdbb2",
-        fg2 = "#d5c4a1",
-        fg3 = "#bdae93",
-        fg4 = "#a89984",
-        red = "#fb4934",
-        green = "#b8bb26",
-        yellow = "#fabd2f",
-        blue = "#83a598",
-        purple = "#d3869b",
-        aqua = "#8ec07c",
-        orange = "#fe8019",
-        neutral_red = "#cc241d",
-        neutral_green = "#98971a",
-        neutral_yellow = "#d79921",
-        neutral_blue = "#458588",
-        neutral_purple = "#b16286",
-        neutral_aqua = "#689d6a",
-        dark_red = "#722529",
-        dark_green = "#62693e",
-        dark_aqua = "#49503b",
-        gray = "#928374",
-    },
-
-    light = {
-        bg0 = "#fbf1c7",
-        bg1 = "#ebdbb2",
-        bg2 = "#d5c4a1",
-        bg3 = "#bdae93",
-        bg4 = "#a89984",
-        fg0 = "#282828",
-        fg1 = "#3c3836",
-        fg2 = "#504945",
-        fg3 = "#665c54",
-        fg4 = "#7c6f64",
-        red = "#9d0006",
-        green = "#79740e",
-        yellow = "#b57614",
-        blue = "#076678",
-        purple = "#8f3f71",
-        aqua = "#427b58",
-        orange = "#af3a03",
-        neutral_red = "#cc241d",
-        neutral_green = "#98971a",
-        neutral_yellow = "#d79921",
-        neutral_blue = "#458588",
-        neutral_purple = "#b16286",
-        neutral_aqua = "#689d6a",
-        dark_red = "#fc9487",
-        dark_green = "#d5d39b",
-        dark_aqua = "#e8e5b5",
-        gray = "#928374",
-    },
-}
-
--- Set the current colorscheme
-local colors = beautiful.colorschemes.gruvbox.dark
-
---2}}}
+beautiful.init()
 
 util.populate_beautiful("", {
+    path = config_dir .. "modules/gruvbox",
+    icons_path = config_dir .. "modules/gruvbox/icons",
+    default_path = gears.filesystem.get_themes_dir(),
+
     icon_theme = "Papirus",
-    gap_single_client = true,
     useless_gap = 2,
+    gap_single_client = true,
     fullscreen_hide_border = true,
-    maximized_hide_border = false,
-    maximized_honor_padding = true,
+    maximized_hide_border = true,
 
     font = {
         name = "Ubuntu Nerd Font",
@@ -548,13 +563,10 @@ util.populate_beautiful("", {
     },
 })
 
---1}}}
-
---{{{1 Widgets
+-- 2}}}
 
 ---Unique to each client.
-
---{{{2 Client Titlebar
+-- Client Titlebar {{{2
 
 awful.titlebar.enable_tooltip = false
 
@@ -599,6 +611,17 @@ util.populate_beautiful("titlebar", {
             hover = title_icons .. "minimize_hover.svg",
         },
     },
+
+    ontop_button = {
+        normal = {
+            title_icons .. "close.svg",
+            hover = title_icons .. "close_hover.svg",
+        },
+        focus = {
+            title_icons .. "close.svg",
+            hover = title_icons .. "close_hover.svg",
+        },
+    },
 })
 
 client.connect_signal("request::titlebars", function(c)
@@ -619,7 +642,14 @@ client.connect_signal("request::titlebars", function(c)
 
     c.titlebar:setup({
         layout = wibox.layout.align.horizontal,
-        nil,
+        {
+            widget = wibox.container.margin,
+            margins = 4,
+            {
+                layout = wibox.layout.fixed.horizontal,
+                awful.titlebar.widget.ontopbutton(c),
+            },
+        },
         {
             {
                 align = "center",
@@ -632,18 +662,17 @@ client.connect_signal("request::titlebars", function(c)
             widget = wibox.container.margin,
             margins = 4,
             {
+                layout = wibox.layout.fixed.horizontal,
                 awful.titlebar.widget.minimizebutton(c),
                 awful.titlebar.widget.maximizedbutton(c),
                 awful.titlebar.widget.closebutton(c),
-                layout = wibox.layout.fixed.horizontal,
             },
         },
     })
 end)
 
---2}}}
-
---{{{2 Borders
+-- 2}}}
+-- Borders {{{2
 
 util.populate_beautiful("border", {
     color = {
@@ -668,11 +697,11 @@ client.connect_signal("focus", function(c)
     c.border_width = beautiful.border_width_active
 end)
 
---2}}}
+-- 2}}}
 
 ---Not unique to each screen.
+-- Launcher {{{2
 
---{{{2 Launcher
 util.populate_beautiful("menu", {
     height = 32,
     width = 120,
@@ -712,22 +741,25 @@ local launcher = awful.widget.launcher({
         },
     }),
 })
---2}}}
 
---{{{2 Keyboard Box
+-- 2}}}
+-- Keyboard Box {{{2
+
 local keyboardbox = awful.widget.keyboardlayout()
---2}}}
 
---{{{2 Systray
+-- 2}}}
+-- Systray {{{2
+
 util.populate_beautiful("systray", {
     icon_spacing = 10,
     max_rows = 1,
 })
 
 local systray = wibox.widget.systray()
---2}}}
 
---{{{2 Date & Time
+-- 2}}}
+-- Date & Time {{{2
+
 -- https://awesomewm.org/apidoc/widgets/wibox.widget.textclock.html
 -- %a: name of the current day
 -- %b: name of the current month
@@ -739,9 +771,9 @@ local systray = wibox.widget.systray()
 -- %H: current hour
 local date = wibox.widget.textclock("%b %d, %a")
 local time = wibox.widget.textclock("%H:%M")
---2}}}
 
---{{{2 Notifications
+-- 2}}}
+-- Notifications {{{2
 
 util.populate_beautiful("notifications", {
     bg = {
@@ -756,11 +788,11 @@ util.populate_beautiful("notifications", {
     },
 })
 
---2}}}
+-- 2}}}
 
 ---Unique to each screen.
+-- Tasklist {{{2
 
---{{{2 Tasklist
 local tasklist_buttons = gears.table.join(
     awful.button({}, 1, function(c)
         if c == client.focus then
@@ -822,14 +854,9 @@ awful.screen.connect_for_each_screen(function(s)
         },
     })
 end)
---2}}}
 
---{{{2 Taglist
-awful.layout.layouts = {
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.floating,
-    awful.layout.suit.max,
-}
+-- 2}}}
+-- Taglist {{{2
 
 local taglist_buttons = gears.table.join(
     awful.button({}, 1, function(t)
@@ -879,10 +906,6 @@ util.populate_beautiful("taglist", {
 })
 
 awful.screen.connect_for_each_screen(function(s)
-    -- Setup a set of tags for each screen.
-    -- Symbols:  
-    awful.tag({ "", "", "" }, s, awful.layout.layouts[1])
-
     -- Create taglist widget object for each screen.
     s.taglist = awful.widget.taglist({
         screen = s,
@@ -893,9 +916,10 @@ awful.screen.connect_for_each_screen(function(s)
         -- end,
     })
 end)
---2}}}
 
---{{{2 Layout Box
+-- 2}}}
+-- Layout Box {{{2
+
 local layout_icons_path = beautiful.default_path .. "default/layouts/"
 util.populate_beautiful("layout", {
     fairh = layout_icons_path .. "fairhw.png",
@@ -935,9 +959,10 @@ awful.screen.connect_for_each_screen(function(s)
     s.layoutbox = awful.widget.layoutbox(s)
     s.layoutbox:buttons(layoutbox_buttons)
 end)
---2}}}
 
---{{{2 Wibar
+-- 2}}}
+-- Wibar {{{2
+
 util.populate_beautiful("wibar", {
     height = 24,
     border_width = 1,
@@ -981,160 +1006,12 @@ awful.screen.connect_for_each_screen(function(s)
         bottom = 4,
     })
 end)
---2}}}
 
---1}}}
+-- 2}}}
 
---{{{1 Client Rules
-local client_buttons = gears.table.join(
-    awful.button({}, 1, function(c)
-        c:emit_signal("request::activate", "mouse_click", { raise = true })
-    end),
-    awful.button({ modkey }, 1, function(c)
-        c:emit_signal("request::activate", "mouse_click", { raise = true })
-        awful.mouse.client.move(c)
-    end),
-    awful.button({ modkey }, 3, function(c)
-        c:emit_signal("request::activate", "mouse_click", { raise = true })
-        awful.mouse.client.resize(c)
-    end)
-)
+-- 1}}}
+-- After {{{1
 
-awful.rules.rules = {
-    {
-        rule = {},
-        properties = {
-            border_width = beautiful.border_width_normal,
-            border_color = beautiful.border_color_normal,
-            focus = awful.client.focus.filter,
-            raise = true,
-            keys = client_keys,
-            buttons = client_buttons,
-            screen = awful.screen.preferred,
-            placement = awful.placement.no_overlap
-                + awful.placement.no_offscreen,
-            titlebars_enabled = false,
-            floating = false,
-        },
-    },
-
-    {
-        rule_any = {
-            instance = {
-                "DTA",
-                "copyq",
-                "pinentry",
-            },
-            class = {
-                "steam",
-                "Spotify",
-                "vesktop",
-                "discord",
-                "zenity",
-            },
-            name = {
-                "Event Tester",
-                "spotify",
-            },
-            role = {
-                "AlarmWindow",
-                "ConfigManager",
-                "toolbox",
-            },
-            type = {
-                "dialog",
-                "toolbox",
-            },
-        },
-        properties = {
-            floating = true,
-            titlebars_enabled = true,
-            placement = awful.placement.centered,
-        },
-    },
-
-    {
-        rule_any = {
-            role = {
-                "pop-up",
-                "Pop-up",
-                "popup",
-                "Popup",
-            },
-        },
-        properties = {
-            floating = true,
-            titlebars_enabled = false,
-            placement = awful.placement.centered,
-        },
-    },
-
-    -- emacs not occupying all screen space in tile mode bug.
-    -- source: https://superuser.com/questions/751075/emacs-maximized-but-leaves-few-pixels-in-awesome-wm
-    {
-        rule = { class = "Emacs" },
-        properties = { size_hints_honor = false },
-    },
-}
---1}}}
-
---{{{1 WM Signals
--- Used to allow automatic change of focus when clients are killed or created.
-require("awful.autofocus")
-
--- The "manage" signal triggers when a client starts.
-client.connect_signal("manage", function(c)
-    -- Set the windows at the slave,
-    -- i.e. put it at the end of others instead of setting it master.
-    if not awesome.startup then
-        awful.client.setslave(c)
-    end
-
-    if
-        awesome.startup
-        and not c.size_hints.user_position
-        and not c.size_hints.program_position
-    then
-        -- Prevent clients from being unreachable after screen count changes.
-        awful.placement.no_offscreen(c)
-    end
-end)
-
--- Adjust the geometry of fullscreen clients to always cover the entire screen.
-client.connect_signal("property::fullscreen", function(c)
-    if c.fullscreen then
-        gears.timer.delayed_call(function()
-            if c.valid then
-                c:geometry(c.screen.geometry)
-            end
-        end)
-    end
-end)
-
--- Set all clients to floating when the layout changes to floating.
-awful.tag.attached_connect_signal(nil, "property::layout", function(t)
-    local float = t.layout.name == "floating"
-    for _, c in pairs(t:clients()) do
-        c.floating = float
-    end
-end)
-
-client.connect_signal("property::floating", function(c)
-    -- Center floating clients.
-    awful.placement.centered(c)
-
-    -- Enable titlebars on floating clients
-    c.titlebars_enabled = c.floating
-    if c.floating then
-        awful.titlebar.show(c)
-    else
-        awful.titlebar.hide(c)
-    end
-end)
-
---}}}
-
---{{{1 After
 -- Collect garbage every 30 seconds to prevent memory leaks.
 -- source: https://wiki.archlinux.org/title/Awesome#Memory_leaks
 gears.timer({
@@ -1146,4 +1023,5 @@ gears.timer({
 })
 
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
---1}}}
+
+-- 1}}}
