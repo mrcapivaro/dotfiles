@@ -590,7 +590,7 @@ table.insert(plugins, {
 table.insert(plugins, {
     "saghen/blink.cmp",
     dependencies = "rafamadriz/friendly-snippets",
-    version = "v0.*",
+    version = "*",
     opts = {
         enabled = function()
             return not vim.tbl_contains(
@@ -607,7 +607,7 @@ table.insert(plugins, {
                 winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:BlinkCmpDocCursorLine,Search:None",
             },
             list = {
-                selection = "manual",
+                selection = "auto_insert",
             },
             documentation = {
                 auto_show = true,
@@ -620,10 +620,10 @@ table.insert(plugins, {
 
             ["<C-.>"] = { "show", "show_documentation", "hide_documentation" },
 
-            ["<C-h>"] = { "hide" },
-            ["<C-k>"] = { "select_prev", "fallback" },
-            ["<C-j>"] = { "select_next", "fallback" },
-            ["<C-l>"] = { "select_and_accept", "fallback" },
+            ["<C-e>"] = { "hide" },
+            ["<C-p>"] = { "select_prev", "fallback" },
+            ["<C-n>"] = { "select_next", "fallback" },
+            ["<C-m>"] = { "accept", "fallback" },
 
             ["<C-u>"] = { "scroll_documentation_up", "fallback" },
             ["<C-d>"] = { "scroll_documentation_down", "fallback" },
