@@ -58,21 +58,23 @@ global_keybinds = gears.table.join(
     global_keybinds,
 
     awful.key({ modkey }, "r", function()
-        local is_conf_valid = awful.spawn.with_shell("awesome -k")
+        local is_conf_valid = os.execute("awesome -k")
         if not is_conf_valid then
             naughty.notify({
-                title = "Awesome WM restart failed!",
-                text = "The config file is invalid.",
+                title = "Awesome WM config file has invalid syntax!",
+                text = "The restart failed..."
             })
             return
         end
         awesome.restart()
     end, { description = "reload awesome", group = "awesome" }),
 
-    -- TODO: remake the change keyb layout bind
-    awful.key({ modkey }, "'", function()
-        awful.spawn.with_shell("xdotool key --delay 100 Scroll_Lock")
-    end, { description = "screenshot", group = "other" })
+    awful.key(
+        { modkey },
+        "'",
+        util.x11.next_layout,
+        { description = "Next xkb keyboard layout.", group = "keyboard" }
+    )
 )
 
 -- 2}}}
@@ -192,12 +194,14 @@ global_keybinds = gears.table.join(
 -- 2}}}
 -- Scratchpads {{{2
 
+local scratchpad_init_cb = function(c)
+    c.titlebars_enabled = false
+end
+
 global_keybinds = gears.table.join(
     global_keybinds,
     awful.key({ modkey }, "a", function()
-        poppin.pop("terminal", "wezterm", "center", 750, function(c)
-            c.titlebars_enabled = false
-        end)
+        poppin.pop("terminal", "ghostty", "center", 750, scratchpad_init_cb)
     end, { description = "scratchpad: terminal", group = "scratchpad" }),
 
     awful.key({ modkey }, "s", function()
@@ -206,9 +210,7 @@ global_keybinds = gears.table.join(
             "flatpak run com.spotify.Client",
             "center",
             750,
-            function(c)
-                c.titlebars_enabled = false
-            end
+            scratchpad_init_cb
         )
     end, { description = "scratchpad: music app", group = "scratchpad" }),
 
@@ -218,9 +220,7 @@ global_keybinds = gears.table.join(
             "firefox --private-window",
             "center",
             750,
-            function(c)
-                c.titlebars_enabled = false
-            end
+            scratchpad_init_cb
         )
     end, { description = "scratchpad: browser", group = "scratchpad" })
 )
@@ -231,20 +231,20 @@ global_keybinds = gears.table.join(
 global_keybinds = gears.table.join(
     global_keybinds,
     awful.key({ modkey }, "Return", function()
-        awful.spawn.with_shell("~/.config/rofi/scripts/launcher.sh")
+        awful.spawn.with_shell("~/.config/rofi/launchers/apps.sh")
     end, { description = "rofi dmenu", group = "rofi" }),
 
     awful.key({ modkey }, "x", function()
-        awful.spawn.with_shell("~/.config/rofi/scripts/qalc.sh")
+        awful.spawn.with_shell("~/.config/rofi/launchers/qalc.sh")
     end, { description = "rofi calc", group = "rofi" }),
 
     awful.key({ modkey }, ",", function()
         awful.spawn.with_shell("~/.config/rofi/scripts/symbols.sh")
     end, { description = "rofi symbols", group = "rofi" }),
 
-    awful.key({ modkey, "Control" }, "r", function()
-        awful.spawn.with_shell("~/.config/rofi/scripts/powermenu.sh")
-    end, { description = "rofi powermenu", group = "rofi" })
+    awful.key({ modkey, "Shift" }, ",", function()
+        awful.spawn.with_shell("~/.config/rofi/scripts/colors.sh")
+    end, { description = "rofi symbols", group = "rofi" })
 )
 
 -- 2}}}
@@ -324,7 +324,7 @@ local client_keys = gears.table.join(
         awful.client.setmaster(c)
     end, { description = "set master", group = "client" }),
 
-    awful.key({ "Mod1" }, "Return", function(c)
+    awful.key({ modkey, "Control" }, "f", function(c)
         c.fullscreen = not c.fullscreen
         c:raise()
     end, { description = "toggle fullscreen", group = "client" }),
@@ -363,7 +363,7 @@ local client_keys = gears.table.join(
 )
 
 -- 2}}}
--- Client Signals and Rules {{{2
+-- Client Rules {{{2
 
 -- Used to allow automatic change of focus when clients are killed or created.
 require("awful.autofocus")
@@ -444,6 +444,9 @@ awful.rules.rules = {
     },
 }
 
+-- 2}}}
+-- Client Signals {{{2
+
 local user_signals = {
     -- The "manage" signal triggers when a client starts, but after the rules
     -- are applied.
@@ -454,18 +457,21 @@ local user_signals = {
             awful.client.setslave(c)
         end
 
+        -- Prevent clients from being unreachable after screen count changes.
         if
             awesome.startup
             and not c.size_hints.user_position
             and not c.size_hints.program_position
         then
-            -- Prevent clients from being unreachable after screen count changes.
             awful.placement.no_offscreen(c)
         end
     end,
     properties = {
         floating = function(c)
-            c.titlebars_enabled = c.floating
+            c.titlebars_enabled = c.floating and not poppin.isPoppin(c)
+            if c.floating then
+                awful.placement.centered(c)
+            end
         end,
         titlebars_enabled = function(c)
             if c.titlebars_enabled then
@@ -475,7 +481,9 @@ local user_signals = {
             end
         end,
         requests_no_titlebar = function(c)
-            c.titlebars_enabled = false
+            if c.requests_no_titlebar then
+                c.titlebars_enabled = false
+            end
         end,
         fullscreen = function(c)
             if not c.fullscreen then

@@ -3,7 +3,7 @@ local M = {}
 local beautiful = require("beautiful")
 local awful = require("awful")
 local gears = require("gears")
--- local naughty = require("naughty")
+local naughty = require("naughty")
 
 ---Recursively assign values from a given table to the beautiful module using
 ---the keys from the given table by joining the keys as strings.
@@ -68,6 +68,42 @@ M.toggle_colorscheme = function()
         "\\(^beautiful.colorscheme = beautiful.colorscheme_\\).*",
         "\\1" .. new
     )
+end
+
+M.print = function(message)
+    if type(message) ~= "string" then
+        message = tostring(message)
+    end
+    naughty.notify({
+        title = "Message:",
+        text = message
+    })
+end
+
+M.string = {}
+
+M.string.split = function(instr, sep)
+    local result = {}
+    local matches = string.gmatch(instr, string.format("[^%s]+", sep))
+    for m in matches do
+        table.insert(result, m)
+    end
+    return result
+end
+
+M.x11 = {}
+
+-- awesome.xkb_set_layout_group uses the module operator internally, therefore
+-- it is not needed to actually calculate anything for this. Adding one sets
+-- the next layout and subtracting one selects the previous keyboard layout.
+--
+-- If it was needed to do this manually, it could be done by using a split
+-- string to table function in the groups string using "+" as the sepator and
+-- then counting how many of the groups are actually layouts. Then, just add one
+-- or subtract one from the current index and calculate final_index % total.
+M.x11.next_layout = function()
+    local current = awesome.xkb_get_layout_group()
+    awesome.xkb_set_layout_group(current + 1)
 end
 
 return M

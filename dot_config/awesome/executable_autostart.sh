@@ -25,6 +25,6 @@ run-desktop-entries() {
     done
 }
 
-"$HOME/.fehbg" &
 run-desktop-entries "$HOME/.config/autostart"
 xrandr | grep -q "HDMI-0.*1920x1080" || xrandr --output HDMI-0 --mode "1920x1080"
+"$HOME/.fehbg" &
