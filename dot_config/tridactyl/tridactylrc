@@ -4,6 +4,13 @@
 "   :nativeinstall  # install tridactyl's native messanger
 "   :source         # source this config
 
+" Create ignore mode
+bind i mode ignore
+bind --mode=ignore <esc> mode normal
+bind --mode=hint <esc> mode normal
+bind --mode=insert <esc> composite unfocus | mode normal
+bind --mode=visual <esc> mode normal
+
 " Wipe all existing tridactyl settings
 sanitize tridactyllocal tridactylsync
 
@@ -14,7 +21,6 @@ set newtab about:blank
 unbind <C-f>
 " Given that `Ctrl+f` is unbind, there is no reason for `Ctrl+b`
 unbind <C-b>
-
 " Used for a vertical bar extension.
 unbind <C-e>
 
@@ -26,20 +32,9 @@ bind k scrollline -5
 bind J tabnext
 bind K tabprev
 
-" easier enter ignore mode
-bind i mode ignore
-
-" use C-g as esc
-unbind <C-g>
-bind <C-g> mode normal
-bind --mode=ignore <C-g> mode normal
-bind --mode=hint <C-g> mode normal
-bind --mode=insert <C-g> composite unfocus | mode normal
-bind --mode=visual <C-g> mode normal
-
 " Automatically enter ignore mode
 autocmd DocStart mail.google.com mode ignore
 autocmd DocStart duckduckgo.com mode ignore
 autocmd DocLoad https://www.youtube.com/watch* mode ignore
 
-" vim: filetype=vim
+" vim: ft=vim
