@@ -2,49 +2,11 @@
 
 -- Options {{{1
 
--- Folding {{{2
-
+-- https://www.reddit.com/r/neovim/comments/1d3iwcz/custom_folds_without_any_plugins/
 vim.opt.foldmethod = "marker"
 vim.opt.foldlevel = 0
 vim.opt.foldcolumn = "auto:1"
-vim.opt.fillchars:append("fold: ")
-
--- https://www.reddit.com/r/neovim/comments/1d3iwcz/custom_folds_without_any_plugins/
-FoldText = function()
-    local foldend = vim.v.foldend
-    local foldstart = vim.v.foldstart
-    local raw = table.concat(
-        vim.fn.getbufline(vim.api.nvim_get_current_buf(), foldstart),
-        ""
-    )
-
-    local title_patterns = {
-        "%s*([%a%s]+)%s:%s{{{", -- }}}
-        "%s*([%a%s]+)%s{{{", -- }}}
-        "{{{%d*%s*([%a%s]+)", -- }}}
-    }
-    local title
-    for _, pattern in ipairs(title_patterns) do
-        title = raw:match(pattern)
-        if title then
-            break
-        end
-    end
-
-    local loc = foldend - foldstart
-    local level = raw:match("{{{%s*(%d+)") -- }}}
-    title = ("*"):rep(level) .. " " .. title .. (" (%s) "):format(loc)
-
-    local fillerchar = "-"
-    local fillersize = 80 - #title - 1
-    title = title .. fillerchar:rep(fillersize)
-
-    return title
-end
-
-vim.o.foldtext = "v:lua.FoldText()"
-
--- 2}}}
+vim.opt.fillchars:append("fold:-")
 
 ---Show whitespace characters
 vim.opt.listchars = { space = ".", tab = ">.", eol = "~" }
@@ -97,6 +59,20 @@ vim.opt.timeoutlen = 2000
 -- QoL {{{2
 
 vim.keymap.set(
+    "n",
+    "<leader>xx",
+    "source %",
+    { desc = "source lua file." }
+)
+
+vim.keymap.set(
+    { "v", "x" },
+    "<leader>x",
+    ":lua<cr>",
+    { desc = "Run selection with lua." }
+)
+
+vim.keymap.set(
     { "n", "v", "s" },
     "<leader>re",
     ":<Up><cr>",
@@ -104,7 +80,14 @@ vim.keymap.set(
 )
 
 vim.keymap.set(
-    { "n", "i", "v", "s" },
+    { "n", "v", "x" },
+    "<leader>w",
+    "<cmd>w<cr>",
+    { desc = "Write buffer changes." }
+)
+
+vim.keymap.set(
+    "i",
     "<C-s>",
     "<cmd>w<cr>",
     { desc = "Write buffer changes." }
