@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=keymapper
-Comment=Start keymapper
-# Icon=keymapper
-Exec=keymapper
-Terminal=false
-Type=Application
-NoDisplay=true
