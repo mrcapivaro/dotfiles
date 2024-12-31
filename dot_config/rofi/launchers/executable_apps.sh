@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Set the PWD to the ~/.config/rofi folder
-cd "$HOME/.config/rofi"
+me="$(readlink -f $0)"
+here="$(dirname $me)"
 
 rofi -mode drun \
     -show drun \
-    -theme "./configs/apps.rasi"
+    -theme "$here/../configs/apps.rasi"
