@@ -493,7 +493,7 @@ local user_signals = {
 }
 
 client.connect_signal("manage", user_signals.manage)
-for sig_name, sig_cb in pairs(user_signals) do
+for sig_name, sig_cb in pairs(user_signals.properties) do
     client.connect_signal("property::" .. sig_name, sig_cb)
 end
 
@@ -534,8 +534,8 @@ awesome.set_preferred_icon_size(16)
 beautiful.init()
 
 util.populate_beautiful("", {
-    path = config_dir .. "modules/gruvbox",
-    icons_path = config_dir .. "modules/gruvbox/icons",
+    path = config_dir .. "modules/gruvbox/",
+    icons_path = config_dir .. "modules/gruvbox/icons/",
     default_path = gears.filesystem.get_themes_dir(),
 
     icon_theme = "Papirus",
@@ -590,14 +590,14 @@ util.populate_beautiful("titlebar", {
         normal = {
             inactive = title_icons .. "maximize.svg",
             inactive_hover = title_icons .. "maximize_hover.svg",
-            active = title_icons .. "maximize-active.svg",
-            active_hover = title_icons .. "maximize-active_hover.svg",
+            active = title_icons .. "maximize_active.svg",
+            active_hover = title_icons .. "maximize_active_hover.svg",
         },
         focus = {
             inactive = title_icons .. "maximize.svg",
             inactive_hover = title_icons .. "maximize_hover.svg",
-            active = title_icons .. "maximize-active.svg",
-            active_hover = title_icons .. "maximize-active_hover.svg",
+            active = title_icons .. "maximize_active.svg",
+            active_hover = title_icons .. "maximize_active_hover.svg",
         },
     },
 
@@ -614,12 +614,16 @@ util.populate_beautiful("titlebar", {
 
     ontop_button = {
         normal = {
-            title_icons .. "close.svg",
-            hover = title_icons .. "close_hover.svg",
+            inactive = title_icons .. "ontop.svg",
+            inactive_hover = title_icons .. "ontop_hover.svg",
+            active = title_icons .. "ontop_active.svg",
+            active_hover = title_icons .. "ontop_active_hover.svg",
         },
         focus = {
-            title_icons .. "close.svg",
-            hover = title_icons .. "close_hover.svg",
+            inactive = title_icons .. "ontop.svg",
+            inactive_hover = title_icons .. "ontop_hover.svg",
+            active = title_icons .. "ontop_active.svg",
+            active_hover = title_icons .. "ontop_active_hover.svg",
         },
     },
 })
