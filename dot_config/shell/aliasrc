@@ -16,8 +16,30 @@ alias claer="clear"
 alias cler="clear"
 alias clar="clear"
 
-alias fl="yazi"
 alias ls="ls --color=always -F1"
 
 alias fzf="fzf --reverse"
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
+
+alias diff="colordiff -u"
+
+gitall() {
+    local message="${*:-update}"
+    git add . && git commit -m "$message" && git push
+}
+
+help() {
+    "$@" --help | $PAGER
+}
+
+lfcd() {
+    cd "$(command lf -print-last-dir "$@")"
+}
+
+fe() {
+    $EDITOR $(fd . "$@" --hidden --type file | fzf)
+}
+
+fcd() {
+    cd $(fd . "$@" --hidden --type dir | fzf)
+}
