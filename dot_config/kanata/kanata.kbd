@@ -16,7 +16,6 @@
     alt lalt)
 
 (defalias
-    escctlcaps (tap-hold-press 1000 200 esc lctl)
     symlk (layer-while-held symbols)
 
     ;;;Virtual Alt Tab
@@ -28,6 +27,7 @@
     valttab (macro (on-press press-virtualkey alt) 5 tab)
 
     ;;;Shifted Symbols
+    ~ S-`
     ! S-1
     @ S-2
     # S-3
@@ -36,37 +36,77 @@
     ^ S-6
     & S-7
     * S-8
+    ;; parenthesis open
+    paro S-9
+    ;; parenthesis close
+    parc S-0
     { S-[
     } S-]
     | S-\
-)
+    _ S--)
 
 (deflayermap (default)
-    caps @escctlcaps
+    ;; caps as control and control and [ as esc
+    caps lctl
+    lctl esc
+    [ esc
+
+    ;; layer keys
     ralt @symlk
     lalt @navlk)
 
 (deflayermap (symbols)
-    q -
+    q @!
     w +
-    e S-2
-    r S-5
-    t S-6
-    a =
-    s S-4
-    d S-7
-    f S-3
-    g S-8
-    b S--)
+    e @@
+    r @%
+    t @~
+    a @#
+    s -
+    d @*
+    f =
+    g @&
+    z \
+    x @|
+    c @$
+    v @^
+    b @_
+
+    h `
+    j @paro
+    k @parc
+    l @{
+    ; @}
+    m [
+    , ])
 
 (deflayermap (navigation)
+    ;; live reload of kanata config
+    r lrld
+
+    ;; restore alt tab functionality since the layer key for nav is alt
     tab @valttab
+
     u home
     i end
     o prtsc
-    p caps
+    p (caps-word 1000)
+
+    y pgup
+    n pgdn
+
+    ;; media keys: mute, pause and volume up/down
+    m mute
+    , pp
+    . volu
+    / vold
+
+    ;; vi like arrow keys
     h left
     j down
     k up
     l right
+
+    ;; I usually define the meta return combo as an app launcher through
+    ;; something like rofi/wofi/...
     ; M-ret)
