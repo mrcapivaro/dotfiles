@@ -1,0 +1,10 @@
+# https://github.com/jtroo/kanata/discussions/130#discussioncomment-10227272
+
+[Desktop Entry]
+Name=Kanata
+Comment=Start kanata
+# Icon=keymapper
+Exec=kanata
+Terminal=false
+Type=Application
+NoDisplay=true
