@@ -2,10 +2,14 @@
 # vim: ft=bash
 
 ALIASRC="$HOME/.config/shell/aliasrc"
-PROFILERC="$HOME/.config/shell/profilerc"
-
 [ -f "$ALIASRC" ] && . "$ALIASRC"
+
+PROFILERC="$HOME/.config/shell/profilerc"
 [ -f "$PROFILERC" ] && . "$PROFILERC"
+
+# Source fzf config file if it exists and fzf is installed.
+FZFRC="$HOME/.config/fzf/fzfrc"
+[ -f "$FZFRC" ] && command -v fzf >/dev/null 2>&1 && . "$FZFRC"
 
 # Autoconfig {{{1
 
@@ -143,13 +147,14 @@ unfunction wrap_clipboard_widgets
 
 # 2}}}
 
-bindkey "^G" vi-cmd-mode
 autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd '^e' edit-command-line
 bindkey '^e' edit-command-line
 
-bindkey -s '^o' 'lfcd\n'
+bindkey -s '^o' 'fcd\n'
 bindkey -s '^f' 'fe\n'
+
+bindkey "^[[109;5u" accept-line
 
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
