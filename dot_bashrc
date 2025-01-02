@@ -9,6 +9,9 @@ PROFILERC="$HOME/.config/shell/profilerc"
 ALIASRC="$HOME/.config/shell/aliasrc"
 [ -f "$ALIASRC" ] && . "$ALIASRC"
 
+FZFRC="$HOME/.config/fzf/fzfrc"
+[ -f "$FZFRC" ] && command -v fzf >/dev/null 2>&1 && . "$FZFRC"
+
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
