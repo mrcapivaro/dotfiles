@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export FZF_DEFAULT_OPTS="\
+    --reverse \
+    --bind='ctrl-m:accept' \
+    --bind='enter:accept' \
+    --bind='ctrl-j:accept'"
