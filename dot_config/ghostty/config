@@ -23,7 +23,8 @@ window-padding-y   = 1
 window-theme       = "dark"
 window-decoration  = false
 gtk-titlebar       = false
-gtk-tabs-location  = bottom
+gtk-tabs-location  = hidden
+gtk-adwaita = false
 # background-opacity = 0.3
 
 
