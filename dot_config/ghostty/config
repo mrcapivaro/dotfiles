@@ -14,14 +14,16 @@ confirm-close-surface   = false
 title              = "Ghostty"
 theme              = "GruvboxDark"
 font-family        = "Iosevka Nerd Font"
-font-size          = 11
+font-size          = 10
 font-feature       = -calt
 font-feature       = -liga
 font-feature       = -dlig
 window-padding-x   = 2
 window-padding-y   = 1
 window-theme       = "dark"
+window-decoration  = false
 gtk-titlebar       = false
+gtk-tabs-location  = bottom
 # background-opacity = 0.3
 
 
@@ -37,8 +39,8 @@ keybind = ctrl+shift+plus=increase_font_size:1
 keybind = ctrl+shift+minus=decrease_font_size:1
 keybind = ctrl+shift+zero=reset_font_size
 
-keybind = ctrl+space>;=new_split:down
-keybind = ctrl+space>'=new_split:right
+keybind = ctrl+space>s=new_split:down
+keybind = ctrl+space>v=new_split:right
 
 keybind = ctrl+space>h=goto_split:left
 keybind = ctrl+space>j=goto_split:bottom
@@ -52,6 +54,8 @@ keybind = ctrl+space>shift+l=resize_split:right,100
 keybind = ctrl+space>z=equalize_splits
 
 keybind = ctrl+space>n=new_tab
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
 
 keybind = ctrl+space>q=close_surface
 keybind = ctrl+space>shift+q=quit
