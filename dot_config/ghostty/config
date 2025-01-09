@@ -13,23 +13,23 @@ confirm-close-surface   = false
 
 title              = "Ghostty"
 theme              = "GruvboxDark"
+window-theme       = "dark"
+window-padding-x   = 0
+window-padding-y   = 0
 font-family        = "Iosevka Nerd Font"
 font-size          = 10
+# Disable font ligatures
 font-feature       = -calt
 font-feature       = -liga
 font-feature       = -dlig
-window-padding-x   = 2
-window-padding-y   = 1
-window-theme       = "dark"
+# Disable rounded corners and {title, tab}bars
 window-decoration  = false
 gtk-titlebar       = false
 gtk-tabs-location  = bottom
 gtk-adwaita = false
-# background-opacity = 0.3
 
 
 ## Keybinds
-# ctrl+space is leader.
 
 keybind = clear
 
@@ -40,30 +40,8 @@ keybind = ctrl+shift+plus=increase_font_size:1
 keybind = ctrl+shift+minus=decrease_font_size:1
 keybind = ctrl+shift+zero=reset_font_size
 
-keybind = ctrl+space>s=new_split:down
-keybind = ctrl+space>v=new_split:right
+keybind = ctrl+shift+r=reload_config
+keybind = ctrl+shift+comma=open_config
 
-keybind = ctrl+space>h=goto_split:left
-keybind = ctrl+space>j=goto_split:bottom
-keybind = ctrl+space>k=goto_split:top
-keybind = ctrl+space>l=goto_split:right
-
-keybind = ctrl+space>shift+h=resize_split:left,100
-keybind = ctrl+space>shift+j=resize_split:down,100
-keybind = ctrl+space>shift+k=resize_split:up,100
-keybind = ctrl+space>shift+l=resize_split:right,100
-keybind = ctrl+space>z=equalize_splits
-
-keybind = ctrl+space>n=new_tab
-keybind = ctrl+tab=next_tab
-keybind = ctrl+shift+tab=previous_tab
-
-keybind = ctrl+space>q=close_surface
-keybind = ctrl+space>shift+q=quit
-
-keybind = ctrl+space>r=reload_config
-keybind = ctrl+space>comma=open_config
-
-keybind = ctrl+space>i=inspector:toggle
-keybind = ctrl+space>f=toggle_fullscreen
-keybind = ctrl+space>t=toggle_window_decorations
+keybind = ctrl+shift+i=inspector:toggle
+keybind = ctrl+shift+t=toggle_window_decorations
