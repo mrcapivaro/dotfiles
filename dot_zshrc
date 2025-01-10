@@ -33,8 +33,15 @@ unsetopt beep extendedglob nomatch
 # 1}}}
 # Extensions {{{1
 
-## plugin boilerplate setup function
-# ex: git clone https://github.com/user/name.git
+## Eval's
+eval "$(starship init zsh)"
+
+eval "$(direnv hook zsh)"
+
+eval "$(zoxide init zsh)"
+command -v z >/dev/null 2>&1 && alias cd="z"
+
+## Plugins
 use-git-plugin() {
     local gitrepo="$1"
     local name=${gitrepo#*/}
@@ -47,19 +54,15 @@ use-git-plugin() {
     [ -e "$plugin_init_file" ] && . "$plugin_init_file"
 }
 
-## eval's
-eval "$(starship init zsh)"
-
-eval "$(direnv hook zsh)"
-
-eval "$(zoxide init zsh)"
-command -v z >/dev/null 2>&1 && alias cd="z"
-
-## plugins
 use-git-plugin "Aloxaf/fzf-tab" # must come after compinit and before other plugins
 use-git-plugin "zsh-users/zsh-syntax-highlighting"
 use-git-plugin "zsh-users/zsh-autosuggestions"
 use-git-plugin "zsh-users/zsh-history-substring-search"
+
+## Zellij
+if [ -z "$ZELLIJ" ]; then
+    command -v zellij >/dev/null 2>&1 && zellij
+fi
 
 # 1}}}
 # Keybinds {{{1
