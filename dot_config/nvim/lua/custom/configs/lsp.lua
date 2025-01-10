@@ -1,4 +1,4 @@
-local tools = require("tools")
+local tools = require("custom.tools")
 
 -- Server Setup
 require("mason-lspconfig").setup({

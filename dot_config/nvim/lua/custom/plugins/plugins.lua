@@ -1,226 +1,5 @@
--- mrcapivaro's neovim plugins config
-
--- Plugin Manager Bootstrap {{{1
-
--- bootstrap plugin manager
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "--branch=stable",
-        lazyrepo,
-        lazypath,
-    })
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({
-            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out, "WarningMsg" },
-            { "\nPress any key to exit..." },
-        }, true, {})
-        vim.fn.getchar()
-        os.exit(1)
-    end
-end
-
-vim.opt.rtp:prepend(lazypath)
-
 local plugins = {}
 
--- 1}}}
-
--- Quality of Life {{{1
-
-table.insert(plugins, {
-    {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        keys = {
-            {
-                "gs",
-                mode = { "n", "x" },
-                function()
-                    require("flash").jump()
-                end,
-                desc = "Flash",
-            },
-            {
-                "gs",
-                mode = { "o" },
-                function()
-                    require("flash").remote()
-                end,
-                desc = "Flash Treesitter",
-            },
-        },
-        opts = {
-            modes = {
-                search = { enabled = false },
-                char = { enabled = false },
-            },
-            prompt = {
-                enabled = true,
-                prefix = { { "&", "FlashPromptIcon" } },
-            },
-        },
-    },
-
-    {
-        "folke/which-key.nvim",
-        event = "VeryLazy",
-        opts = {
-            delay = function(ctx)
-                return ctx.plugin and 500 or 500
-            end,
-        },
-        keys = {
-            {
-                "<leader>?",
-                function()
-                    require("which-key").show({ global = false })
-                end,
-                desc = "Buffer Local Keymaps (which-key)",
-            },
-        },
-    },
-
-    {
-        "mg979/vim-visual-multi",
-        event = { "BufReadPre", "BufNewFile" },
-    },
-
-    {
-        "echasnovski/mini.comment",
-        version = false,
-        event = "VeryLazy",
-        opts = {
-            mappings = {
-                comment = "gc",
-                comment_line = "gcc",
-                comment_visual = "gc",
-                textobject = "",
-            },
-        },
-    },
-
-    {
-        "mrjones2014/smart-splits.nvim",
-        opts = {},
-        config = function(_, opts)
-            -- Resize splits
-            vim.keymap.set("n", "<C-S-h>", require("smart-splits").resize_left)
-            vim.keymap.set("n", "<C-S-j>", require("smart-splits").resize_down)
-            vim.keymap.set("n", "<C-S-k>", require("smart-splits").resize_up)
-            vim.keymap.set("n", "<C-S-l>", require("smart-splits").resize_right)
-            -- Move cursor between splits
-            vim.keymap.set(
-                "n",
-                "<C-h>",
-                require("smart-splits").move_cursor_left
-            )
-            vim.keymap.set(
-                "n",
-                "<C-j>",
-                require("smart-splits").move_cursor_down
-            )
-            vim.keymap.set("n", "<C-k>", require("smart-splits").move_cursor_up)
-            vim.keymap.set(
-                "n",
-                "<C-l>",
-                require("smart-splits").move_cursor_right
-            )
-            -- Move buffer between splits
-            vim.keymap.set(
-                "n",
-                "<leader><leader>h",
-                require("smart-splits").swap_buf_left
-            )
-            vim.keymap.set(
-                "n",
-                "<leader><leader>j",
-                require("smart-splits").swap_buf_down
-            )
-            vim.keymap.set(
-                "n",
-                "<leader><leader>k",
-                require("smart-splits").swap_buf_up
-            )
-            vim.keymap.set(
-                "n",
-                "<leader><leader>l",
-                require("smart-splits").swap_buf_right
-            )
-            require("smart-splits").setup(opts)
-        end,
-    },
-
-    {
-        "https://github.com/LunarVim/bigfile.nvim",
-        opts = {
-            filesize = 2,
-            features = {
-                "indent_blankline",
-                "illuminate",
-                "lsp",
-                "treesitter",
-                "syntax",
-                "matchparen",
-                "vimopts",
-                "filetype",
-            },
-        },
-    },
-})
-
--- 1}}}
--- Text Editing {{{1
-
-table.insert(plugins, {
-    {
-        "echasnovski/mini.splitjoin",
-        version = false,
-        opts = {
-            -- Module mappings. Use `''` (empty string) to disable one.
-            -- Created for both Normal and Visual modes.
-            mappings = {
-                toggle = "gS",
-                split = "",
-                join = "",
-            },
-
-            -- Detection options: where split/join should be done
-            detect = {
-                -- Array of Lua patterns to detect region with arguments.
-                -- Default: { '%b()', '%b[]', '%b{}' }
-                brackets = nil,
-
-                -- String Lua pattern defining argument separator
-                separator = ",",
-
-                -- Array of Lua patterns for sub-regions to exclude separators from.
-                -- Enables correct detection in presence of nested brackets and quotes.
-                -- Default: { '%b()', '%b[]', '%b{}', '%b""', "%b''" }
-                exclude_regions = nil,
-            },
-
-            -- Split options
-            split = {
-                hooks_pre = {},
-                hooks_post = {},
-            },
-
-            -- Join options
-            join = {
-                hooks_pre = {},
-                hooks_post = {},
-            },
-        },
-    },
-})
-
--- 1}}}
 -- Appearance {{{1
 
 table.insert(plugins, {
@@ -241,13 +20,13 @@ table.insert(plugins, {
                 underline = true,
                 bold = true,
                 italic = {
-                    strings = true,
-                    emphasis = true,
-                    comments = true,
+                    strings = false,
+                    emphasis = false,
+                    comments = false,
                     operators = false,
-                    folds = true,
+                    folds = false,
                 },
-                strikethrough = true,
+                strikethrough = false,
                 invert_selection = false,
                 invert_signs = false,
                 invert_tabline = false,
@@ -284,31 +63,19 @@ table.insert(plugins, {
     {
         "akinsho/bufferline.nvim",
         version = "*",
-        after = "catppuccin",
         event = "UiEnter",
         dependencies = "nvim-tree/nvim-web-devicons",
         opts = {
-            options = {
-                themable = true,
-                -- separator_style = "slack",
-                highlights = function()
-                    require("catppuccin.groups.integrations.bufferline").get()
-                end,
-                offsets = {
-                    {
-                        filetype = "neo-tree",
-                        text = "File Explorer",
-                        text_align = "center",
-                        separator = true,
-                    },
-                },
-                hover = {
-                    enabled = true,
-                    delay = 200,
-                    reveal = { "close" },
-                },
-            },
+            mode = "buffers",
+            themable = true,
+            numbers = "none",
+            indicator = { style = "none" },
+            diagnostics = false,
         },
+        config = function(_, opts)
+            local final_opts = { options = opts }
+            require("bufferline").setup(final_opts)
+        end,
     },
 
     {
@@ -320,7 +87,170 @@ table.insert(plugins, {
 })
 
 -- 1}}}
--- Treesitter {{{1
+-- Keymaps {{{1
+
+table.insert(plugins, {
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = { delay = function(ctx) return ctx.plugin and 500 or 500 end },
+        keys = {
+            {
+                "<leader>?",
+                function() require("which-key").show({ global = false }) end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
+    },
+
+    {
+        "dynamotn/Navigator.nvim",
+        keys = {
+            {
+                desc = "Move focus to left window.",
+                "<C-h>",
+                "<CMD>NavigatorLeft<CR>",
+            },
+            {
+                desc = "Move focus to bottom window.",
+                "<C-j>",
+                "<CMD>NavigatorDown<CR>",
+            },
+            {
+                desc = "Move focus to top window.",
+                "<C-k>",
+                "<CMD>NavigatorUp<CR>",
+            },
+            {
+                desc = "Move focus to right window.",
+                "<C-l>",
+                "<CMD>NavigatorRight<CR>",
+            },
+        },
+        opts = {},
+    },
+})
+
+-- 1}}}
+-- Motions {{{
+
+table.insert(plugins, {
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        keys = {
+            {
+                desc = "Character jump.",
+                mode = { "n", "v" },
+                "s",
+                function() require("flash").jump() end,
+            },
+            {
+                desc = "Remote character jump on operator pending mode.",
+                mode = { "o" },
+                "s",
+                function() require("flash").remote() end,
+            },
+        },
+        opts = {
+            modes = {
+                search = { enabled = false },
+                char = { enabled = false },
+            },
+            prompt = {
+                enabled = true,
+                prefix = { { "&", "FlashPromptIcon" } },
+            },
+        },
+    },
+})
+
+-- }}}
+-- Text Editing {{{1
+
+table.insert(plugins, {
+    {
+        "mg979/vim-visual-multi",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+
+    {
+        "echasnovski/mini.comment",
+        version = false,
+        event = "VeryLazy",
+        opts = {
+            options = {
+                custom_commentstring = function()
+                    -- vim.bo.filetype
+                    -- vim.bo.commentstring
+                    if vim.bo.commentstring ~= "" and vim.bo.commentstring ~= nil then
+                        return vim.bo.commentstring
+                    end
+                    -- local filetype_and_commentstring = {
+                    --     ["kdl"] = "// %s",
+                    --     -- [""] = "",
+                    -- }
+                    -- for ft, cs in pairs(filetype_and_commentstring) do
+                    --     if vim.bo.filetype == ft then
+                    --         return cs
+                    --     end
+                    -- end
+                    return nil
+                end,
+            },
+            mappings = {
+                comment = "gc",
+                comment_line = "gcc",
+                comment_visual = "gc",
+                textobject = "",
+            },
+        },
+    },
+
+    {
+        "echasnovski/mini.splitjoin",
+        version = false,
+        opts = {
+            -- Module mappings. Use `''` (empty string) to disable one.
+            -- Created for both Normal and Visual modes.
+            mappings = {
+                toggle = "S",
+                split = "",
+                join = "",
+            },
+
+            -- Detection options: where split/join should be done
+            detect = {
+                -- Array of Lua patterns to detect region with arguments.
+                -- Default: { '%b()', '%b[]', '%b{}' }
+                brackets = nil,
+
+                -- String Lua pattern defining argument separator
+                separator = ",",
+
+                -- Array of Lua patterns for sub-regions to exclude separators from.
+                -- Enables correct detection in presence of nested brackets and quotes.
+                -- Default: { '%b()', '%b[]', '%b{}', '%b""', "%b''" }
+                exclude_regions = nil,
+            },
+
+            -- Split options
+            split = {
+                hooks_pre = {},
+                hooks_post = {},
+            },
+
+            -- Join options
+            join = {
+                hooks_pre = {},
+                hooks_post = {},
+            },
+        },
+    },
+})
+
+-- 1}}}
+-- Parser {{{1
 
 table.insert(plugins, {
     {
@@ -417,10 +347,10 @@ table.insert(plugins, {
         opts = {
             mappings = {
                 reset = "gr",
-                synchronize = "<leader>w",
+                synchronize = "<C-s>",
                 close = "q",
-                go_in = "L",
-                go_out = "H",
+                go_in = "l",
+                go_out = "h",
                 go_in_plus = "",
                 go_out_plus = "",
             },
@@ -432,25 +362,63 @@ table.insert(plugins, {
 -- Fuzzy Finder {{{1
 
 table.insert(plugins, {
-    "ibhagwan/fzf-lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "VeryLazy",
-    opts = {},
-    config = function(_, opts)
-        require("fzf-lua").setup(opts)
-    end,
-    keys = {
-        {
-            "<leader>ff",
-            ":FzfLua files<cr>",
-            desc = "Fuzzy find files in the current working directory.",
-        },
-        {
-            "<leader>fw",
-            ":FzfLua live_grep<cr>",
-            desc = "Fuzzy find a grep output.",
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+        event = "VeryLazy",
+        config = function() require("custom.configs.telescope") end,
+        keys = {
+            {
+                "<leader>bf",
+                function()
+                    local telescope_builtin = require("telescope.builtin")
+                    telescope_builtin.buffers()
+                end,
+                desc = "Fuzzy find files in the current working directory.",
+            },
+            {
+                "<leader>ff",
+                function()
+                    local telescope_builtin = require("telescope.builtin")
+                    telescope_builtin.find_files()
+                end,
+                desc = "Fuzzy find files in the current working directory.",
+            },
+            {
+                "<leader>fw",
+                function()
+                    local telescope_builtin = require("telescope.builtin")
+                    telescope_builtin.live_grep()
+                end,
+                desc = "Fuzzy find a grep output.",
+            },
+            {
+                "<leader>fh",
+                function()
+                    local telescope_builtin = require("telescope.builtin")
+                    telescope_builtin.help_tags()
+                end,
+                desc = "Fuzzy find help tags.",
+            },
         },
     },
+
+    {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        dependencies = "telescope.nvim",
+        build = table.concat({
+            "cmake",
+            "-S.",
+            "-Bbuild",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "&&",
+            "cmake",
+            "--build build",
+            "--config Release",
+        }, " "),
+        config = function() require("telescope").load_extension("fzf") end,
+    },
+
 })
 
 -- 1}}}
@@ -489,7 +457,7 @@ table.insert(plugins, {
 
     {
         "3rd/image.nvim",
-        ft = { "markdown", "telekasten", "norg" },
+        ft = { "markdown", "telekasten", "norg", "org" },
         opts = {},
     },
 
@@ -518,73 +486,44 @@ table.insert(plugins, {
 })
 
 -- 1}}}
--- LSP {{{1
-
-local tools = require("tools")
+-- Tasks {{{1
 
 table.insert(plugins, {
     {
-        "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            {
-                "williamboman/mason.nvim",
-                cmd = "Mason",
-                keys = {
-                    {
-                        "<leader>lm",
-                        "<cmd>Mason<cr>",
-                        desc = "Open Mason's menu.",
-                    },
+        "stevearc/overseer.nvim",
+        cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+        opts = {
+            task_list = {
+                -- direction = "bottom",
+                -- max_height = 25,
+                default_detail = 1,
+                bindings = {
+                    ["q"] = "Close",
                 },
-                opts = {},
             },
-            {
-                "williamboman/mason-lspconfig.nvim",
-                event = { "BufReadPre", "BufNewFile" },
-                opts = { ensure_installed = tools.lspconfig.items },
-            },
-            {
-                "folke/neodev.nvim",
-                ft = "lua",
-                opts = {},
-            },
+            form = { border = "single" },
+            confirm = { border = "single" },
+            task_win = { border = "single" },
+            help_win = { border = "single" },
         },
-        config = function()
-            require("configs.lsp")
-        end,
     },
 })
 
 -- 1}}}
--- None LS {{{1
+-- Versioning {{{1
 
 table.insert(plugins, {
     {
-        "nvimtools/none-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "neovim/nvim-lspconfig",
-            {
-                "jay-babu/mason-null-ls.nvim",
-                event = { "BufReadPre", "BufNewFile" },
-            },
-        },
-        config = function()
-            require("mason-null-ls").setup({
-                automatic_installation = false,
-                ensure_installed = tools.null_ls.items,
-                handlers = tools.null_ls.handlers,
-            })
-
-            local null_ls = require("null-ls")
-            null_ls.setup()
-        end,
+        "echasnovski/mini-git",
+        version = "*",
+        main = "mini.git",
+        opts = {},
     },
+
+    { "lewis6991/gitsigns.nvim", opts = {} },
 })
 
 -- 1}}}
--- TODO: Nvim DAP
 -- Auto Complete {{{1
 
 table.insert(plugins, {
@@ -638,7 +577,14 @@ table.insert(plugins, {
         },
 
         sources = {
-            default = { "lsp", "path", "snippets", "buffer" },
+            default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+            providers = {
+                lazydev = {
+                    name = "LazyDev",
+                    module = "lazydev.integrations.blink",
+                    score_offset = 100,
+                },
+            },
             cmdline = function()
                 local type = vim.fn.getcmdtype()
                 -- Disable auto complete on search
@@ -659,41 +605,75 @@ table.insert(plugins, {
 })
 
 -- 1}}}
--- Tasks {{{1
+-- LSP {{{1
+
+local tools = require("custom.tools")
 
 table.insert(plugins, {
     {
-        "stevearc/overseer.nvim",
-        cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
-        opts = {
-            task_list = {
-                -- direction = "bottom",
-                -- max_height = 25,
-                default_detail = 1,
-                bindings = {
-                    ["q"] = "Close",
+        "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            {
+                "williamboman/mason.nvim",
+                cmd = "Mason",
+                keys = {
+                    {
+                        "<leader>lm",
+                        "<cmd>Mason<cr>",
+                        desc = "Open Mason's menu.",
+                    },
+                },
+                opts = {},
+            },
+            {
+                "williamboman/mason-lspconfig.nvim",
+                event = { "BufReadPre", "BufNewFile" },
+                opts = { ensure_installed = tools.lspconfig.items },
+            },
+            {
+                "folke/lazydev.nvim",
+                ft = "lua",
+                opts = {
+                    library = {
+                        -- See the configuration section for more details
+                        -- Load luvit types when the `vim.uv` word is found
+                        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                    },
                 },
             },
-            form = { border = "single" },
-            confirm = { border = "single" },
-            task_win = { border = "single" },
-            help_win = { border = "single" },
         },
+        config = function()
+            require("custom.configs.lsp")
+        end,
     },
 })
 
 -- 1}}}
--- Versioning {{{1
+-- None LS {{{1
 
 table.insert(plugins, {
     {
-        "echasnovski/mini-git",
-        version = "*",
-        main = "mini.git",
-        opts = {},
-    },
+        "nvimtools/none-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            {
+                "jay-babu/mason-null-ls.nvim",
+                event = { "BufReadPre", "BufNewFile" },
+            },
+        },
+        config = function()
+            require("mason-null-ls").setup({
+                automatic_installation = false,
+                ensure_installed = tools.null_ls.items,
+                handlers = tools.null_ls.handlers,
+            })
 
-    { "lewis6991/gitsigns.nvim", opts = {} },
+            local null_ls = require("null-ls")
+            null_ls.setup()
+        end,
+    },
 })
 
 -- 1}}}
@@ -759,40 +739,27 @@ table.insert(plugins, {
 })
 
 -- 1}}}
+-- Performance {{{
 
--- Plugin Manager Setup {{{1
-
-require("lazy").setup(plugins, {
-    defaults = { lazy = false },
-    install = { colorscheme = { "catppuccin", "habamax" } },
-    performance = {
-        rtp = {
-            disabled_plugins = {
-                "netrw",
-                "netrwPlugin",
-                "netrwSettings",
-                "netrwFileHandlers",
-                "gzip",
-                -- "tutor",
-                "zip",
-                "zipPlugin",
-                "tar",
-                "tarPlugin",
-                "getscript",
-                "getscriptPlugin",
-                "vimball",
-                "vimballPlugin",
-                "2html_plugin",
-                "logipat",
-                "rrhelper",
-                "spellfile_plugin",
-                "matchit",
+table.insert(plugins, {
+    {
+        "https://github.com/LunarVim/bigfile.nvim",
+        opts = {
+            filesize = 2,
+            features = {
+                "indent_blankline",
+                "illuminate",
+                "lsp",
+                "treesitter",
+                "syntax",
+                "matchparen",
+                "vimopts",
+                "filetype",
             },
         },
     },
 })
 
--- Keymap to access the plugin manager's TUI
-vim.keymap.set({ "n", "v", "s", "x" }, "<leader>pm", "<cmd>Lazy<cr>")
+-- }}}
 
--- 1}}}
+return plugins
