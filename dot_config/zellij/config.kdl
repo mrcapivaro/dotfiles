@@ -4,16 +4,10 @@
 
 // Plugins {{{
 
-// List of possible plugins to add integration with neovim windows:
-//   https://github.com/hiasr/vim-zellij-navigator
-//     Adds wrappers around the MoveFocus commands.
-//   https://github.com/swaits/zellij-nav.nvim
-//     Adds wrappers for the neovim window commands and expects the install of
-//     a second plugin for automatically changing zellij mode to 'locked' when
-//     entering neovim.
-
 // Plugin Aliases (changes require restart)
 plugins {
+    vim-zellij-navigator location="https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm"
+
     /// Builtin Plugins
     session-manager location="zellij:session-manager"
     welcome-screen location="zellij:session-manager" {
@@ -50,10 +44,34 @@ keybinds clear-defaults=true {
         bind "Ctrl Tab" { GoToNextTab; }
         bind "Ctrl Shift Tab" { GoToPreviousTab; }
         // Pane Movement
-        // bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        // bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        // bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        // bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl h" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "move_focus";
+                payload "left";
+                move_mod "ctrl";
+            };
+        }
+        bind "Ctrl j" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "move_focus";
+                payload "down";
+                move_mod "ctrl";
+            };
+        }
+        bind "Ctrl k" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "move_focus";
+                payload "up";
+                move_mod "ctrl";
+            };
+        }
+        bind "Ctrl l" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "move_focus";
+                payload "right";
+                move_mod "ctrl";
+            };
+        }
         // Pane Resize
         // bind "Ctrl Shift h" { Resize "Left"; SwitchToMode "Normal"; }
         // bind "Ctrl Shift j" { Resize "Down"; SwitchToMode "Normal"; }
