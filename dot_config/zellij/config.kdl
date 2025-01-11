@@ -40,9 +40,11 @@ keybinds clear-defaults=true {
     normal {
         bind "Ctrl Space" { SwitchToMode "Tmux"; }
         /// Aliases
+
         // Tab Cycling
         bind "Ctrl Tab" { GoToNextTab; }
         bind "Ctrl Shift Tab" { GoToPreviousTab; }
+
         // Pane Movement
         bind "Ctrl h" {
             MessagePlugin "vim-zellij-navigator" {
@@ -72,44 +74,76 @@ keybinds clear-defaults=true {
                 move_mod "ctrl";
             };
         }
+
         // Pane Resize
-        // bind "Ctrl Shift h" { Resize "Left"; SwitchToMode "Normal"; }
-        // bind "Ctrl Shift j" { Resize "Down"; SwitchToMode "Normal"; }
-        // bind "Ctrl Shift k" { Resize "Up"; SwitchToMode "Normal"; }
-        // bind "Ctrl Shift l" { Resize "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl Shift h" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "resize";
+                payload "left";
+                resize_mod "ctrl";
+            };
+        }
+        bind "Ctrl Shift j" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "resize";
+                payload "down";
+                resize_mod "ctrl";
+            };
+        }
+        bind "Ctrl Shift k" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "resize";
+                payload "up";
+                resize_mod "ctrl";
+            };
+        }
+        bind "Ctrl Shift l" {
+            MessagePlugin "vim-zellij-navigator" {
+                name "resize";
+                payload "right";
+                resize_mod "ctrl";
+            };
+        }
     }
 
     tmux {
         /// Quit
         bind "Q" { Detach; }
+
         /// Exit Command Mode
         bind "Esc" { Write 2; SwitchToMode "Normal"; }
+
         /// Panes
         bind "s" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "v" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "," { SwitchToMode "RenamePane"; }
         bind "q" { CloseFocus; SwitchToMode "Normal"; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+
         // Pane Focus Movement
         bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
         bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
         bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
         bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+
         // Pane Resize
         bind "Shift h" { Resize "Left"; SwitchToMode "Normal"; }
         bind "Shift j" { Resize "Down"; SwitchToMode "Normal"; }
         bind "Shift k" { Resize "Up"; SwitchToMode "Normal"; }
         bind "Shift l" { Resize "Right"; SwitchToMode "Normal"; }
+
         // Pane Position Movement
         bind "Ctrl h" { MovePane "Left"; SwitchToMode "Normal"; }
         bind "Ctrl j" { MovePane "Down"; SwitchToMode "Normal"; }
         bind "Ctrl k" { MovePane "Up"; SwitchToMode "Normal"; }
         bind "Ctrl l" { MovePane "Right"; SwitchToMode "Normal"; }
+
         /// Tabs
         bind "t" { NewTab; SwitchToMode "Normal"; }
         bind "," { SwitchToMode "RenameTab"; }
         bind "n" { GoToNextTab; SwitchToMode "Normal"; }
         bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
+
         /// Other Modes
         bind "Space" { SwitchToMode "Scroll"; }
     }
