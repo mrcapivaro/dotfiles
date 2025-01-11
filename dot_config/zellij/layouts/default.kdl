@@ -3,11 +3,17 @@
 
 
 layout {
-    // pane size=1 borderless=true {
-    //     plugin location="status-bar"
-    // }
-    pane
-    pane size=1 borderless=true {
-        plugin location="compact-bar"
+    tab_template name="fullscreen" {
+        pane split_direction="vertical" {
+            pane name="todo" size=70
+            pane name="main"
+        }
+    }
+
+    tab name="Main" {
+        pane
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
     }
 }

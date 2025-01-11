@@ -29,16 +29,22 @@ plugins {
 
 // Plugins to load in the background when a new session starts
 load_plugins {
-  // "file:/path/to/my-plugin.wasm"
-  // "https://example.com/my-plugin.wasm"
+    "vim-zellij-navigator"
+    // "file:/path/to/my-plugin.wasm"
+    // "https://example.com/my-plugin.wasm"
 }
 
 // }}}
 // Keymaps {{{
 
 keybinds clear-defaults=true {
+    shared_except "normal" {
+        bind "Esc" { SwitchToMode "Normal"; }
+    }
+
     normal {
         bind "Ctrl Space" { SwitchToMode "Tmux"; }
+
         /// Aliases
 
         // Tab Cycling
@@ -76,47 +82,25 @@ keybinds clear-defaults=true {
         }
 
         // Pane Resize
-        bind "Ctrl Shift h" {
-            MessagePlugin "vim-zellij-navigator" {
-                name "resize";
-                payload "left";
-                resize_mod "ctrl";
-            };
-        }
-        bind "Ctrl Shift j" {
-            MessagePlugin "vim-zellij-navigator" {
-                name "resize";
-                payload "down";
-                resize_mod "ctrl";
-            };
-        }
-        bind "Ctrl Shift k" {
-            MessagePlugin "vim-zellij-navigator" {
-                name "resize";
-                payload "up";
-                resize_mod "ctrl";
-            };
-        }
-        bind "Ctrl Shift l" {
-            MessagePlugin "vim-zellij-navigator" {
-                name "resize";
-                payload "right";
-                resize_mod "ctrl";
-            };
-        }
+        bind "Ctrl Shift h" { Resize "Left"; SwitchToMode "Normal"; }
+        bind "Ctrl Shift j" { Resize "Down"; SwitchToMode "Normal"; }
+        bind "Ctrl Shift k" { Resize "Up"; SwitchToMode "Normal"; }
+        bind "Ctrl Shift l" { Resize "Right"; SwitchToMode "Normal"; }
     }
 
     tmux {
-        /// Quit
         bind "Q" { Detach; }
 
-        /// Exit Command Mode
-        bind "Esc" { Write 2; SwitchToMode "Normal"; }
+        bind "e" { EditScrollback; }
+
+        bind "Space" { SwitchToMode "Scroll"; }
+        bind "/" { SwitchToMode "EnterSearch"; }
 
         /// Panes
+        bind "p" { SwitchToMode "Pane"; }
+
         bind "s" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "v" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "," { SwitchToMode "RenamePane"; }
         bind "q" { CloseFocus; SwitchToMode "Normal"; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
 
@@ -139,38 +123,68 @@ keybinds clear-defaults=true {
         bind "Ctrl l" { MovePane "Right"; SwitchToMode "Normal"; }
 
         /// Tabs
-        bind "t" { NewTab; SwitchToMode "Normal"; }
+        bind "t" { SwitchToMode "Tab"; }
+        bind "n" { NewTab; SwitchToMode "Normal"; }
         bind "," { SwitchToMode "RenameTab"; }
-        bind "n" { GoToNextTab; SwitchToMode "Normal"; }
-        bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
-
-        /// Other Modes
-        bind "Space" { SwitchToMode "Scroll"; }
+        bind "Tab" { GoToNextTab; SwitchToMode "Normal"; }
+        bind "Shift Tab" { GoToPreviousTab; SwitchToMode "Normal"; }
     }
 
     scroll {
-        bind "Esc"               { SwitchToMode "Normal"; }
         bind "j"                 { ScrollDown; }
         bind "k"                 { ScrollUp; }
         bind "Ctrl d"            { HalfPageScrollDown; }
         bind "Ctrl u"            { HalfPageScrollUp; }
-        bind "Ctrl f" "PageDown" { PageScrollDown; }
-        bind "Ctrl b" "PageUp"   { PageScrollUp; }
+        bind "g"                 { ScrollToBottom; }
+        bind "Shift g"           { ScrollToTop; }
+    }
+
+    entersearch {
+        bind "Enter"             { SwitchToMode "Search"; }
+    }
+
+    search {
+        bind "n"                 { Search "Down"; }
+        bind "Shift n"           { Search "Up"; }
+        bind "?"                 { Search "Up"; }
+    }
+
+    tab {
+        bind "r" { SwitchToMode "RenameTab"; }
+
+        bind "n" { NewTab; }
+        bind "q" { CloseTab; }
+
+        bind "Tab" { GoToNextTab; }
+        bind "Shift Tab" { GoToPreviousTab; }
     }
 
     renametab {
         bind "Enter" { SwitchToMode "Normal"; }
-        bind "Esc" { UndoRenameTab; SwitchToMode "Normal"; }
+    }
+
+    pane {
+        bind "r" { SwitchToMode "RenamePane"; }
+
+        bind "h" { MoveFocus "Left"; }
+        bind "j" { MoveFocus "Down"; }
+        bind "k" { MoveFocus "Up"; }
+        bind "l" { MoveFocus "Right"; }
+
+        bind "Shift h" { Resize "Left"; }
+        bind "Shift j" { Resize "Down"; }
+        bind "Shift k" { Resize "Up"; }
+        bind "Shift l" { Resize "Right"; }
+
+        bind "Ctrl h" { MovePane "Left"; }
+        bind "Ctrl j" { MovePane "Down"; }
+        bind "Ctrl k" { MovePane "Up"; }
+        bind "Ctrl l" { MovePane "Right"; }
     }
 
     renamepane {
         bind "Enter" { SwitchToMode "Normal"; }
-        bind "Esc" { UndoRenamePane; SwitchToMode "Normal"; }
     }
-
-    // locked {
-    //     bind "Esc" { SwitchToMode "Normal"; }
-    // }
 }
 
 // }}}
@@ -233,6 +247,13 @@ theme "gruvbox-dark"
 //
 simplified_ui true
 
+// Toggle between having pane frames around the panes
+// Options:
+//   - true (default)
+//   - false
+//
+pane_frames true
+
 // }}}
 // Misc. {{{
 
@@ -254,13 +275,6 @@ on_force_close "detach"
 // Choose the path to override cwd that zellij will use for opening new panes
 //
 // default_cwd ""
-
-// Toggle between having pane frames around the panes
-// Options:
-//   - true (default)
-//   - false
-//
-pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of
 // layouts whenever possible
