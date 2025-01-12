@@ -1,0 +1,64 @@
+
+
+SpecialKey     xxx links to GruvboxFg4
+EndOfBuffer    xxx links to NonText
+TermCursor     xxx cterm=reverse gui=reverse
+TermCursorNC   xxx cleared
+NonText        xxx links to GruvboxBg2
+Directory      xxx links to GruvboxGreenBold
+ErrorMsg       xxx cterm=bold gui=bold guifg=#282828 guibg=#fb4934
+IncSearch      xxx cterm=reverse gui=reverse guifg=#fe8019 guibg=#282828
+Search         xxx cterm=reverse gui=reverse guifg=#fabd2f guibg=#282828
+CurSearch      xxx links to IncSearch
+MoreMsg        xxx links to GruvboxYellowBold
+ModeMsg        xxx links to GruvboxYellowBold
+LineNr         xxx guifg=#7c6f64
+LineNrAbove    xxx links to LineNr
+LineNrBelow    xxx links to LineNr
+CursorLineNr   xxx guifg=#fabd2f guibg=#3c3836
+CursorLineSign xxx links to SignColumn
+CursorLineFold xxx links to FoldColumn
+Question       xxx links to GruvboxOrangeBold
+StatusLine     xxx cterm=reverse gui=reverse guifg=#504945 guibg=#ebdbb2
+StatusLineNC   xxx cterm=reverse gui=reverse guifg=#3c3836 guibg=#a89984
+WinSeparator   xxx guifg=#665c54 guibg=#282828
+VertSplit      xxx links to WinSeparator
+Title          xxx links to GruvboxGreenBold
+Visual         xxx guibg=#665c54
+VisualNC       xxx cleared
+WarningMsg     xxx links to GruvboxRedBold
+WildMenu       xxx cterm=bold gui=bold guifg=#83a598 guibg=#504945
+Folded         xxx guifg=#b8bb26 guibg=#282828
+FoldColumn     xxx guifg=#928374 guibg=#282828
+DiffAdd        xxx guibg=#62693e
+DiffChange     xxx guibg=#49503b
+DiffDelete     xxx guibg=#722529
+DiffText       xxx guifg=#282828 guibg=#fabd2f
+SignColumn     xxx guibg=#282828
+Conceal        xxx guifg=#83a598
+SpellBad       xxx links to GruvboxRedUnderline
+SpellCap       xxx links to GruvboxBlueUnderline
+SpellRare      xxx links to GruvboxPurpleUnderline
+SpellLocal     xxx links to GruvboxAquaUnderline
+Pmenu          xxx guifg=#ebdbb2 guibg=#504945
+PmenuSel       xxx cterm=bold gui=bold guifg=#504945 guibg=#83a598
+PmenuKind      xxx links to Pmenu
+PmenuKindSel   xxx links to PmenuSel
+PmenuExtra     xxx links to Pmenu
+PmenuExtraSel  xxx links to PmenuSel
+PmenuSbar      xxx guibg=#504945
+PmenuThumb     xxx guibg=#7c6f64
+TabLine        xxx links to TabLineFill
+TabLineSel     xxx guifg=#b8bb26 guibg=#3c3836
+TabLineFill    xxx guifg=#7c6f64 guibg=#3c3836
+CursorColumn   xxx links to CursorLine
+CursorLine     xxx guibg=#3c3836
+ColorColumn    xxx guibg=#3c3836
+QuickFixLine   xxx links to GruvboxPurple
+Whitespace     xxx guifg=#504945
+NormalNC       xxx links to Normal
+MsgSeparator   xxx links to StatusLine
+NormalFloat    xxx cleared
+
+
+E475: Invalid argument: 
