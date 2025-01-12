@@ -7,6 +7,27 @@
 // Plugin Aliases (changes require restart)
 plugins {
     vim-zellij-navigator location="https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm"
+    zjstatus location="https://github.com/dj95/zjstatus/releases/download/v0.19.2/zjstatus.wasm" {
+        hide_frame_for_single_pane "false"
+
+        format_left  "#[bg=#3c3836]{mode}#[bg=#3c3836] {tabs}"
+        format_right "#[fg=#282828,bg=#ebdbb2] {session} "
+        format_space "#[bg=#3c3836]"
+
+        mode_normal          "#[bg=#ebdbb2,fg=#282828,bold] Normal "
+        mode_tmux            "#[bg=#d65d0e,fg=#282828,bold] Tmux "
+        mode_pane            "#[bg=#d65d0e,fg=#282828,bold] Pane "
+        mode_rename_pane     "#[bg=#d65d0e,fg=#282828,bold] Rename Pane "
+        mode_tab             "#[bg=#d65d0e,fg=#282828,bold] Tab "
+        mode_rename_tab      "#[bg=#d65d0e,fg=#282828,bold] Rename Tab "
+        mode_scroll          "#[bg=#d65d0e,fg=#282828,bold] Scroll "
+        mode_enter_search    "#[bg=#d65d0e,fg=#282828,bold] Enter Search "
+        mode_search          "#[bg=#d65d0e,fg=#282828,bold] Search "
+        mode_default_to_mode "tmux"
+
+        tab_normal "#[fg=#a89984,bg=#3c3836] {name}"
+        tab_active "#[fg=#fbf1c7,bg=#3c3836] {name}"
+    }
 
     /// Builtin Plugins
     session-manager location="zellij:session-manager"
@@ -321,7 +342,7 @@ on_force_close "quit"
 //   - true (default)
 //   - false
 //
-mouse_mode true
+// mouse_mode true
 
 // Configure the scroll back buffer size
 // This is the number of lines zellij stores for each pane in the scroll back
