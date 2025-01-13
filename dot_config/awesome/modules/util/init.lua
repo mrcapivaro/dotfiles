@@ -91,19 +91,4 @@ M.string.split = function(instr, sep)
     return result
 end
 
-M.x11 = {}
-
--- awesome.xkb_set_layout_group uses the module operator internally, therefore
--- it is not needed to actually calculate anything for this. Adding one sets
--- the next layout and subtracting one selects the previous keyboard layout.
---
--- If it was needed to do this manually, it could be done by using a split
--- string to table function in the groups string using "+" as the sepator and
--- then counting how many of the groups are actually layouts. Then, just add one
--- or subtract one from the current index and calculate final_index % total.
-M.x11.next_layout = function()
-    local current = awesome.xkb_get_layout_group()
-    awesome.xkb_set_layout_group(current + 1)
-end
-
 return M

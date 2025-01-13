@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+    <rect
+        class="background"
+        x="0"
+        y="0"
+        width="100%"
+        height="100%"
+    />
+
+    <path
+        class="maximize"
+        d="M15 15H7V7H15M18 19H4V18H3V4H4V3H18V4H19V18H18M17 17V5H5V17Z"
+    />
+
+    <style>
+        .background {
+            fill: transparent;
+        }
+
+        .maximize {
+            fill: #fe8019;
+        }
+    </style>
+</svg>
