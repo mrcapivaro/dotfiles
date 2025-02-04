@@ -1,0 +1,5 @@
+#!/bin/sh
+
+file="$1"
+
+bat --color=always --wrap=character --style=plain "$file"

@@ -1,6 +1,7 @@
 #: Options
 set icons
 set hidden
+set previewer ~/.config/lf/previewer
 
 #: Shell {{{
 
