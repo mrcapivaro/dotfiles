@@ -1,119 +1,111 @@
--- ~/.config/nvim/lua/keymaps.lua
+-- https://github.com/ibhagwan/vim-cheatsheet
 
--- Wrapper for 'vim.keymap.set' {{{
+local utils = require("custom.local.utils")
+local map = utils.map
+local cmd = utils.cmd
 
-local map = function(args)
-    local mode = args.modes or args.mode
-    local lhs = args.lhs
-    local rhs = args.rhs
+-- Quit Commands {{{
 
-    local default_options = { silent = true, expr = false, nowait = false }
-    local options =
-        vim.tbl_deep_extend("force", default_options, args.options or {})
-    if args.desc then
-        options.desc = args.desc
-    end
+map({
+    desc = "Quit all.",
+    mode = "n",
+    lhs  = { "<C-q>q", "<C-q><C-q>" },
+    rhs  = "ZQ",
+})
 
-    vim.keymap.set(mode, lhs, rhs, options)
-end
+map({
+    desc = "Quit window.",
+    mode = "n",
+    lhs  = { "<C-q>w", "<C-q><C-w>" },
+    rhs  = "<C-w>q",
+})
+
+map({
+    desc = "Quit buffer.",
+    mode = "n",
+    lhs  = { "<C-q>b", "<C-q><C-b>" },
+    rhs  = cmd("bd"),
+})
+
+-- }}}
+-- Marks {{{
+
+map({
+    desc = "Move to mark with 'M'",
+    mode = "n",
+    lhs = "M",
+    rhs = "`",
+})
+
+map({
+    desc = "Move to position before jump with 'MM'",
+    mode = "n",
+    lhs = "MM",
+    rhs = "``",
+})
+
+-- }}}
+-- Execution of code {{{
+
+map({
+    mode = { "n", "v" },
+    lhs = "<space>re",
+    rhs = ":<UP><CR>",
+})
+
+map({
+    mode = "n",
+    lhs = "<space>xl",
+    rhs = ":%lua<cr>",
+})
+
+map({
+    mode = "v",
+    lhs = "<space>xl",
+    rhs = ":lua<cr>",
+})
 
 -- }}}
 -- Quality of Life {{{
 
 map({
-    desc = "Quit without saving.",
-    mode = "n",
-    lhs = "<leader>q",
-    rhs = "ZQ",
-})
-
-map({
     desc = "Escape and clear hlsearch.",
-    modes = { "c", "n", "o", "v", "i" },
+    mode = { "c", "n", "o", "v", "i", "t" },
     lhs = "<esc>",
     rhs = "<cmd>noh<cr><esc>",
 })
 
 -- }}}
--- Execution of Code & Commands {{{
-
-map({
-    desc = "Run file with lua interpreter.",
-    modes = "n",
-    lhs = "<leader>xl",
-    rhs = ":%lua<cr>",
-})
-
-map({
-    desc = "Run selection with lua interpreter.",
-    modes = "v",
-    lhs = "<leader>xl",
-    rhs = ":lua<cr>",
-})
-
-map({
-    desc = "Run last ex command.",
-    modes = { "n", "v" },
-    lhs = "<leader>re",
-    rhs = ":<Up><cr>",
-})
-
--- }}}
--- Windows {{{
-
-map({
-    desc = "Write buffer changes.",
-    modes = { "n", "v", "x", "i", "s" },
-    lhs = "<C-s>",
-    rhs = "<cmd>w<cr>",
-})
-
-map({
-    desc = "Write buffer changes.",
-    modes = { "n", "v", "x", "s" },
-    lhs = "<leader>ww",
-    rhs = "<cmd>w<cr>",
-})
-
-map({
-    desc = "Vertical window split.",
-    modes = { "n", "v" },
-    lhs = "<leader>wv",
-    rhs = "<cmd>vertical split<cr>",
-})
-
-map({
-    desc = "Horizontal window split.",
-    modes = { "n", "v" },
-    lhs = "<leader>ws",
-    rhs = "<cmd>horizontal split<cr>",
-})
-
--- }}}
 -- Text Editing {{{
 
--- Move lines of code with visual mode
 map({
-    modes = "v",
+    desc = "Append two new lines at cursor and move one line up.",
+    mode = { "n" },
+    lhs = "<C-CR>",
+    rhs = "a<CR>\27ko",
+})
+
+-- Move lines of code with visual mod
+map({
+    mode = "v",
     lhs = "<S-k>",
     rhs = "<cmd>m+1<cr>vv",
 })
 
 map({
-    modes = "v",
+    mode = "v",
     lhs = "<S-j>",
     rhs = "<cmd>m-2<cr>vv",
 })
 
 map({
-    modes = "x",
+    mode = "x",
     lhs = "<S-k>",
     rhs = ":m '<-2<cr>gv=gv",
-
 })
 
 map({
-    modes = "x",
+    mode = "x",
     lhs = "<S-j>",
     rhs = ":m '>+1<cr>gv=gv",
 
@@ -121,18 +113,55 @@ map({
 
 -- Better Indent
 map({
-    modes = "x",
+    mode = "x",
     lhs = ">",
     rhs = ">gv",
 
 })
 
 map({
-    modes = "x",
+    mode = "x",
     lhs = "<",
     rhs = "<gv",
+})
 
+local symbols_list = {
+    { "'", "'" },
+    { '"', '"' },
+    { "{", "}" },
+    { "[", "]" },
+    { "(", ")" },
+}
+
+-- Surround selection with symbol
+for _, symbols in ipairs(symbols_list) do
+    local lsymbol, rsymbol = symbols[1], symbols[2]
+
+    map({
+        desc = "Surround selection with " .. lsymbol .. rsymbol,
+        mode = "v",
+        lhs = "s" .. lsymbol,
+        rhs = "c" .. lsymbol .. rsymbol .. "\27hp",
     })
+
+    if lsymbol ~= rsymbol then
+        map({
+            desc = "Surround selection with " .. lsymbol .. rsymbol,
+            mode = "v",
+            lhs = "s" .. rsymbol,
+            rhs = "c" .. lsymbol .. rsymbol .. "\27hp",
+        })
+    end
+end
+
+for _, symbols in ipairs(symbols_list) do
+    map({
+        desc = "Fast multiline symbol container.",
+        mode = { "i" },
+        lhs = symbols[1] .. "<CR>",
+        rhs = string.format("%s\n%s\27O", symbols[1], symbols[2]),
+    })
+end
 
 -- }}}
 -- Movement {{{
@@ -153,30 +182,35 @@ map({
 -- Buffers {{{
 
 map({
-    desc = "Next buffer.",
-    modes = { "n", "v" },
-    lhs = "gs",
-    rhs = "<cmd>bn<cr>",
+    desc = "Write buffer changes.",
+    mode = { "n", "v", "x", "s" },
+    lhs = "<space>s",
+    rhs = "<cmd>w<cr>",
 })
 
 map({
-    desc = "Previous buffer.",
-    modes = { "n", "v" },
-    lhs = "gS",
-    rhs = "<cmd>bp<cr>",
+    mode = "n",
+    lhs = "gn",
+    rhs = cmd("bnext"),
+})
+
+map({
+    mode = "n",
+    lhs = "gp",
+    rhs = cmd("bprevious"),
 })
 
 map({
     desc = "Close buffer.",
-    modes = { "n", "v" },
-    lhs = "<leader>bd",
+    mode = { "n", "v" },
+    lhs = "<space>bd",
     rhs = "<cmd>bd<cr>",
 })
 
 map({
     desc = "Force close buffer.",
-    modes = { "n", "v" },
-    lhs = "<leader>bD",
+    mode = { "n", "v" },
+    lhs = "<space>bD",
     rhs = "<cmd>bd!<cr>",
 })
 
@@ -185,7 +219,7 @@ map({
 
 map({
     desc = "Toggle folding alias.",
-    modes = { "n", "v", "x" },
+    mode = { "n", "v", "x" },
     lhs = "<tab>",
     rhs = "za",
 })

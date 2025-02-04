@@ -22,7 +22,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(require("custom.plugins.plugins"), {
+require("lazy").setup(require("custom.plugins"), {
     defaults = { lazy = false },
     install = { colorscheme = { "gruvbox", "habamax" } },
     performance = {
@@ -53,4 +53,4 @@ require("lazy").setup(require("custom.plugins.plugins"), {
 })
 
 -- Keymap to access the plugin manager's TUI
-vim.keymap.set({ "n", "v", "s", "x" }, "<leader>pm", "<cmd>Lazy<cr>")
+vim.keymap.set({ "n", "v", "s", "x" }, "<leader>u", "<cmd>Lazy<cr>")

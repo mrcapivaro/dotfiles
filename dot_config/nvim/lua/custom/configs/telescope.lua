@@ -1,10 +1,33 @@
 local telescope = require("telescope")
-local bc        = require("custom.local.boxchars")
+local actions = require("telescope.actions")
+local bc = require("custom.local.boxchars")
+local NuiLayout = require("nui.layout")
+local NuiPopup = require("nui.popup")
+local TSLayout = require("telescope.pickers.layout")
 
-local opts    = {}
-opts.defaults = {}
+local opts = {}
+opts.defaults = {
+    -- Top to bottom instead of bottom to top.
+    sorting_strategy = "ascending",
+    mappings = {
+        n = {
+            ["<Left>"] = actions.close,
+            ["<Right>"] = actions.select_default,
+        },
+    },
+    vimgrep_arguments = {
+        "rg",
+        "--hidden",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case"
+    },
+}
 
--- Layout {{{
+-- Default Picker Layout {{{
 
 opts.defaults.layout_strategy = "flex"
 opts.defaults.layout_config = {
@@ -22,99 +45,105 @@ opts.defaults.layout_config = {
     },
 }
 
-opts.defaults.create_layout = function(picker)
-    local TSLayout = require("telescope.pickers.layout")
-    local NuiLayout = require("nui.layout")
-    local NuiPopup = require("nui.popup")
+local borders = {
+    prompt = {
+        top_left = bc.jl,
+        top = bc.hl,
+        top_right = bc.jh,
+        right = bc.jk,
+        left = bc.jk,
+        bottom_right = bc.kh,
+        bottom = bc.hl,
+        bottom_left = bc.kl,
+    },
+    prompt_patch = {
+        minimal = {
+            bottom_right = "",
+            bottom = "",
+            bottom_left = "",
+        },
+        horizontal = {
+            top_right = bc.hjl,
+            bottom_right = "",
+            bottom = "",
+            bottom_left = "",
+        },
+        vertical = {
+            bottom_right = "",
+            bottom = "",
+            bottom_left = "",
+        },
+    },
+    results = {
+        top_left = bc.hj,
+        top = bc.hl,
+        top_right = bc.lj,
+        right = bc.jk,
+        left = bc.jk,
+        bottom_right = bc.kh,
+        bottom = bc.hl,
+        bottom_left = bc.kl,
+    },
+    results_patch = {
+        minimal = {
+            top_left = bc.jkl,
+            top_right = bc.jkh,
+        },
+        horizontal = {
+            top_left = bc.jkl,
+            top_right = bc.jkh,
+            bottom_right = bc.hlk,
+        },
+        vertical = {
+            top_left = bc.jkl,
+            top_right = bc.jkh,
+            bottom_right = "",
+            bottom = "",
+            bottom_left = "",
+        },
+    },
+    preview = {
+        top_left = bc.hj,
+        top = bc.hl,
+        top_right = bc.jh,
+        right = bc.jk,
+        left = bc.jk,
+        bottom_right = bc.kh,
+        bottom = bc.hl,
+        bottom_left = bc.kl,
+    },
+    preview_patch = {
+        horizontal = {
+            top_left = "",
+            left = "",
+            bottom_left = "",
+        },
+        vertical = {
+            top_left = bc.jkl,
+            top_right = bc.jkh,
+        },
+    },
+}
 
-    local function make_popup(options)
-        local popup = NuiPopup(options)
-        function popup.border:change_title(title)
-            popup.border.set_text(popup.border, "top", title)
-        end
-
-        return TSLayout.Window(popup)
+local function NuiTSPopupWrapper(options)
+    -- Surround the popup title with spaces.
+    if options.border.text.top then
+        options.border.text.top = string.format(" %s ", options.border.text.top)
     end
 
-    local border = {
-        results = {
-            top_left = "",
-            top = "",
-            top_right = "",
-            right = bc.jk,
-            left = bc.jk,
-            bottom_right = bc.hlk,
-            bottom = bc.hl,
-            bottom_left = bc.kl,
-        },
-        results_patch = {
-            minimal = {
-                top_left = bc.jl,
-                top_right = bc.jh,
-            },
-            horizontal = {
-                top_left = "",
-                top_right = "",
-            },
-            vertical = {
-                top_left = bc.jkl,
-                top_right = bc.jkh,
-            },
-        },
-        prompt = {
-            top_left = bc.jl,
-            top = bc.hl,
-            top_right = bc.jh,
-            right = bc.jk,
-            left = bc.jk,
-            bottom_right = bc.jkh,
-            bottom = bc.hl,
-            bottom_left = bc.jkl,
-        },
-        prompt_patch = {
-            minimal = {
-                bottom_right = bc.kh,
-            },
-            horizontal = {
-                bottom_right = bc.jkh,
-            },
-            vertical = {
-                bottom_right = bc.kh,
-            },
-        },
-        preview = {
-            top_left = bc.hlk,
-            top = "",
-            top_right = "",
-            right = bc.jk,
-            bottom_right = bc.kh,
-            bottom = bc.hl,
-            bottom_left = bc.kl,
-            left = "",
-        },
-        preview_patch = {
-            minimal = {},
-            horizontal = {
-                bottom = bc.hl,
-                bottom_left = "",
-                bottom_right = bc.kh,
-                left = "",
-                top_left = bc.hlk,
-            },
-            vertical = {
-                bottom = "",
-                bottom_left = "",
-                bottom_right = "",
-                left = bc.jk,
-                top_left = bc.jl,
-            },
-        },
-    }
+    local popup = NuiPopup(options)
+    function popup.border:change_title(title)
+        popup.border.set_text(popup.border, "top", title)
+    end
 
-    local results = make_popup({
+    return TSLayout.Window(popup)
+end
+
+opts.defaults.create_layout = function(picker)
+    local results = NuiTSPopupWrapper({
         focusable = false,
         border = {
-            style = border.results,
+            style = borders.results,
             text = {
                 top = picker.results_title,
                 top_align = "center",
@@ -125,10 +154,10 @@ opts.defaults.create_layout = function(picker)
         },
     })
 
-    local prompt = make_popup({
+    local prompt = NuiTSPopupWrapper({
         enter = true,
         border = {
-            style = border.prompt,
+            style = borders.prompt,
             text = {
                 top = picker.prompt_title,
                 top_align = "center",
@@ -140,10 +169,10 @@ opts.defaults.create_layout = function(picker)
         },
     })
 
-    local preview = make_popup({
+    local preview = NuiTSPopupWrapper({
         focusable = false,
         border = {
-            style = border.preview,
+            style = borders.preview,
             text = {
                 top = picker.preview_title,
                 top_align = "center",
@@ -162,16 +191,16 @@ opts.defaults.create_layout = function(picker)
         }, { dir = "col" }),
 
         horizontal = NuiLayout.Box({
-            NuiLayout.Box(prompt, { size = 3 }),
             NuiLayout.Box({
-                NuiLayout.Box(results, { size = "50%" }),
-                NuiLayout.Box(preview, { grow = 1 }),
-            }, { grow = 1, dir = "row" }),
-        }, { dir = "col" }),
+                NuiLayout.Box(prompt, { size = 3 }),
+                NuiLayout.Box(results, { grow = 1 }),
+            }, { grow = 1, dir = "col" }),
+            NuiLayout.Box(preview, { grow = 1 }),
+        }, { dir = "row" }),
 
         minimal = NuiLayout.Box({
-            NuiLayout.Box(results, { grow = 1 }),
             NuiLayout.Box(prompt, { size = 3 }),
+            NuiLayout.Box(results, { grow = 1 }),
         }, { dir = "col" }),
     }
 
@@ -194,16 +223,16 @@ opts.defaults.create_layout = function(picker)
 
     local function prepare_layout_parts(layout, box_type)
         layout.results = results
-        results.border:set_style(border.results_patch[box_type])
+        results.border:set_style(borders.results_patch[box_type])
 
         layout.prompt = prompt
-        prompt.border:set_style(border.prompt_patch[box_type])
+        prompt.border:set_style(borders.prompt_patch[box_type])
 
         if box_type == "minimal" then
             layout.preview = nil
         else
             layout.preview = preview
-            preview.border:set_style(border.preview_patch[box_type])
+            preview.border:set_style(borders.preview_patch[box_type])
         end
     end
 
@@ -232,5 +261,18 @@ opts.defaults.create_layout = function(picker)
 end
 
 -- }}}
+
+opts.pickers = {}
+
+opts.pickers.buffers = {
+    initial_mode = "normal",
+    sort_mru = true,
+    mappings = {
+        n = {
+            ["d"] = "delete_buffer",
+            ["dd"] = "delete_buffer",
+        },
+    },
+}
 
 telescope.setup(opts)
