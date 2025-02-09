@@ -1,4 +1,5 @@
 ;; ~/.config/kanata/kanata.kbd
+;; vim: commentstring=;;\ %s
 
 ;; docs:
 ;; https://jtroo.github.io/config.html
@@ -9,7 +10,7 @@
     tab  q w e r t y u i o p [
     caps a s d f g h j k l ; '
     lsft z x c v b n m , . / rsft
-    lctl rmet lalt spc ralt rctl)
+    lctl lmet lalt spc ralt rctl)
 
 (defvirtualkeys
     ;; Used for Virtual Alt Tab
@@ -46,10 +47,13 @@
     _ S--)
 
 (deflayermap (default)
-    ;; caps as control and control and [ as esc
+    ;; caps as control and control as esc
     caps lctl
     lctl esc
-    [ esc
+
+    ;; easy esc key but keep ' somewhere in the layout
+    [ '
+    ' esc
 
     ;; layer keys
     ralt @symlk
@@ -72,17 +76,18 @@
     v @$
     b @_
 
-    j @{
-    k @}
-    l `)
+    h `
+    j @}
+    k @{
+    l ]
+    ; [
+    m @parc
+    , @paro
+
+    u @^
+    i @$)
 
 (deflayermap (navigation)
-    ;; some symbols
-    d @paro
-    f @parc
-    a [
-    s ]
-
     ;; live reload of kanata config
     r lrld
 
@@ -92,7 +97,7 @@
     u home
     i end
     o prtsc
-    p (caps-word 1000)
+    p (caps-word 2000)
 
     y pgup
     n pgdn
@@ -109,6 +114,5 @@
     k up
     l right
 
-    ;; I usually define the meta return combo as an app launcher through
-    ;; something like rofi/wofi/...
-    ; M-ret)
+    ; ret
+    ' bspc)
