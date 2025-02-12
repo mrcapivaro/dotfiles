@@ -1,5 +1,3 @@
--- ~/.config/awesome/rc.lua
-
 -- Ensure that LuaRocks libraries can be called.
 pcall(require, "luarocks.loader")
 

@@ -288,19 +288,17 @@ local calendar_and_clock = wibox.widget({
 })
 
 -- 1}}}
--- Keyboard Box {{{1
+-- Keyboard Box {{{
 
+local keyboardlayout = require("modules.theme.widgets.keyboardlayout")
 local keyboardbox = colored_icon_wrapper(
     colors.orange,
     beautiful.icons_path .. "/widgets/keyboardbox.svg",
-    {
-        widget = wibox.widget.textbox,
-        markup = "1",
-    },
+    keyboardlayout(),
     28
 )
 
--- 1}}}
+-- }}}
 -- Systray {{{1
 
 util.populate_beautiful("systray", {
