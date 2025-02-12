@@ -31,14 +31,14 @@ map({
 -- Marks {{{
 
 map({
-    desc = "Move to mark with 'M'",
+    desc = "Move to mark",
     mode = "n",
     lhs = "M",
     rhs = "`",
 })
 
 map({
-    desc = "Move to position before jump with 'MM'",
+    desc = "Move to position before jump",
     mode = "n",
     lhs = "MM",
     rhs = "``",

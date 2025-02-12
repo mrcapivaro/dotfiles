@@ -5,7 +5,6 @@ vim.filetype.add({
     extension = {
         -- rust ui library
         slint = "slint",
-        d2 = "d2",
         dj = "djot",
     },
 })

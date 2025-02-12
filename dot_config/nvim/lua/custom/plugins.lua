@@ -41,6 +41,7 @@ table.insert(plugins, {
                     Folded = { fg = colors.bright_green, bg = colors.dark0 },
                     FoldColumn = { bg = colors.dark0 },
                     SignColumn = { bg = colors.dark0 },
+                    EndOfBuffer = { fg = colors.dark0 },
                 },
                 dim_inactive = false,
                 transparent_mode = false,
@@ -50,13 +51,6 @@ table.insert(plugins, {
 
     {
         "stevearc/dressing.nvim",
-        opts = {},
-    },
-
-    {
-        "folke/todo-comments.nvim",
-        event = "VeryLazy",
-        dependencies = { "nvim-lua/plenary.nvim" },
         opts = {},
     },
 
@@ -129,7 +123,7 @@ table.insert(plugins, {
     },
 })
 
--- }}}
+--}}}
 -- Motions {{{
 
 table.insert(plugins, {
@@ -171,35 +165,7 @@ table.insert(plugins, {
 -- Text Editing {{{
 
 table.insert(plugins, {
-    {
-        "mg979/vim-visual-multi",
-        event = { "BufReadPre", "BufNewFile" },
-    },
-
-    {
-        "echasnovski/mini.comment",
-        version = false,
-        event = "VeryLazy",
-        opts = {
-            options = {
-                custom_commentstring = function()
-                    if
-                        vim.bo.commentstring ~= ""
-                        and vim.bo.commentstring ~= nil
-                    then
-                        return vim.bo.commentstring
-                    end
-                    return nil
-                end,
-            },
-            mappings = {
-                comment = "<space>c",
-                comment_line = "<space>cc",
-                comment_visual = "<space>c",
-                textobject = "",
-            },
-        },
-    },
+    { "mg979/vim-visual-multi", event = { "BufReadPre", "BufNewFile" } },
 
     {
         "echasnovski/mini.splitjoin",
@@ -307,6 +273,14 @@ table.insert(plugins, {
         keys = {
             {
                 desc = "Fuzzy Search files in cwd.",
+                "<C-f>",
+                function()
+                    local telescope_builtin = require("telescope.builtin")
+                    telescope_builtin.find_files({ hidden = true })
+                end,
+            },
+            {
+                desc = "Fuzzy Search files in cwd.",
                 "<leader>ff",
                 function()
                     local telescope_builtin = require("telescope.builtin")
@@ -362,7 +336,7 @@ table.insert(plugins, {
                 end,
             },
             {
-                desc = "Fuzzy Search vim\"<leader>f quicklist.",
+                desc = "Fuzzy Search vim quicklist.",
                 "<leader>fq",
                 function()
                     local telescope_builtin = require("telescope.builtin")
@@ -403,30 +377,170 @@ table.insert(plugins, {
 })
 
 -- }}}
--- Tasks {{{
+
+-- Org {{{
 
 table.insert(plugins, {
     {
-        "stevearc/overseer.nvim",
-        cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+        "epwalsh/obsidian.nvim",
+
+        version = "*",
+
+        lazy = true,
+
+        ft = "markdown",
+
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "telescope.nvim",
+        },
+
+        keys = {
+
+            {
+                desc = "Open tags picker.",
+                "<leader>ft",
+                ":ObsidianTags<CR>",
+            },
+
+            {
+                desc = "Open backlinks picker.",
+                "<leader>fr",
+                ":ObsidianBacklinks<CR>",
+            },
+
+        },
+
         opts = {
-            task_list = {
-                -- direction = "bottom",
-                -- max_height = 25,
-                default_detail = 1,
-                bindings = {
-                    ["q"] = "Close",
+
+            ui = { enable = false },
+
+            workspaces = {
+                { name = "Org", path = "~/Org" },
+            },
+
+            mappings = {
+                -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+                ["gf"] = {
+                    action = function()
+                        return require("obsidian").util.gf_passthrough()
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
+                -- Toggle check-boxes.
+                ["<leader>ch"] = {
+                    action = function()
+                        return require("obsidian").util.toggle_checkbox()
+                    end,
+                    opts = { buffer = true },
+                },
+                -- Smart action depending on context, either follow link or toggle checkbox.
+                ["<cr>"] = {
+                    action = function()
+                        return require("obsidian").util.smart_action()
+                    end,
+                    opts = { buffer = true, expr = true },
+                }
+            },
+
+            follow_url_func = function(url)
+                vim.fn.jobstart({"xdg-open", url})
+                -- if windows then
+                -- vim.cmd(':silent exec "!start ' .. url .. '"')
+            end,
+
+            follow_img_func = function(img)
+                vim.fn.jobstart({"xdg-open", img})
+                -- vim.cmd(':silent exec "!start ' .. img .. '"')
+            end,
+
+            picker = {
+                -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
+                name = "telescope.nvim",
+                -- Optional, configure key mappings for the picker. These are the defaults.
+                -- Not all pickers support all mappings.
+                note_mappings = {
+                    -- Create a new note from your query.
+                    new = "<C-n>",
+                    -- Insert a link to the selected note.
+                    insert_link = "<C-l>",
+                },
+                tag_mappings = {
+                    -- Add tag(s) to current note.
+                    tag_note = "<C-x>",
+                    -- Insert a tag at the current location.
+                    insert_tag = "<C-l>",
                 },
             },
-            form = { border = "single" },
-            confirm = { border = "single" },
-            task_win = { border = "single" },
-            help_win = { border = "single" },
+
+        },
+    },
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" },
+            { "nvim-tree/nvim-web-devicons" },
+        },
+
+        ft = { "markdown" },
+
+        opts = {
+            -- exclude = { buftypes = { "nofile" } },
+
+            heading = {
+                sign = false,
+                icons = { "◉  ", "○  ", "◆  ", "◇  ", "✸  ", "✿  " },
+                position = "inline",
+                backgrounds = {},
+            },
+
+            bullet = {
+                icons = { "󰧟" },
+                ordered_icons = nil,
+            },
+
+            latex = { enabled = false },
+
+            anti_conceal = { enabled = true },
+
+            dash = { enabled = false },
+
+            code = {
+                disable_background = { "nofile", "diff" },
+                width = "block",
+                left_pad = 1,
+                right_pad = 1,
+                language_pad = 1,
+                -- highlight = "GruvboxBg0",
+            },
         },
     },
 })
 
 -- }}}
+-- Latex {{{
+
+table.insert(plugins, {
+    {
+        "xuhdev/vim-latex-live-preview",
+        ft = "tex",
+        init = function()
+            -- vim.g.livepreview_previewer = "firefox"
+            vim.g.livepreview_previewer = "zathura"
+        end,
+        keys = {
+            {
+                desc = "Open live preview of current tex file.",
+                ",s",
+                ":LLPStartPreview<CR>",
+            },
+        },
+    },
+})
+
+-- }}}
+
 -- Versioning {{{
 
 table.insert(plugins, {
@@ -441,98 +555,37 @@ table.insert(plugins, {
 })
 
 -- }}}
--- Org {{{
+-- Tasks {{{
 
 table.insert(plugins, {
     {
-        "MeanderingProgrammer/render-markdown.nvim",
-        dependencies = {
-            { "nvim-treesitter/nvim-treesitter" },
-            { "nvim-tree/nvim-web-devicons" },
-        },
-        ft = { "markdown", "telekasten" },
-        after = { "telekasten.nvim" },
-        opts = {
-            -- exclude = {
-            --     buftypes = { "nofile" },
-            -- },
-            heading = {
-                sign = false,
-                icons = { "◉ ", "○ ", "◆ ", "◇ ", "✸ ", "✿ " },
-                position = "inline",
-                backgrounds = {},
-            },
-            anti_conceal = { enabled = true },
-            dash = { width = 80 },
-            code = {
-                disable_background = { "nofile", "diff" },
-                width = "block",
-                left_pad = 1,
-                right_pad = 1,
-                language_pad = 1,
-                -- highlight = "GruvboxBg0",
-            },
-            latex = { enabled = false },
-        },
-    },
-
-    {
-        "3rd/image.nvim",
-        ft = { "markdown", "telekasten", "norg", "org" },
-        opts = {},
-    },
-
-    {
-        "3rd/diagram.nvim",
-        dependencies = { "3rd/image.nvim" },
-        opts = {
-            -- renderer_options = {
-            --     d2 = {
-            --         theme_id = nil,
-            --         dark_theme_id = nil,
-            --         scale = nil,
-            --         layout = nil,
-            --         sketch = true,
-            --     },
-            -- }
-        },
-    },
-
-    {
-        "nvim-orgmode/orgmode",
-        dependencies = {
+        "stevearc/overseer.nvim",
+        lazy = false,
+        event = "BufReadPost",
+        keys = {
             {
-                "akinsho/org-bullets.nvim",
-                opts = {
-                    symbols = {
-                        headlines = {
-                            "◉ ",
-                            "○ ",
-                            "◆ ",
-                            "◇ ",
-                            "✸ ",
-                            "✿ "
-                        },
-                    },
-                },
+                desc = "Tasks: toggle window.",
+                "<leader>rt",
+                ":OverseerToggle<CR>",
+            },
+            {
+                desc = "Tasks: open window.",
+                "<leader>ro",
+                ":OverseerOpen<CR>",
+            },
+            {
+                desc = "Tasks: run a task.",
+                "<leader>rr",
+                ":OverseerRun<CR>",
+            },
+            {
+                desc = "Tasks: run a raw shell command.",
+                "<leader>rs",
+                ":OverseerRunCmd<CR>",
             },
         },
         config = function()
-            local orgmode = require("orgmode")
-            local org_root = "~/Notes/"
-            local org_personal = org_root .. "personal/"
-            local org_agenda = org_personal .. "agenda/"
-            ---@diagnostic disable-next-line: missing-fields
-            orgmode.setup({
-                org_startup_folded = "content",
-                org_id_method = "ts",
-                org_agenda_span = "week",
-                org_log_repeat = "time",
-                org_agenda_files = org_agenda,
-                org_default_notes_file = org_root .. "refile.org",
-                org_startup_indented = false,
-                org_adapt_indentation = false,
-            })
+            require("custom.configs.overseer")
         end,
     },
 })
@@ -616,10 +669,8 @@ table.insert(plugins, {
     version = "*",
     opts = {
         enabled = function()
-            return not vim.tbl_contains(
-                    { "markdown", "org" },
-                    vim.bo.filetype
-                )
+            return vim.bo.filetype ~= "org"
+                and vim.bo.filetype ~= "markdown"
                 and vim.bo.buftype ~= "prompt"
                 and vim.b.completion ~= false
         end,
@@ -694,6 +745,7 @@ table.insert(plugins, {
 table.insert(plugins, {
     {
         "barrett-ruth/live-server.nvim",
+        ft = { "html", "css", "javascript", "typescript" },
         cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
         keys = {
             {

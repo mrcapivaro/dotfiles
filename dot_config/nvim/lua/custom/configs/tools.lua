@@ -1,8 +1,6 @@
-local tools = {}
-
 local lspconfig = require("lspconfig")
 
--- utils {{{
+local tools = {}
 
 local my_capabilities = require("blink.cmp").get_lsp_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -21,7 +19,6 @@ local lsp_setup = function(lsp, opts)
     lspconfig[lsp].setup(opts)
 end
 
--- }}}
 -- nvim-lspconfig {{{
 -- Documentation for lsp configuration:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
@@ -98,7 +95,7 @@ tools.lspconfig.handlers = {
 }
 
 -- }}}
--- nonels {{{
+-- None LS {{{
 
 tools.null_ls = {}
 

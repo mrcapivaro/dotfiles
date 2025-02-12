@@ -26,10 +26,10 @@ local FileName = {
 }
 
 local FileType = {
-    condition = function(self)
-        self.filetype = vim.bo.filetype
-        return self.filetype ~= vim.fn.fnamemodify(self.filename, ":e")
-    end,
+    -- condition = function(self)
+    --     self.filetype = vim.bo.filetype
+    --     return self.filetype ~= vim.fn.fnamemodify(self.filename, ":e")
+    -- end,
 
     provider = " %y",
 

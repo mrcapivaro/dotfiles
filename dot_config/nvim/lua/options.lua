@@ -1,4 +1,4 @@
-vim.cmd("language en_US.utf-8")
+-- vim.cmd("language en_US.utf-8")
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -29,29 +29,29 @@ vim.opt.conceallevel = 2
 vim.opt.cursorline = true
 vim.opt.clipboard = "unnamedplus"
 
---: Leader Key
+-- Leader Key
 vim.g.mapleader = " "
 vim.g.maplocalleader = "s"
 vim.opt.timeoutlen = 2000
 
---: Statusline
+-- Statusline
 vim.opt.laststatus = 3
 
---: Folds
---: https://www.reddit.com/r/neovim/comments/1d3iwcz/custom_folds_without_any_plugins/
+-- Folds
+-- https://www.reddit.com/r/neovim/comments/1d3iwcz/custom_folds_without_any_plugins/
 vim.opt.foldmethod = "marker"
 vim.opt.foldlevel = 0
 vim.opt.foldcolumn = "auto:1"
 -- vim.opt.foldminlines = 16
 vim.opt.fillchars:append("fold:-")
 
---: Indenting and Whitespace
+-- Indenting and Whitespace
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
-vim.opt.listchars = { space = ".", tab = ">.", eol = "~" }
+vim.opt.listchars = { lead = ".", trail = ".", tab = ">." }
 
---: Conceal is normal and command mode, but not on the cursorline.
+-- Conceal is highlight EndOfBuffer ctermfg=black ctermbg=blacknormal and command mode, but not on the cursorline.
 vim.opt.concealcursor:remove("n")
