@@ -1,25 +1,14 @@
 local wezterm = require("wezterm")
-
 local config = wezterm.config_builder()
 
--- Shell used
-local is_windows = wezterm.target_triple == "x86_64-pc-windows-msvc"
-if is_windows then
-    config.default_prog = { "pwsh", "-NoLogo" }
-else
-    -- currently using zsh
-    -- config.default_prog = { "fish" }
-end
-
-config.max_fps = 120
-config.term = "wezterm"
+config.max_fps = 144
 config.enable_kitty_graphics = true
 
---{{{1 Appearance
+-- Appearance {{{
 
 -- Font
-config.font = wezterm.font("IosevkaCapy Nerd Font", { weight = "Regular" })
-config.font_size = 11
+config.font = wezterm.font("Iosevka Nerd Font", { weight = "Regular" })
+config.font_size = 11.5
 
 -- Theme
 local dark_theme = "GruvboxDark"
@@ -48,12 +37,11 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = false
 config.hide_tab_bar_if_only_one_tab = true
 
---1}}}
-
---{{{1 Keybinds
+-- }}}
+-- Keybinds {{{
 config.disable_default_key_bindings = true
 
-config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
+-- config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
 
 config.keys = {
     -- Copy & Paste
@@ -68,7 +56,7 @@ config.keys = {
         action = wezterm.action.PasteFrom("Clipboard"),
     },
 
-    --{{{2 Tabs
+    -- {{{2 Tabs
     {
         key = "Tab",
         mods = "CTRL",
@@ -77,44 +65,42 @@ config.keys = {
     {
         key = "Tab",
         mods = "CTRL|SHIFT",
-        action = wezterm.action.ActivateTabRelative(-1),
+        action = wezterm.action.ActivateTabRelative(- 1),
     },
-    {
-        key = "t",
-        mods = "LEADER",
-        action = wezterm.action.SpawnTab("DefaultDomain"),
-    },
-    {
-        key = "q",
-        mods = "LEADER|SHIFT",
-        action = wezterm.action.CloseCurrentTab({ confirm = false }),
-    },
+    -- {
+    --     key = "t",
+    --     mods = "LEADER",
+    --     action = wezterm.action.SpawnTab("DefaultDomain"),
+    -- },
+    -- {
+    --     key = "q",
+    --     mods = "LEADER|SHIFT",
+    --     action = wezterm.action.CloseCurrentTab({ confirm = false }),
+    -- },
     --2}}}
-
-    --{{{2 Panes
+    -- {{{2 Panes
     -- Pane size adjustment is done in the 'Vim Integration' part.
 
-    {
-        key = "q",
-        mods = "LEADER",
-        action = wezterm.action.CloseCurrentPane({ confirm = false }),
-    },
-    {
-        key = "'",
-        mods = "LEADER",
-        action = wezterm.action.SplitHorizontal({
-            domain = "CurrentPaneDomain",
-        }),
-    },
-    {
-        key = ";",
-        mods = "LEADER",
-        action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-    },
+    -- {
+    --     key = "q",
+    --     mods = "LEADER",
+    --     action = wezterm.action.CloseCurrentPane({ confirm = false }),
+    -- },
+    -- {
+    --     key = "'",
+    --     mods = "LEADER",
+    --     action = wezterm.action.SplitHorizontal({
+    --         domain = "CurrentPaneDomain",
+    --     }),
+    -- },
+    -- {
+    --     key = ";",
+    --     mods = "LEADER",
+    --     action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+    -- },
 
     --2}}}
-
-    --{{{2 Other
+    -- {{{2 Other
 
     {
         key = "+",
@@ -126,22 +112,22 @@ config.keys = {
         mods = "SHIFT|CTRL",
         action = wezterm.action.DecreaseFontSize,
     },
-    {
-        key = ",",
-        mods = "LEADER",
-        action = wezterm.action.SpawnCommandInNewTab({
-            cwd = wezterm.config_dir,
-            args = {
-                "nvim",
-                "wezterm.lua",
-            },
-        }),
-    },
-    {
-        key = "p",
-        mods = "LEADER",
-        action = wezterm.action.ActivateCommandPalette,
-    },
+    -- {
+    --     key = ",",
+    --     mods = "LEADER",
+    --     action = wezterm.action.SpawnCommandInNewTab({
+    --         cwd = wezterm.config_dir,
+    --         args = {
+    --             "nvim",
+    --             "wezterm.lua",
+    --         },
+    --     }),
+    -- },
+    -- {
+    --     key = "p",
+    --     mods = "LEADER",
+    --     action = wezterm.action.ActivateCommandPalette,
+    -- },
 
     {
         key = "PageUp",
@@ -157,9 +143,8 @@ config.keys = {
 
     --2}}}
 }
---1}}}
-
---{{{1 Vim Integration
+-- }}}
+--  Vim Integration {{{
 
 local is_vim = function(pane)
     return pane:get_user_vars().IS_NVIM == "true"
@@ -213,6 +198,11 @@ table.insert(config.keys, split_nav("resize", "j"))
 table.insert(config.keys, split_nav("resize", "k"))
 table.insert(config.keys, split_nav("resize", "l"))
 
---1}}}
+-- 1}}}
+
+-- Windows only configuration
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+    config.default_prog = { "pwsh", "-NoLogo" }
+end
 
 return config
