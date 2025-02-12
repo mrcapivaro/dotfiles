@@ -7,21 +7,23 @@ alias ....="cd ../.."
 
 alias ls="ls --color=auto -Fa1"
 
-alias vi="nvim"
-alias vim="nvim"
-
 alias clera="clear"
 alias clare="clear"
 alias claer="clear"
 alias cler="clear"
 alias clar="clear"
 
+alias e="$EDITOR"
+
 alias ls="ls --color=always -F1"
 
-alias fzf="fzf --reverse"
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
 
+alias bat="bat --style=numbers --color=always --line-range :500"
+
 alias diff="colordiff -u"
+
+alias refile="nvim $ORG"
 
 gitall() {
     local message="${*:-update}"
@@ -37,9 +39,11 @@ lfcd() {
 }
 
 fe() {
-    $EDITOR $(fd . "$@" --hidden --type file | fzf)
+    $EDITOR $(fd . "$@" --hidden --type file |
+        fzf --reverse \
+        --preview 'bat --style=numbers --color=always --line-range :500 {}')
 }
 
 fcd() {
-    cd $(fd . "$@" --hidden --type dir | fzf)
+    cd $(fd . "$@" --hidden --type dir | fzf --reverse --preview 'tree -C {}')
 }
