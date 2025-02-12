@@ -90,6 +90,7 @@ local BufferBlock = {
     hl = { fg = colors.light0 },
     provider = "",
     BufferLine,
+    { provider = " " },
 }
 
 -- }}}
