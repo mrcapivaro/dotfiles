@@ -1,0 +1,21 @@
+set font          "Iosevka Nerd Font 10"
+
+set default-bg    "#282828"
+set default-fg    "#fbf1c7"
+set statusbar-fg  "#fbf1c7"
+set statusbar-bg  "#f9f5d7"
+set statusbar-fg  "#fbf1c7"
+set statusbar-bg  "#1d2021"
+
+set smooth-scroll true
+
+set selection-notification false
+
+set recolor true
+set recolor-keephue true
+set recolor-darkcolor "#282828"
+set recolor-lightcolor "#fbf1c7"
+
+set show-hidden true
+
+set statusbar-home-tilde true
