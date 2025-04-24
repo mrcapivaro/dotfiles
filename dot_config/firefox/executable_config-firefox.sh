@@ -19,10 +19,3 @@ ln -sf "$config_dir/chrome" "$firefox_dir"
 echo "[*] Symlinking 'policies.json' to '/etc/firefox/policies'."
 [[ ! -d "$firefox_system_dir" ]] && sudo mkdir -p "$firefox_system_dir"
 sudo ln -sf "$config_dir/distribution/policies.json" "$firefox_system_dir"
-
-echo "[*] Installing tridactyls native messenger to enable config through dotfiles."
-curl \
-    -fsSl https://raw.githubusercontent.com/tridactyl/native_messenger/master/installers/install.sh \
-    -o /tmp/trinativeinstall.sh && sh /tmp/trinativeinstall.sh 1.24.1
-
-echo "[*] Done."
