@@ -1,0 +1,23 @@
+/**
+ *
+ * Author : mrcapivaro
+ * Github : @mrcapivaro
+ *
+ * Inspired from : @adi1090x
+ * 
+ * Rofi Theme File
+ * Rofi Version: ???
+ **/
+
+// Global
+
+@import "../colors/gruvbox.rasi"
+@import "./common.rasi"
+
+// Configuration
+
+configuration {
+    modi:                       "filebrowser";
+    display-drun:               "";
+    drun-display-format:        "{name}";
+}

@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Set the PWD to the ~/.config/rofi folder
-cd "$HOME/.config/rofi"
+me="$(readlink -f $0)"
+here="$(dirname $me)"
 
 main() {
-    # Correctly formated file containing the color names and their respective
-    # values.
-    local file_dir="./scripts/colors/dark-colors"
-
+    local file_dir="$here/colors/all-colors"
     local copy_cmd="xclip -sel clip"
 
     local color_name=$(cat $file_dir |
@@ -17,10 +14,10 @@ main() {
         rofi \
             -dmenu \
             -p "" \
-            -theme "configs/apps.rasi")
+            -theme "$here/../configs/apps.rasi")
 
     local color_value=$(cat $file_dir |
-        grep "$color_name" |
+        grep "^$color_name\s" |
         awk '{printf "%s", $2}')
 
     # `"` can not be used with `$copy_cmd`.

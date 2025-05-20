@@ -1,16 +1,16 @@
-#: Options
+# Options
 set icons
 set hidden
 set previewer ~/.config/lf/previewer
 
-#: Shell {{{
+# Shell {{{
 
 set shell sh
 set shellopts '-eu'
 set ifs "\n"
 
-#: }}}
-#: Commands {{{
+# }}}
+# Commands {{{
 
 cmd trash %set -f; mv $fx ~/.trash
 
@@ -45,17 +45,26 @@ cmd zip ${{
     rm -rf $1
 }}
 
-#: }}}
-#: Mappings {{{
+cmd open &{{
+    case $(file --mime-type -Lb $f) in
+        text/*) lf -remote "send $id \$$EDITOR \$fx";;
+        pdf/*) lf -remote "send $id \$firefox \$fx";;
+        *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+# }}}
+# Mappings {{{
 
 map . set hidden!
+
 map a :push %mkdir<space>
-map D trash
+map D delete
 
 map x $$f
 map X !$f
 
-map o &mimeopen $f
+map o $mimeopen $f
 map O $mimeopen --ask $f
 
-#: }}}
+# }}}

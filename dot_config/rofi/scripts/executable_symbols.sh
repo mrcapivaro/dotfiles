@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-# Set the PWD to the ~/.config/rofi folder
-cd "$HOME/.config/rofi"
+me="$(readlink -f $0)"
+here="$(dirname $me)"
 
 [[ -n $WAYLAND_DISPLAY ]] &&
     copy="wl-copy" ||
     copy="xclip -sel clip"
 
-symbols_file="./scripts/symbols/symbols.txt"
+symbols_file="$here/symbols/symbols.txt"
 
 [[ ! -f "$symbols_file" ]] &&
     echo "$symbols_file not found" &&

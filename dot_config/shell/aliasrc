@@ -5,7 +5,9 @@ alias tmux="tmux -2"
 alias ..="cd .."
 alias ....="cd ../.."
 
-alias ls="ls --color=auto -Fa1"
+alias ls="ls --color=auto -F1 --group-directories-first"
+alias la="ls --color=auto -Fa1 --group-directories-first"
+alias ll="ls --color=auto -Fal1 --group-directories-first"
 
 alias clera="clear"
 alias clare="clear"
@@ -14,16 +16,17 @@ alias cler="clear"
 alias clar="clear"
 
 alias e="$EDITOR"
+alias p="$PAGER"
 
 alias ls="ls --color=always -F1"
+alias la="ls --color=always -F1a"
+alias ll="ls --color=always -F1al"
 
 alias fzfonts="fc-list :family | awk -F: '{print \$2}' | sort | uniq | fzf | xclip -selection clipboard"
 
 alias bat="bat --style=numbers --color=always --line-range :500"
 
 alias diff="colordiff -u"
-
-alias refile="nvim $ORG"
 
 gitall() {
     local message="${*:-update}"
