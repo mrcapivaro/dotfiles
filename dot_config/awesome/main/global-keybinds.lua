@@ -14,6 +14,18 @@ local global_keybinds = {}
 global_keybinds = gears.table.join(
     global_keybinds,
 
+    awful.key({ modkey }, "a", function()
+        poppin.pop(
+            "terminal",
+            "ghostty",
+            "center",
+            750,
+            function (c)
+                c.titlebars_enabled = false
+            end
+        )
+    end, { description = "scratchpad: terminal", group = "scratchpad" }),
+
     awful.key({ modkey }, "r", function()
         local is_conf_valid = os.execute("awesome -k")
         if not is_conf_valid then
@@ -44,9 +56,7 @@ global_keybinds = gears.table.join(
     global_keybinds,
 
     awful.key({}, "Print", function()
-        awful.spawn.with_shell(
-            "maim -m 10 -s | xclip -selection clipboard -t image/png"
-        )
+        awful.spawn.with_shell("~/.config/awesome/scripts/print-screen.sh")
     end, { description = "screenshot selection", group = "screenshot" }),
 
     awful.key({ "Shift" }, "Print", function()
@@ -59,10 +69,9 @@ global_keybinds = gears.table.join(
     }),
 
     awful.key({ "Control" }, "Print", function()
-        -- import is from image magick
-        awful.spawn.with_shell("import -window root png:- | display")
+        awful.spawn.with_shell("firefox ~/Pictures/lsc.png")
     end, {
-        description = "open screenshot in image editor",
+        description = "Open last screenshot in image viewer.",
         group = "screenshot",
     })
 )
@@ -151,54 +160,18 @@ global_keybinds = gears.table.join(
 )
 
 -- 1}}}
--- Scratchpads {{{1
-
-local scratchpad_init_cb = function(c)
-    c.titlebars_enabled = false
-end
-
-global_keybinds = gears.table.join(
-    global_keybinds,
-    awful.key({ modkey }, "a", function()
-        poppin.pop(
-            "terminal",
-            "ghostty",
-            "center",
-            750,
-            scratchpad_init_cb
-        )
-    end, { description = "scratchpad: terminal", group = "scratchpad" }),
-
-    awful.key({ modkey }, "s", function()
-        poppin.pop(
-            "music",
-            "flatpak run com.spotify.Client",
-            "center",
-            750,
-            scratchpad_init_cb
-        )
-    end, { description = "scratchpad: music player", group = "scratchpad" }),
-
-    awful.key({ modkey }, "d", function()
-        poppin.pop(
-            "browser",
-            "firefox --private-window",
-            "center",
-            750,
-            scratchpad_init_cb
-        )
-    end, { description = "scratchpad: browser", group = "scratchpad" })
-)
-
--- 1}}}
 -- Rofi {{{1
 
 global_keybinds = gears.table.join(
     global_keybinds,
 
-    awful.key({ modkey }, "Return", function()
+    awful.key({ modkey }, "d", function()
         awful.spawn.with_shell("~/.config/rofi/launchers/apps.sh")
     end, { description = "rofi dmenu", group = "rofi" }),
+
+    awful.key({ modkey }, "s", function()
+        awful.spawn.with_shell("~/.config/rofi/launchers/files.sh")
+    end, { description = "rofi file browser", group = "rofi" }),
 
     awful.key({ modkey }, "x", function()
         awful.spawn.with_shell("~/.config/rofi/launchers/qalc.sh")

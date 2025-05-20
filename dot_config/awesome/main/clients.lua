@@ -79,44 +79,41 @@ awful.rules.rules = {
             keys = client_keys,
             buttons = client_buttons,
             screen = awful.screen.preferred,
-            placement = awful.placement.no_overlap
-                + awful.placement.no_offscreen,
-            titlebars_enabled = false,
-            floating = false,
+            placement = awful.placement.centered,
+            floating = true,
         },
     },
 
+    -- Always maximize
     {
         rule_any = {
-            instance = {
-                "DTA",
-                "copyq",
-                "pinentry",
-            },
             class = {
-                "steam",
-                "Spotify",
-                "vesktop",
-                "discord",
-                "zenity",
-            },
-            name = {
-                "Event Tester",
-                "spotify",
-            },
-            role = {
-                "AlarmWindow",
-                "ConfigManager",
-                "toolbox",
-            },
-            type = {
-                "dialog",
-                "toolbox",
+                "obsidian",
             },
         },
         properties = {
-            floating = true,
+            maximized = true,
+            floating = false,
             placement = awful.placement.centered,
+        },
+    },
+
+    -- Always tile
+    {
+        rule_any = {
+            class = {
+                "Emacs",
+                "ghostty",
+                "wezterm",
+                "kitty",
+                "Firefox",
+                "Navigator",
+            },
+        },
+        properties = {
+            floating = false,
+            placement = awful.placement.no_overlap
+                + awful.placement.no_offscreen,
         },
     },
 
@@ -171,13 +168,18 @@ local user_signals = {
     end,
     properties = {
         floating = function(c)
-            c.titlebars_enabled = c.floating and not poppin.isPoppin(c)
+            c.titlebars_enabled = c.floating
+
             if c.floating then
                 awful.placement.centered(c)
             end
         end,
         titlebars_enabled = function(c)
-            if c.titlebars_enabled then
+            if
+                c.titlebars_enabled
+                and not c.requests_no_titlebar
+                and not poppin.isPoppin(c)
+            then
                 awful.titlebar.show(c)
             else
                 awful.titlebar.hide(c)
@@ -205,14 +207,14 @@ end
 
 awful.layout.layouts = {
     awful.layout.suit.tile.right,
-    awful.layout.suit.max,
     awful.layout.suit.floating,
+    awful.layout.suit.max,
 }
 
 awful.screen.connect_for_each_screen(function(s)
     -- Setup a set of tags for each screen.
-    -- Symbols:  
-    awful.tag({ "", "", "" }, s, awful.layout.layouts[1])
+    -- Symbols: ● ○ ◉
+    awful.tag({ "○", "○", "○" }, s, awful.layout.layouts[1])
 end)
 
 -- Set all clients to floating when the layout changes to floating.

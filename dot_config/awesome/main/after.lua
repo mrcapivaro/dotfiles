@@ -11,4 +11,4 @@ gears.timer({
     end,
 })
 
-awful.spawn.with_shell("~/.config/awesome/autostart.sh")
+awful.spawn.with_shell("~/.config/awesome/scripts/autostart.sh")

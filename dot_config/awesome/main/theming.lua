@@ -24,11 +24,11 @@ util.populate_beautiful("", {
     default_path = gears.filesystem.get_themes_dir(),
 
     -- Does not seem to change anything
-    icon_theme = "Papirus",
+    -- icon_theme = "Papirus",
 
     -- Gaps
-    useless_gap = 1,
-    gap_single_client = true,
+    useless_gap = 0,
+    gap_single_client = false,
 
     -- Fullscreen and Maximized
     fullscreen_hide_border = true,
@@ -474,9 +474,9 @@ local taglist_buttons = gears.table.join(
 
 util.populate_beautiful("taglist", {
     font = {
-        family = "Inter",
+        family = "Ubuntu Mono Nerd",
         weight = "Bold",
-        size = 15,
+        size = 11,
     },
     spacing = 4,
     disable_icon = nil,
@@ -577,36 +577,31 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.wibar:setup({
         widget = wibox.container.margin,
-        color = colors.bg4,
-        top = 1,
+        left = 8,
+        right = 8,
         {
-            widget = wibox.container.margin,
-            left = 8,
-            right = 8,
+            layout = wibox.layout.align.horizontal,
             {
-                layout = wibox.layout.align.horizontal,
+                layout = wibox.layout.fixed.horizontal,
+                spacing = 4,
+                launcher,
+                s.taglist,
+                s.layoutbox,
+            },
+            {
+                widget = wibox.container.place,
+                s.tasklist,
+            },
+            {
+                layout = wibox.layout.fixed.horizontal,
+                spacing = 4,
                 {
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    launcher,
-                    s.taglist,
-                    s.layoutbox,
-                },
-                {
+                    systray,
                     widget = wibox.container.place,
-                    s.tasklist,
+                    valign = "bottom",
                 },
-                {
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    {
-                        systray,
-                        widget = wibox.container.place,
-                        valign = "bottom",
-                    },
-                    keyboardbox,
-                    calendar_and_clock,
-                },
+                keyboardbox,
+                calendar_and_clock,
             },
         },
     })
