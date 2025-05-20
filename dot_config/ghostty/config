@@ -4,7 +4,7 @@ mouse-hide-while-typing = true
 clipboard-read          = "allow"
 clipboard-write         = "allow"
 confirm-close-surface   = false
-command                 = "zellij"
+# command                 = "zellij"
 
 
 ## Appearance
@@ -15,7 +15,7 @@ window-theme       = "dark"
 window-padding-x   = 2
 window-padding-y   = 1
 font-family        = "Iosevka Nerd Font"
-font-size          = 11.5
+font-size          = 12
 
 # Disable font ligatures
 font-feature       = -calt
@@ -31,9 +31,14 @@ gtk-adwaita = false
 
 ## Keybinds
 
-# Reset keybinds
+# Reset all keybinds
 keybind = clear
 
+# Scroll
+keybind = page_up=scroll_page_up
+keybind = page_down=scroll_page_down
+
+# Configuration and dotfiles
 keybind = ctrl+shift+r=reload_config
 keybind = ctrl+shift+comma=open_config
 keybind = ctrl+shift+i=inspector:toggle
@@ -42,6 +47,9 @@ keybind = ctrl+shift+t=toggle_window_decorations
 # Clipboard
 keybind = ctrl+shift+c=copy_to_clipboard
 keybind = ctrl+shift+v=paste_from_clipboard
+
+# Selection
+keybind = ctrl+shift+a=select_all
 
 # Fonts
 keybind = ctrl+shift+plus=increase_font_size:1
