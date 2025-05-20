@@ -1,15 +1,10 @@
-# ~/.zshrc
-# vim: ft=bash
+# vim:ft=bash:
 
 ALIASRC="$HOME/.config/shell/aliasrc"
 [ -f "$ALIASRC" ] && . "$ALIASRC"
 
 PROFILERC="$HOME/.config/shell/profilerc"
 [ -f "$PROFILERC" ] && . "$PROFILERC"
-
-# Source fzf config file if it exists and fzf is installed.
-FZFRC="$HOME/.config/fzf/fzfrc"
-[ -f "$FZFRC" ] && command -v fzf >/dev/null 2>&1 && . "$FZFRC"
 
 # Autoconfig {{{1
 
@@ -59,119 +54,47 @@ use-git-plugin "zsh-users/zsh-syntax-highlighting"
 use-git-plugin "zsh-users/zsh-autosuggestions"
 use-git-plugin "zsh-users/zsh-history-substring-search"
 
-## Zellij
-if [ -z "$ZELLIJ" ]; then
-    command -v zellij >/dev/null 2>&1 && zellij
-fi
+## CLI Programs
+FZFRC="$HOME/.config/fzf/fzfrc"
+[ -f "$FZFRC" ] && command -v fzf >/dev/null 2>&1 && . "$FZFRC"
 
 # 1}}}
 # Keybinds {{{1
 
-## VI Mode
-# mostly copied and pasted from oh my zsh:
-# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
-bindkey -v
-export KEYTIMEOUT=1 # Remove mode switching delay.
+# Set the default emacs keybinds.
+bindkey -e
 
-# Mode dependant cursor {{{2
-
-# https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
-# https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-
-# Change cursor on mode change.
-zle-keymap-select() {
-    if [[ $KEYMAP == vicmd ]] || [[ $1 == "block" ]]; then
-        echo -ne '\e[2 q'
-    elif [[ $KEYMAP == main ]] || [[ $KEYMAP == viins ]] ||
-        [[ $KEYMAP == "" ]] || [[ $1 == "beam" ]]; then
-        echo -ne '\e[6 q'
-    fi
-}
-zle -N zle-keymap-select
-
-# Change cursor on shell init.
-zle-line-init() {
-    echo -ne '\e[6 q'
-}
-zle -N zle-line-init
-
-# 2}}}
-# System clipboard integration {{{2
-
-wrap_clipboard_widgets() {
-    # NB: Assume we are the first wrapper and that we only wrap native widgets
-    # See zsh-autosuggestions.zsh for a more generic and more robust wrapper
-    local verb="$1"
-    shift
-
-    # NOTE: Must be changed according to the clipboard manager installed.
-    local copy_cmd="xclip -sel clip"
-    local paste_cmd="xclip -o -sel clip"
-
-    local widget
-    local wrapped_name
-    for widget in "$@"; do
-        wrapped_name="_zsh-vi-${verb}-${widget}"
-        if [ "${verb}" = copy ]; then
-            eval "
-        ${wrapped_name}() {
-          zle .${widget}
-          printf %s \"\${CUTBUFFER}\" | $copy_cmd 2>/dev/null || true
-        }
-      "
-        else
-            eval "
-        ${wrapped_name}() {
-          CUTBUFFER=\"\$($paste_cmd 2>/dev/null || echo \$CUTBUFFER)\"
-          zle .${widget}
-        }
-      "
-        fi
-        zle -N "${widget}" "${wrapped_name}"
-    done
-}
-
-# wrap_clipboard_widgets copy \
-#     vi-yank vi-yank-eol vi-yank-whole-line \
-#     vi-change vi-change-eol vi-change-whole-line \
-#     vi-kill-line vi-kill-eol vi-backward-kill-word \
-#     vi-delete vi-delete-char vi-backward-delete-char
-
-wrap_clipboard_widgets copy \
-    vi-yank vi-yank-eol vi-yank-whole-line \
-    vi-change vi-change-eol vi-change-whole-line \
-    vi-kill-line vi-kill-eol vi-delete vi-delete-char
-
-wrap_clipboard_widgets paste \
-    vi-put-{before,after} \
-    put-replace-selection
-
-unfunction wrap_clipboard_widgets
-
-# 2}}}
-
-autoload edit-command-line; zle -N edit-command-line
-bindkey -M vicmd '^e' edit-command-line
-bindkey '^e' edit-command-line
-
-bindkey -s '^o' 'fcd\n'
-bindkey -s '^f' 'fe\n'
-
-bindkey "^[[109;5u" accept-line
-
+# Ensure that home and end keys work as intended.
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 
-bindkey '^a' beginning-of-line
-bindkey '^e' end-of-line
+# Traverse words with C-{Left,Right}.
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
-bindkey "^[[A" up-history
-bindkey "^[[B" down-history
+## Place killed text with <'C-U'(kill-whole-line)> into the clipboard.
 
-bindkey "^N" up-history
-bindkey "^P" down-history
+# Try to determine the correct clipboard program.
+cb=""
+if [[ "$XDG_SESSION_TYPE" -eq "x11" ]]; then
+    cb=$(command -v xsel || command -v xclip)
+elif [[ "$XDG_SESSION_TYPE" -eq "wayland" ]]; then
+    cb=$(command -v wl-copy)
+fi
+cb=$(command -v xsel || command -v xclip || command -v wl-copy)
 
-bindkey '^r' history-incremental-search-backward
-bindkey '^s' history-incremental-search-forward
+# Create wrapper zsh widget for killing the whole line.
+function kill-whole-line-wrapper() {
+    zle kill-whole-line
+    echo -n "$CUTBUFFER" | $cb -sel clipboard
+}
+zle -N kill-whole-line-wrapper
+
+# Binding the original keybind for kill-whole-line for the wrapper.
+bindkey "^U" kill-whole-line-wrapper
 
 # 1}}}
+
+# emacs-eat terminal integration
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
