@@ -3,12 +3,12 @@ add_newline = false
 palette     = 'gruvbox_dark'
 
 [character]
-success_symbol            = '[\$:](green)'
-error_symbol              = '[\$:](red)'
-vimcmd_symbol             = '[\$;](blue)'
-vimcmd_visual_symbol      = '[\$;](purple)'
-vimcmd_replace_one_symbol = '[\$;](yellow)'
-vimcmd_replace_symbol     = '[\$;](orange)'
+success_symbol            = '[\$](green)'
+error_symbol              = '[\$](red)'
+vimcmd_symbol             = '[\$](blue)'
+vimcmd_visual_symbol      = '[\$](purple)'
+vimcmd_replace_one_symbol = '[\$](yellow)'
+vimcmd_replace_symbol     = '[\$](orange)'
 
 [username]
 # show_always = true
