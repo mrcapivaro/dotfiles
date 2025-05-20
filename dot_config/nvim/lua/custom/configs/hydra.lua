@@ -21,28 +21,3 @@ hydra({
 })
 
 -- }}}
--- Diagrams (venn.nvim) {{{
-
-hydra({
-    name = "Diagrams (venn.nvim)",
-    config = {
-        hint = { type = "window", border = "single" },
-        invoke_on_body = true,
-        color = "pink",
-        on_enter = function()
-            vim.o.virtualedit = "all"
-        end,
-    },
-    mode = { "n", "v" },
-    body = "<leader>d",
-    heads = {
-        { "H", "<C-v>h:VBox<CR>" },
-        { "J", "<C-v>j:VBox<CR>" },
-        { "K", "<C-v>k:VBox<CR>" },
-        { "L", "<C-v>l:VBox<CR>" },
-        { "f", ":VBox<CR>", { mode = "v" } },
-        { "<Esc>", nil, { exit = true } },
-    },
-})
-
--- }}}

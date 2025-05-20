@@ -69,7 +69,7 @@ table.insert(plugins, {
 table.insert(plugins, {
     {
         "anuvyklack/hydra.nvim",
-        dependencies = { { "jbyuki/venn.nvim" } },
+        -- dependencies = { { "jbyuki/venn.nvim" } },
         config = function()
             require("custom.configs.hydra")
         end,
@@ -134,7 +134,7 @@ table.insert(plugins, {
             {
                 desc = "Character jump.",
                 mode = { "n", "v" },
-                "gs",
+                "s",
                 function()
                     require("flash").jump()
                 end,
@@ -142,7 +142,7 @@ table.insert(plugins, {
             {
                 desc = "Remote character jump on operator pending mode.",
                 mode = { "o" },
-                "gs",
+                "s",
                 function()
                     require("flash").remote()
                 end,
@@ -378,7 +378,7 @@ table.insert(plugins, {
 
 -- }}}
 
--- Org {{{
+-- Notes {{{
 
 table.insert(plugins, {
     {
@@ -408,7 +408,6 @@ table.insert(plugins, {
                 "<leader>fr",
                 ":ObsidianBacklinks<CR>",
             },
-
         },
 
         opts = {
@@ -416,7 +415,7 @@ table.insert(plugins, {
             ui = { enable = false },
 
             workspaces = {
-                { name = "Org", path = "~/Org" },
+                { name = "notes", path = "~/Sync/notes" },
             },
 
             mappings = {
@@ -440,17 +439,17 @@ table.insert(plugins, {
                         return require("obsidian").util.smart_action()
                     end,
                     opts = { buffer = true, expr = true },
-                }
+                },
             },
 
             follow_url_func = function(url)
-                vim.fn.jobstart({"xdg-open", url})
+                vim.fn.jobstart({ "xdg-open", url })
                 -- if windows then
                 -- vim.cmd(':silent exec "!start ' .. url .. '"')
             end,
 
             follow_img_func = function(img)
-                vim.fn.jobstart({"xdg-open", img})
+                vim.fn.jobstart({ "xdg-open", img })
                 -- vim.cmd(':silent exec "!start ' .. img .. '"')
             end,
 
@@ -472,7 +471,6 @@ table.insert(plugins, {
                     insert_tag = "<C-l>",
                 },
             },
-
         },
     },
     {
@@ -524,7 +522,8 @@ table.insert(plugins, {
 table.insert(plugins, {
     {
         "xuhdev/vim-latex-live-preview",
-        ft = "tex",
+        ft = { "tex", "plaintex" },
+        cmd = "LLPStartPreview",
         init = function()
             -- vim.g.livepreview_previewer = "firefox"
             vim.g.livepreview_previewer = "zathura"
@@ -699,7 +698,6 @@ table.insert(plugins, {
             ["<C-n>"] = { "select_next", "fallback" },
             ["<C-m>"] = { "accept", "fallback" },
 
-            ["<Left>"] = { "hide", "fallback" },
             ["<Up>"] = { "select_prev", "fallback" },
             ["<Down>"] = { "select_next", "fallback" },
             ["<Right>"] = { "accept", "fallback" },
@@ -725,12 +723,12 @@ table.insert(plugins, {
                     score_offset = 100,
                 },
             },
-            cmdline = function()
-                local cmdtype = vim.fn.getcmdtype()
-                if cmdtype == ":" then
-                    return { "cmdline", "path" }
-                end
-                return {}
+        },
+
+        cmdline = {
+            sources = function()
+                return vim.fn.getcmdtype() == ":" and { "cmdline", "path" }
+                    or {}
             end,
         },
 

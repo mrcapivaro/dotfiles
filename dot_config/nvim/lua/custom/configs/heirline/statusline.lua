@@ -148,6 +148,7 @@ local FileDiffs = {
 -- Navic {{{
 
 local Navic = {
+
     -- Evaluate the children containing navic components.
     provider = function(self)
         local Navic = self.child:eval()
@@ -158,10 +159,13 @@ local Navic = {
         -- highlighted for some reason.
         return Navic
     end,
+
     update = "CursorMoved",
+
     condition = function()
-        return require("nvim-navic").is_available()
+        return vim.bo.filetype ~= "css" and require("nvim-navic").is_available()
     end,
+
     static = {
         -- Stackoverflow: Encode and Decode needed data with binary operations.
         -- line:  16 bit (65535)
@@ -170,6 +174,7 @@ local Navic = {
         enc = function(line, col, winnr)
             return bit.bor(bit.lshift(line, 16), bit.lshift(col, 6), winnr)
         end,
+
         dec = function(encoded)
             local line = bit.rshift(encoded, 16)
             local col = bit.band(bit.rshift(encoded, 6), 1023)
@@ -177,6 +182,7 @@ local Navic = {
             return line, col, winnr
         end,
     },
+
     init = function(self)
         local children = {}
         local data = require("nvim-navic").get_data() or {}
@@ -218,6 +224,7 @@ local Navic = {
         -- Instantiate the new child, overwriting the previous one.
         self.child = self:new(children, 1)
     end,
+
 }
 
 -- }}}

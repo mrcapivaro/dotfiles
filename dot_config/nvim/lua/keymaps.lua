@@ -78,13 +78,6 @@ map({
 -- }}}
 -- Text Editing {{{
 
-map({
-    desc = "Append two new lines at cursor and move one line up.",
-    mode = { "n" },
-    lhs = "<C-CR>",
-    rhs = "a<CR>\27ko",
-})
-
 -- Move lines of code with visual mod
 map({
     mode = "v",
@@ -152,15 +145,6 @@ for _, symbols in ipairs(symbols_list) do
             rhs = "c" .. lsymbol .. rsymbol .. "\27hp",
         })
     end
-end
-
-for _, symbols in ipairs(symbols_list) do
-    map({
-        desc = "Fast multiline symbol container.",
-        mode = { "i" },
-        lhs = symbols[1] .. "<CR>",
-        rhs = string.format("%s\n%s\27O", symbols[1], symbols[2]),
-    })
 end
 
 -- }}}

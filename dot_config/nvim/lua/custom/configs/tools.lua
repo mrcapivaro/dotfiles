@@ -7,10 +7,10 @@ my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local my_on_attach = function(c, buf)
     local navic = require("nvim-navic")
-    navic.attach(c, buf)
-    -- if c.server_capabilities.documentsSymbolProvider then
-    --     navic.attach(c, buf)
-    -- end
+    -- navic.attach(c, buf)
+    if c.server_capabilities.documentsSymbolProvider then
+        navic.attach(c, buf)
+    end
 end
 
 local lsp_setup = function(lsp, opts)
