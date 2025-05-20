@@ -1,0 +1,19 @@
+#+title: Emacs configuration
+#+author: mrcapivaro
+#+startup: content
+
+* Base configuration
+
+** Removal of unnecessary UI elements
+
+<<code>>
+
+** Addition of necessary UI elements
+
+<<code>>
+
+** Font and whitespace
+
+<<code>>
+
+** 
