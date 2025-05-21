@@ -143,7 +143,8 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; Enable use-package for straight.el
+;; Options
+(setq straight-vc-git-default-clone-depth '(1 single-branch))
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
@@ -273,7 +274,8 @@ by `next-buffer' or `previous-buffer'."
     "fr"  'counsel-recentf
 
     "j"   '(:ignore t :which-key "buffer")
-    "jd"  'kill-this-buffer
+    "jd"  '(lambda () (interactive)
+             (kill-buffer (current-buffer)))
     "jf"  'counsel-switch-buffer
     "js"  'scratch-buffer
 
@@ -526,13 +528,14 @@ by `next-buffer' or `previous-buffer'."
   (visual-line-mode 1))
 
 (use-package org
+  :straight (:type built-in)
   :commands (org-capture org-agenda)
   :hook (org-mode . mrc/org-mode-setup)
   :config
-  ;; BUG: does not work
-  (general-def 'normal emacs) 'org-mode-map
-    "S-k" 'org-cycle)
 
+  (general-def 'normal 'org-mode-map
+    "<tab>" 'evil-toggle-fold)
+  
   (general-def 'insert 'org-mode-map
     "C-<return>" 'org-meta-return
     "M-<return>" 'org-insert-heading-respect-content)
@@ -541,13 +544,13 @@ by `next-buffer' or `previous-buffer'."
     "o"  '(:ignore t :which-key "org")
     "or" 'mrc/org-refile
     "oc" 'mrc/open-org-config
-    "oa" 'mrc/org-agenda)
+    "oa" 'mrc/org-agenda))
 
 ;; Heading Bullets
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
   :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (org-bullets-bullet-list '("◉" "○" "◆" "◇" "✸" "✿")))
 
 ;;; Center Buffers
 (use-package visual-fill-column
