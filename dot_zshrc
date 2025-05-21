@@ -34,7 +34,7 @@ eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
 eval "$(zoxide init zsh)"
-command -v z >/dev/null 2>&1 && alias cd="z"
+which z >/dev/null 2>&1 && alias cd="z"
 
 ## Plugins
 use-git-plugin() {
@@ -56,7 +56,7 @@ use-git-plugin "zsh-users/zsh-history-substring-search"
 
 ## CLI Programs
 FZFRC="$HOME/.config/fzf/fzfrc"
-[ -f "$FZFRC" ] && command -v fzf >/dev/null 2>&1 && . "$FZFRC"
+[ -f "$FZFRC" ] && which fzf >/dev/null 2>&1 && . "$FZFRC"
 
 # 1}}}
 # Keybinds {{{1
@@ -74,19 +74,19 @@ bindkey "^[[1;5D" backward-word
 
 ## Place killed text with <'C-U'(kill-whole-line)> into the clipboard.
 
-# Try to determine the correct clipboard program.
+# Try to determine the correct clipboard command.
 cb=""
-if [[ "$XDG_SESSION_TYPE" -eq "x11" ]]; then
-    cb=$(command -v xsel || command -v xclip)
-elif [[ "$XDG_SESSION_TYPE" -eq "wayland" ]]; then
-    cb=$(command -v wl-copy)
+if [[ "$XDG_SESSION_TYPE" = "x11" ]]; then
+    echo "$XDG_SESSION_TYPE"
+    cb="$(which xsel) -sel clipboard"
+elif [[ "$XDG_SESSION_TYPE" = "wayland" ]]; then
+    cb="$(which wl-copy)"
 fi
-cb=$(command -v xsel || command -v xclip || command -v wl-copy)
 
 # Create wrapper zsh widget for killing the whole line.
 function kill-whole-line-wrapper() {
     zle kill-whole-line
-    echo -n "$CUTBUFFER" | $cb -sel clipboard
+    echo -n "$CUTBUFFER" | $cb
 }
 zle -N kill-whole-line-wrapper
 
