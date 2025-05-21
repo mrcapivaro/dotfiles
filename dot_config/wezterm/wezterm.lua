@@ -8,7 +8,7 @@ config.enable_kitty_graphics = true
 
 -- Font
 config.font = wezterm.font("Iosevka Nerd Font", { weight = "Regular" })
-config.font_size = 11.5
+config.font_size = 12
 
 -- Theme
 local dark_theme = "GruvboxDark"

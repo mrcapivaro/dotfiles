@@ -1,5 +1,0 @@
-#+TITLE: README
-
-* Links
-
-[[https://gruvbox-wallpapers.pages.dev/][Gruvbox Wallpapers]]
