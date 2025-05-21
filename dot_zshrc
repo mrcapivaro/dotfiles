@@ -77,7 +77,6 @@ bindkey "^[[1;5D" backward-word
 # Try to determine the correct clipboard command.
 cb=""
 if [[ "$XDG_SESSION_TYPE" = "x11" ]]; then
-    echo "$XDG_SESSION_TYPE"
     cb="$(which xsel) -sel clipboard"
 elif [[ "$XDG_SESSION_TYPE" = "wayland" ]]; then
     cb="$(which wl-copy)"
