@@ -14,7 +14,7 @@ main() {
             xbps-query -Rs "$@"
             ;;
         fquery | fq)
-            xbpq-query -Rs "$@" | fzf --reverse
+            xbps-query -Rs "$@" | fzf --reverse
             ;;
         install | i)
             sudo xbps-install "$@"
