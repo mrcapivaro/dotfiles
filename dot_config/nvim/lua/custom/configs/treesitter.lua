@@ -1,23 +1,6 @@
 local treesitter_configs = require("nvim-treesitter.configs")
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
--- D2 Parser {{{
--- https://github.com/ravsii/tree-sitter-d2/tree/main
-
-parser_config.d2 = {
-    install_info = {
-        url = "https://github.com/ravsii/tree-sitter-d2",
-        files = { "src/parser.c" },
-        branch = "main",
-    },
-    filetype = "d2",
-}
-
--- TODO: automatically install d2 *.scm files into nvim-treesitter dir inside
--- local share.
-
-
--- }}}
 -- Setup Treesitter {{{
 
 -- Use git instead of curl.
