@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LOCAL_REPO="$HOME/Sync"
+REMOTE_REPO="drive:Sync"
+
+function main() {
+    local subcommand="$1"
+    shift
+    case "$subcommand" in
+        sync | s) sync "$@" ;;
+        markdown | md) markdown "$@" ;;
+        roam | r) roam "$@" ;;
+        *)
+            echo "$1 is not an option or subcommand."
+            exit 1
+            ;;
+    esac
+}
+
+sync() {
+    if ! ls "$LOCAL_REPO" >/dev/null 2>&1 || [[ -z $(ls "$LOCAL_REPO") ]]; then
+        mkdir -p "$LOCAL_REPO"
+        rclone \
+            bisync \
+            "$LOCAL_REPO" \
+            "$REMOTE_REPO" \
+            --create-empty-src-dirs \
+            --compare size,modtime,checksum \
+            --slow-hash-sync-only \
+            --resilient \
+            -MvP \
+            --drive-skip-gdocs \
+            --fix-case \
+            --resync
+    else
+        rclone \
+            bisync \
+            "$LOCAL_REPO" \
+            "$REMOTE_REPO" \
+            --create-empty-src-dirs \
+            --compare size,modtime,checksum \
+            --slow-hash-sync-only \
+            --resilient \
+            -MvP \
+            --drive-skip-gdocs \
+            --force \
+            --fix-case
+    fi
+}
+
+main "$@"
