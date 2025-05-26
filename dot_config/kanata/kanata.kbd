@@ -19,6 +19,8 @@
 (defalias
     symlk (layer-while-held symbols)
 
+    ced RA-,
+
     ;;;Virtual Alt Tab
     ;; Since I use the left alt key as a navigation layer key, it is impossible
     ;; to use alt tab in kanata with it. To fix it, I used the code in this
@@ -83,6 +85,7 @@
     ; [
     m @parc
     , @paro
+    . @ced
 
     u @^
     i @$)
