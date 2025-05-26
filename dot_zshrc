@@ -77,15 +77,15 @@ bindkey "^[[1;5D" backward-word
 # Try to determine the correct clipboard command.
 cb=""
 if [[ "$XDG_SESSION_TYPE" = "x11" ]]; then
-    cb="$(which xclip) -sel clipboard"
+    cb="xclip -sel clipboard"
 elif [[ "$XDG_SESSION_TYPE" = "wayland" ]]; then
-    cb="$(which wl-copy)"
+    cb="wl-copy"
 fi
 
 # Create wrapper zsh widget for killing the whole line.
 function kill-whole-line-wrapper() {
     zle kill-whole-line
-    echo -n "$CUTBUFFER" | $cb
+    echo -n "$CUTBUFFER" | eval "$cb"
 }
 zle -N kill-whole-line-wrapper
 
