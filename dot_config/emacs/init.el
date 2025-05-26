@@ -1,8 +1,4 @@
-;; Inspired from:
-;; https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org
-
 ;;; Base Configuration
-
 (setq ;; Disable unneeded prompts.
       inhibit-startup-message t
       use-dialog-box nil
@@ -24,6 +20,19 @@
       ad-redefinition-action 'accept
       global-auto-revert-non-file-buffers t
       native-comp-async-report-warnings-erros nil)
+
+;;; My commands
+
+(defun mrc/center (width)
+  (interactive "nBuffer width: ")
+  (let* ((adj          (- (window-text-width)
+                          width))
+         (total-margin (+ adj
+                          left-margin-width
+                          right-margin-width)))
+    (setq left-margin-width  (/ total-margin 2))
+    (setq right-margin-width (- total-margin left-margin-width)))
+  (set-window-buffer (selected-window) (current-buffer)))
 
 ;; Tabs
 (defvar mrc/default-tab-width 4)
@@ -65,8 +74,8 @@
 
 ;; Variables
 (defvar mrc/default-font "Iosevka Nerd Font")
-(defvar mrc/default-font-size 130)
-(defvar mrc/default-variable-font-size 140)
+(defvar mrc/default-font-size 120)
+(defvar mrc/default-variable-font-size 120)
 (defvar mrc/default-frame-font
   (concat mrc/default-font
           " "
@@ -263,32 +272,75 @@ by `next-buffer' or `previous-buffer'."
 
   ;; Leader binds
   (mrc/leader-def
-    "s"  'save-buffer
-    "e"  'dired-jump
 
-    "."  'counsel-find-file
+    "m" '(:ignore t :which-key "local")
+
+    ;;; Windows (replaces C-w)
+    ;; TODO: add hydras.
+    "w"  '(:ignore t :which-key "window")
+    "wn" 'evil-window-new
+    ;; close
+    "q" 'evil-quit
+
+    ;; splits
+    "ws" 'evil-window-split
+    "wv" 'evil-window-vsplit
+    ;; directional movement
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wl" 'evil-window-right
+    "wh" 'evil-window-left
+    ;; cardinal and frequency movement
+    "wp" 'evil-window-prev
+    "wP" 'evil-window-next
+    "wo" 'evil-window-mru
+    ;; rotation
+    "wx" 'evil-window-exchange
+    "wr" 'evil-window-rotate-downwards
+    "wR" 'evil-window-rotate-upwards
+    ;; resize
+    "w+" 'evil-window-increase-height
+    "w-" 'evil-window-decrease-height
+    "w>" 'evil-window-increase-width
+    "w<" 'evil-window-decrease-width
+    "w|" 'evil-window-set-width
+    "w_" 'evil-window-set-height
+    "wm" 'evil-window-middle
+
+    ;;; Find
+    "."  'dired-jump
+    "e"  'counsel-find-file
     "f"   '(:ignore t :which-key "find")
     "fc"  'mrc/open-config
     "ff"  'counsel-fzf
     "fw"  'counsel-rg
     "fr"  'counsel-recentf
 
+    ;;; Buffers
+    "s"  'save-buffer
     "j"   '(:ignore t :which-key "buffer")
-    "jd"  '(lambda () (interactive)
-             (kill-buffer (current-buffer)))
+    "jd"  '(lambda () (interactive) (kill-buffer (current-buffer)))
     "jf"  'counsel-switch-buffer
     "js"  'scratch-buffer
 
-    "r"   '(:ignore t :which-key "run/restart")
+    ;;; Run/Reload
+    "r"   '(:ignore t :which-key "run/reload")
     "re"  'restart-emacs
     "ri"  'mrc/reload-config
 
+    ;;; Help (replaces C-h)
     "h"   '(:ignore t :which-key "help")
+    "h C-c" 'describe-copying
     "hv"  'counsel-describe-variable
     "hf"  'counsel-describe-function
     "ho"  'counsel-describe-symbol
     "hm"  'describe-mode
     "hk"  'describe-key
+    "hs"  'describe-syntax
+    "hL"  'describe-language-environment
+    "hO"  'describe-distribution
+    "hp"  'finder-by-keyword
+    "hP"  'describe-package
     "hc"  'describe-command))
 
 (use-package evil-collection
@@ -410,12 +462,11 @@ by `next-buffer' or `previous-buffer'."
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
          :map ivy-switch-buffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
+         ("C-h" . ivy-switch-buffer-kill))
   :config
   (ivy-mode 1))
 
@@ -434,13 +485,11 @@ by `next-buffer' or `previous-buffer'."
   (ivy-prescient-mode 1))
 
 (use-package counsel
-  ;; :bind (("C-M-j" . 'counsel-switch-buffer)
-  ;;       :map minibuffer-local-map
-  ;;       ("C-r" . 'counsel-minibuffer-history))
   :custom
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
   :config
-  (general-def '(normal visual motion) "xx" 'counsel-M-x)
+  (general-def '(normal visual)
+    "xx" 'counsel-M-x)
   (counsel-mode 1))
 
 ;;; Dired
@@ -472,20 +521,17 @@ by `next-buffer' or `previous-buffer'."
 
 ;;; Org Mode
 
-(setq user-org-directory (expand-file-name "~/Sync/org")
-      org-indent-indentation-per-level 1)
-
 ;; File bookmarks
 
 (defun mrc/org-refile ()
   "Open refile.org."
   (interactive)
-  (find-file (expand-file-name "refile.org" user-org-directory)))
+  (find-file (expand-file-name "20250525231452-refile.org" user-org-directory)))
 
 (defun mrc/org-agenda ()
   "Open agenda.org."
   (interactive)
-  (find-file (expand-file-name "agenda.org" user-org-directory)))
+  (find-file (expand-file-name "20250525231549-agenda.org" user-org-directory)))
 
 ;; Dynamic font sizes and family & Change list item hyphen for an utf-8 dot
 (with-eval-after-load 'org-faces
@@ -531,34 +577,38 @@ by `next-buffer' or `previous-buffer'."
   :straight (:type built-in)
   :commands (org-capture org-agenda)
   :hook (org-mode . mrc/org-mode-setup)
+  :init
+  (setq user-org-directory (expand-file-name "~/Sync/org")
+        org-indent-indentation-per-level 1)
   :config
-
-  (general-def 'normal 'org-mode-map
-    "<tab>" 'evil-toggle-fold)
-  
+  (setq org-startup-with-latex-preview t
+        org-startup-with-inline-images t
+        org-format-latex-options (plist-put
+                             org-format-latex-options
+                             :scale 1.5))
   (general-def 'insert 'org-mode-map
     "C-<return>" 'org-meta-return
     "M-<return>" 'org-insert-heading-respect-content)
 
   (mrc/leader-def
+    "ml"  'org-latex-preview
+    "mL"  'org-display-inline-images
+    "ms"  'org-insert-structure-template
+
     "o"  '(:ignore t :which-key "org")
     "or" 'mrc/org-refile
     "oc" 'mrc/open-org-config
     "oa" 'mrc/org-agenda))
+
+;; Org Latex
+(use-package org-fragtog
+  :hook (org-mode-hook . org-fragtog-mode))
 
 ;; Heading Bullets
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "◆" "◇" "✸" "✿")))
-
-;;; Center Buffers
-(use-package visual-fill-column
-  :config
-    (setq visual-fill-column-width 80
-          visual-fill-column-center-text t)
-    (global-visual-fill-column-mode 1)
-    (mrc/leader-def "z" 'visual-fill-column-toggle-center-text))
 
 ;;; Org Mode Babel
 
@@ -578,13 +628,27 @@ by `next-buffer' or `previous-buffer'."
         (css . t)
         (js . t))))
 
-;;; IDE stuff
+;;; Org Roam
+(use-package org-roam
+  :general
+  ;; Global org roam binds.
+  (mrc/leader-def
+    "of" 'org-roam-node-find
+    "on" 'org-roam-capture)
 
-;; Autocompletion
-(use-package company
-  :hook (prog-mode latex-mode))
+  (mrc/leader-def 'org-mode-map
+    "mc" 'org-ctrl-c-ctrl-c)
 
-;; Latex
+  (mrc/leader-def 'org-capture-mode-map
+    "ok" 'org-capture-kill
+    "or" 'org-capture-refile
+    "os" 'org-capture-finalize)
+
+  :config
+  (setq org-roam-directory (expand-file-name "~/Sync/org"))
+  (org-roam-db-autosync-enable))
+
+;;; Latex
 (use-package auctex
   :config
   (setq TeX-view-program-selection
@@ -593,6 +657,12 @@ by `next-buffer' or `previous-buffer'."
      (output-dvi "xdvi")
      (output-pdf "xdg-open")
      (output-html "xdg-open"))))
+
+;;; IDE stuff
+
+;; Autocompletion
+(use-package company
+  :hook (prog-mode latex-mode))
 
 ;; LSP
 (defun mrc/lsp-mode-setup ()
