@@ -20,7 +20,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 ## Default Programs
 export EDITOR=nvim
 export VISUAL=nvim
-export PAGER=nvimpager
+export PAGER=less
 export BROWSER=firefox
 export TERMINAL=wezterm
 export TERMINAL_PROG=wezterm
