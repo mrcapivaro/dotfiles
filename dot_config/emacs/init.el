@@ -95,14 +95,17 @@
 (defun mrc/font-setup ()
   (set-face-attribute 'default nil
                       :font mrc/default-font
+                      :weight 'SemiBold
                       :height mrc/default-font-size)
 
   (set-face-attribute 'fixed-pitch nil
                       :font mrc/default-font
+                      :weight 'SemiBold
                       :height mrc/default-font-size)
 
   (set-face-attribute 'variable-pitch nil
                       :font mrc/default-font
+                      :weight 'SemiBold
                       :height mrc/default-font-size))
 
 ;; Setup fonts for regular Emacs.

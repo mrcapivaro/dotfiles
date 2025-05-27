@@ -138,14 +138,17 @@ Because of some problems/difficulties with setting the font for emacs clients, I
 (defun mrc/font-setup ()
   (set-face-attribute 'default nil
                       :font mrc/default-font
+                      :weight 'SemiBold
                       :height mrc/default-font-size)
 
   (set-face-attribute 'fixed-pitch nil
                       :font mrc/default-font
+                      :weight 'SemiBold
                       :height mrc/default-font-size)
 
   (set-face-attribute 'variable-pitch nil
                       :font mrc/default-font
+                      :weight 'SemiBold
                       :height mrc/default-font-size))
 
 ;; Setup fonts for regular Emacs.
@@ -155,6 +158,8 @@ Because of some problems/difficulties with setting the font for emacs clients, I
 (add-hook 'after-make-frame-functions
           (lambda (frame) (with-selected-frame frame (mrc/font-setup))))
 #+end_src
+
+** TODO Find a way to promote most of Bold unto ExtraBold
 
 * The scratch buffer
 
