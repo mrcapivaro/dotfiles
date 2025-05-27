@@ -4,7 +4,6 @@ mouse-hide-while-typing = true
 clipboard-read          = "allow"
 clipboard-write         = "allow"
 confirm-close-surface   = false
-# command                 = "zellij"
 
 
 ## Appearance
@@ -14,7 +13,7 @@ theme              = "GruvboxDark"
 window-theme       = "dark"
 window-padding-x   = 2
 window-padding-y   = 1
-font-family        = "Iosevka Nerd Font"
+font-family        = "JetBrainsMono Nerd Font"
 font-size          = 12
 
 # Disable font ligatures
