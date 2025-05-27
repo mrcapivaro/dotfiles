@@ -30,6 +30,9 @@
       ;; Do not warn on large files.
       large-file-warning-threshold nil
 
+      ;; Execute local eval's from file variables without querying.
+      enable-local-eval t
+
       ;; Follow symlinks on version controlled(vc) files without warning.
       vc-follow-symlinks t
 
@@ -50,33 +53,36 @@
 (setq-default tab-width mrc/default-tab-width
               indent-tabs-mode nil)
 
-;; Whitespace mode
-(setq-default whitespace-global-modes '(not shell-mode
-                                            help-mode
-                                            term-mode
-                                            org-mode
-                                            magit-mode
-                                            magit-diff-mode
-                                            ibuffer-mode
-                                            dired-mode
-                                            occur-mode))
+  ;; Whitespace mode
+  (setq-default whitespace-global-modes '(not shell-mode
+                                              help-mode
+                                              term-mode
+                                              org-mode
+                                              magit-mode
+                                              magit-diff-mode
+                                              ibuffer-mode
+                                              dired-mode
+                                              occur-mode))
 
-(setq whitespace-style '(face spaces tabs space-mark tab-mark))
+  (setq whitespace-style '(face spaces tabs space-mark tab-mark))
 
-(let* ((ws-color "#3c3836"))
-    (custom-set-faces
-    `(whitespace-newline ((t (:foreground ,ws-color))))
-    `(whitespace-missing-newline-at-eof ((t (:foreground ,ws-color))))
-    `(whitespace-space-after-tab ((t (:foreground ,ws-color))))
-    `(whitespace-space-before-tab ((t (:foreground ,ws-color))))
-    `(whitespace-trailing ((t (:foreground ,ws-color))))
-    `(whitespace-tab ((t (:foreground ,ws-color))))
-    `(whitespace-space ((t (:foreground ,ws-color))))))
+  (let* ((ws-color "#3c3836"))
+      (custom-set-faces
+      `(whitespace-empty ((t (:foreground ,ws-color))))
+      `(whitespace-hspace ((t (:foreground ,ws-color))))
+      `(whitespace-indent ((t (:foreground ,ws-color))))
+      `(whitespace-newline ((t (:foreground ,ws-color))))
+      `(whitespace-missing-newline-at-eof ((t (:foreground ,ws-color))))
+      `(whitespace-space-after-tab ((t (:foreground ,ws-color))))
+      `(whitespace-space-before-tab ((t (:foreground ,ws-color))))
+      `(whitespace-trailing ((t (:foreground ,ws-color))))
+      `(whitespace-tab ((t (:foreground ,ws-color))))
+      `(whitespace-space ((t (:foreground ,ws-color))))))
 
-(global-whitespace-mode 1)
+  (global-whitespace-mode 1)
 
-;; Line numbering
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  ;; Line numbering
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;;; Fonts
 
@@ -87,24 +93,24 @@
 
 ;; Main font setup procedure.
 (defun mrc/font-setup ()
-    (set-face-attribute 'default nil
-                        :font mrc/default-font
-                        :height mrc/default-font-size)
+  (set-face-attribute 'default nil
+                      :font mrc/default-font
+                      :height mrc/default-font-size)
 
-    (set-face-attribute 'fixed-pitch nil
-                        :font mrc/default-font
-                        :height mrc/default-font-size)
+  (set-face-attribute 'fixed-pitch nil
+                      :font mrc/default-font
+                      :height mrc/default-font-size)
 
-    (set-face-attribute 'variable-pitch nil
-                        :font mrc/default-font
-                        :height mrc/default-font-size))
+  (set-face-attribute 'variable-pitch nil
+                      :font mrc/default-font
+                      :height mrc/default-font-size))
 
 ;; Setup fonts for regular Emacs.
 (mrc/font-setup)
 
 ;; Setup fonts for Emacs Clients.
 (add-hook 'after-make-frame-functions
-            (lambda (frame) (with-selected-frame frame (mrc/font-setup))))
+          (lambda (frame) (with-selected-frame frame (mrc/font-setup))))
 
 ;;; Scratch Buffer
 (setq initial-major-mode 'org-mode)
@@ -113,19 +119,19 @@
 ;;; Bootstrap package manager (straight.el)
 (defvar bootstrap-version)
 (let ((bootstrap-file
-        (expand-file-name
+       (expand-file-name
         "straight/repos/straight.el/bootstrap.el"
         (or (bound-and-true-p straight-base-dir)
             user-emacs-directory)))
-        (bootstrap-version 7))
-    (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-        'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+  (with-current-buffer
+      (url-retrieve-synchronously
+      "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+      'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;;; Package manager options
 (setq straight-vc-git-default-clone-depth '(1 single-branch))
@@ -134,27 +140,27 @@
 
 ;;; Clean the config folder
 (use-package no-littering
-    :init
-    (setq no-littering-etc-directory
+  :init
+  (setq no-littering-etc-directory
         (expand-file-name "etc/" cache-emacs-directory)
         no-littering-var-directory
         (expand-file-name "var/" cache-emacs-directory)))
 
 ;;; Commands for keybinds
 (defun mrc/open-config ()
-    "Open the init.el file."
-    (interactive)
-    (find-file (expand-file-name "init.el" user-emacs-directory)))
+  "Open the init.el file."
+  (interactive)
+  (find-file (expand-file-name "init.el" user-emacs-directory)))
 
 (defun mrc/open-org-config ()
-    "Open the emacs.org file."
-    (interactive)
-    (find-file (expand-file-name "emacs.org" user-emacs-directory)))
+  "Open the emacs.org file."
+  (interactive)
+  (find-file (expand-file-name "emacs.org" user-emacs-directory)))
 
 (defun mrc/reload-config ()
-    "Reload the init.el file."
-    (interactive)
-    (load user-init-file))
+  "Reload the init.el file."
+  (interactive)
+  (load user-init-file))
 
 ;; To make keybinds that cycle through open buffers actually useful, I need
 ;; skip any buffers that are not text edition buffers, like any buffer that
@@ -164,188 +170,186 @@
 ;; https://emacs.stackexchange.com/questions/17687/ make-previous-buffer-and-next-buffer-to-ignore-some-buffers
 ;; TODO understand emacs regexp
 (defcustom mrc/buffer-skip-regexp
-    (rx bos (or (or "*Backtrace*" "*Compile-Log*" "*Completions*"
-                    "*Messages*" "*package*" "*Warnings*" "*scratch*"
-                    "*Async-native-compile-log*" "*straight-process*")
-                (seq "magit-diff" (zero-or-more anything))
-                (seq "magit-process" (zero-or-more anything))
-                (seq "magit-revision" (zero-or-more anything))
-                (seq "magit-stash" (zero-or-more anything)))
-                eos)
-    "Regular expression matching buffers that should be ignored
+  (rx bos (or (or "*Backtrace*" "*Compile-Log*" "*Completions*"
+                  "*Messages*" "*package*" "*Warnings*" "*scratch*"
+                  "*Async-native-compile-log*" "*straight-process*")
+              (seq "magit-diff" (zero-or-more anything))
+              (seq "magit-process" (zero-or-more anything))
+              (seq "magit-revision" (zero-or-more anything))
+              (seq "magit-stash" (zero-or-more anything)))
+              eos)
+  "Regular expression matching buffers that should be ignored
 by `next-buffer' or `previous-buffer'."
-    :type 'regexp)
+  :type 'regexp)
 
 (defun mrc/buffer-skip-p (window buffer bury-or-kill)
-    "Return t if BUFFER name matches `mrc/buffer-skip-regexp'."
-    (string-match-p mrc/buffer-skip-regexp (buffer-name buffer)))
+  "Return t if BUFFER name matches `mrc/buffer-skip-regexp'."
+  (string-match-p mrc/buffer-skip-regexp (buffer-name buffer)))
 (setq switch-to-prev-buffer-skip 'mrc/buffer-skip-p)
 
 ;; comment command
 (defun mrc/toggle-comment-region-or-line ()
-    "Toggle the comment state of the current line or region."
-    (interactive)
-    (let (beg end)
-        (if (region-active-p)
-            (setq beg (region-beginning) end (region-end))
-            (setq beg (line-beginning-position) end (line-end-position)))
-        (comment-or-uncomment-region beg end)))
+  "Toggle the comment state of the current line or region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+        (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
 
 ;; With a vim emulator, it makes more sense to use 'ESC' to quit prompts.
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (use-package evil
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-jump nil)
-    (setq evil-undo-system 'undo-redo)
-    :config
-    (evil-mode 1)
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal)
-    ;; Use visual line motions even outside of visual-line-mode buffers
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  (setq evil-undo-system 'undo-redo)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal)
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
 
 ;;; Keybinds
 ;; general.el
 (use-package general
-    :after evil
-    :config
+  :after evil
+  :config
+  ;; Create wrappers for leader keybinds
+  (general-create-definer mrc/leader-def
+  :states '(normal visual emacs)
+  :keymaps 'override
+  :prefix "SPC"
+  :global-prefix "C-SPC")
+  (general-create-definer mrc/local-leader-def
+  :keymaps '(normal visual emacs)
+  :prefix ",")
+  ;; Commands to be used in binds
+  (defun mrc/evil-shift-left-keep-selected ()
+  (interactive)
+  (evil-shift-left (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore))
 
-    ;; Create wrappers for leader keybinds
-    (general-create-definer mrc/leader-def
-    :states '(normal visual emacs)
-    :keymaps 'override
-    :prefix "SPC"
-    :global-prefix "C-SPC")
-    (general-create-definer mrc/local-leader-def
-    :keymaps '(normal visual emacs)
-    :prefix ",")
+  (defun mrc/evil-shift-right-keep-selected ()
+  (interactive)
+  (evil-shift-right (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore))
 
-    ;; Commands to be used in binds
-    (defun mrc/evil-shift-left-keep-selected ()
-    (interactive)
-    (evil-shift-left (region-beginning) (region-end))
-    (evil-normal-state)
-    (evil-visual-restore))
+  (general-def :keymaps 'override
+  ;; Use the standard C-S-{c,v} for copy and paste.
+  "C-S-c" 'kill-ring-save
+  "C-S-v" 'yank)
 
-    (defun mrc/evil-shift-right-keep-selected ()
-    (interactive)
-    (evil-shift-right (region-beginning) (region-end))
-    (evil-normal-state)
-    (evil-visual-restore))
+  ;; Non-leader binds
+  (general-def '(normal emacs)
+  "x"  nil
+  "xc" 'mrc/toggle-comment-region-or-line
+  "x:" 'eval-expression
+  "xi" 'evil-fill-and-move
+  "L"  'next-buffer
+  "H"  'previous-buffer)
 
-    (general-def :keymaps 'override
-    ;; Use the standard C-S-{c,v} for copy and paste.
-    "C-S-c" 'kill-ring-save
-    "C-S-v" 'yank)
+  (general-def '(visual)
+  ">" 'mrc/evil-shift-right-keep-selected
+  "<" 'mrc/evil-shift-left-keep-selected)
 
-    ;; Non-leader binds
-    (general-def '(normal emacs)
-    "x"  nil
-    "xc" 'mrc/toggle-comment-region-or-line
-    "x:" 'eval-expression
-    "xi" 'evil-fill-and-move
-    "L"  'next-buffer
-    "H"  'previous-buffer)
+  ;; Leader binds
+  (mrc/leader-def
 
-    (general-def '(visual)
-    ">" 'mrc/evil-shift-right-keep-selected
-    "<" 'mrc/evil-shift-left-keep-selected)
+  "m" '(:ignore t :which-key "local")
 
-    ;; Leader binds
-    (mrc/leader-def
+  ;;; Windows (replaces C-w)
+  ;; TODO: add hydras.
+  "w"  '(:ignore t :which-key "window")
+  "wn" 'evil-window-new
+  ;; close
+  "q" 'evil-quit
+  "wd" 'evil-window-delete
+  ;; splits
+  "ws" 'evil-window-split
+  "wv" 'evil-window-vsplit
+  ;; directional movement
+  "wj" 'evil-window-down
+  "wk" 'evil-window-up
+  "wl" 'evil-window-right
+  "wh" 'evil-window-left
+  ;; cardinal and frequency movement
+  "wp" 'evil-window-prev
+  "wP" 'evil-window-next
+  "wo" 'evil-window-mru
+  ;; rotation
+  "wx" 'evil-window-exchange
+  "wr" 'evil-window-rotate-downwards
+  "wR" 'evil-window-rotate-upwards
+  ;; resize
+  "w+" 'evil-window-increase-height
+  "w-" 'evil-window-decrease-height
+  "w>" 'evil-window-increase-width
+  "w<" 'evil-window-decrease-width
+  "w|" 'evil-window-set-width
+  "w_" 'evil-window-set-height
+  "wm" 'evil-window-middle
 
-    "m" '(:ignore t :which-key "local")
+  ;;; Find
+  "."  'dired-jump
+  "e"  'counsel-find-file
+  "f"   '(:ignore t :which-key "find")
+  "fc"  'mrc/open-config
+  "ff"  'counsel-fzf
+  "fw"  'counsel-rg
+  "fr"  'counsel-recentf
 
-    ;;; Windows (replaces C-w)
-    ;; TODO: add hydras.
-    "w"  '(:ignore t :which-key "window")
-    "wn" 'evil-window-new
-    ;; close
-    "q" 'evil-quit
-    "wd" 'evil-window-delete
-    ;; splits
-    "ws" 'evil-window-split
-    "wv" 'evil-window-vsplit
-    ;; directional movement
-    "wj" 'evil-window-down
-    "wk" 'evil-window-up
-    "wl" 'evil-window-right
-    "wh" 'evil-window-left
-    ;; cardinal and frequency movement
-    "wp" 'evil-window-prev
-    "wP" 'evil-window-next
-    "wo" 'evil-window-mru
-    ;; rotation
-    "wx" 'evil-window-exchange
-    "wr" 'evil-window-rotate-downwards
-    "wR" 'evil-window-rotate-upwards
-    ;; resize
-    "w+" 'evil-window-increase-height
-    "w-" 'evil-window-decrease-height
-    "w>" 'evil-window-increase-width
-    "w<" 'evil-window-decrease-width
-    "w|" 'evil-window-set-width
-    "w_" 'evil-window-set-height
-    "wm" 'evil-window-middle
+  ;;; Buffers
+  "s"  'save-buffer
+  "j"   '(:ignore t :which-key "buffer")
+  "jd"  '(lambda () (interactive) (kill-buffer (current-buffer)))
+  "jf"  'counsel-switch-buffer
+  "js"  'scratch-buffer
 
-    ;;; Find
-    "."  'dired-jump
-    "e"  'counsel-find-file
-    "f"   '(:ignore t :which-key "find")
-    "fc"  'mrc/open-config
-    "ff"  'counsel-fzf
-    "fw"  'counsel-rg
-    "fr"  'counsel-recentf
+  ;;; Run/Reload
+  "r"   '(:ignore t :which-key "run/reload")
+  "re"  'restart-emacs
+  "ri"  'mrc/reload-config
 
-    ;;; Buffers
-    "s"  'save-buffer
-    "j"   '(:ignore t :which-key "buffer")
-    "jd"  '(lambda () (interactive) (kill-buffer (current-buffer)))
-    "jf"  'counsel-switch-buffer
-    "js"  'scratch-buffer
-
-    ;;; Run/Reload
-    "r"   '(:ignore t :which-key "run/reload")
-    "re"  'restart-emacs
-    "ri"  'mrc/reload-config
-
-    ;;; Help (replaces C-h)
-    "h"   '(:ignore t :which-key "help")
-    "h C-c" 'describe-copying
-    "hv"  'counsel-describe-variable
-    "hf"  'counsel-describe-function
-    "ho"  'counsel-describe-symbol
-    "hm"  'describe-mode
-    "hk"  'describe-key
-    "hs"  'describe-syntax
-    "hL"  'describe-language-environment
-    "hO"  'describe-distribution
-    "hp"  'finder-by-keyword
-    "hP"  'describe-package
-    "hc"  'describe-command))
+  ;;; Help (replaces C-h)
+  "h"   '(:ignore t :which-key "help")
+  "h C-c" 'describe-copying
+  "hv"  'counsel-describe-variable
+  "hf"  'counsel-describe-function
+  "ho"  'counsel-describe-symbol
+  "hm"  'describe-mode
+  "hk"  'describe-key
+  "hs"  'describe-syntax
+  "hL"  'describe-language-environment
+  "hO"  'describe-distribution
+  "hp"  'finder-by-keyword
+  "hP"  'describe-package
+  "hc"  'describe-command))
 
 (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
+  :after evil
+  :config
+  (evil-collection-init))
 
 (use-package which-key
-    :defer 0
-    :diminish which-key-mode
-    :config
-    (which-key-mode)
-    (setq which-key-idle-delay 1))
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 1))
 
 (use-package avy
-    :general-config
-    ('(normal emacs visual operator) "s" 'avy-goto-char-2))
+  :general-config
+  ('(normal emacs visual operator) "s" 'avy-goto-char-2))
 
 ;;; Appearance
 
@@ -353,319 +357,321 @@ by `next-buffer' or `previous-buffer'."
 (use-package all-the-icons)
 
 (use-package doom-themes
-    :init (load-theme 'doom-gruvbox t))
+  :init (load-theme 'doom-gruvbox t))
 
 (use-package doom-modeline
     :hook (after-init . doom-modeline-mode)
-    :init (setq doom-modeline-support-imenu t)
-        (setq doom-modeline-height 25)
-        (setq doom-modeline-bar-width 4)
-        (setq doom-modeline-hud nil)
-        (setq doom-modeline-window-width-limit 85)
-        (setq doom-modeline-spc-face-overrides nil)
-        (setq doom-modeline-project-detection 'auto)
-        (setq doom-modeline-buffer-file-name-style 'auto)
-        (setq doom-modeline-icon t)
-        (setq doom-modeline-major-mode-icon t)
-        (setq doom-modeline-major-mode-color-icon t)
-        (setq doom-modeline-buffer-state-icon t)
-        (setq doom-modeline-buffer-modification-icon t)
-        (setq doom-modeline-lsp-icon t)
-        (setq doom-modeline-time-icon t)
-        (setq doom-modeline-time-live-icon t)
-        (setq doom-modeline-time-analogue-clock t)
-        (setq doom-modeline-time-clock-size 0.7)
-        (setq doom-modeline-unicode-fallback nil)
-        (setq doom-modeline-buffer-name t)
-        (setq doom-modeline-highlight-modified-buffer-name t)
-        (setq doom-modeline-column-zero-based t)
-        (setq doom-modeline-percent-position '(-3 "%p"))
-        (setq doom-modeline-position-line-format '("L%l"))
-        (setq doom-modeline-position-column-format '("C%c"))
-        (setq doom-modeline-position-column-line-format '("%l:%c"))
-        (setq doom-modeline-minor-modes nil)
-        (setq doom-modeline-enable-word-count nil)
-        (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-        (setq doom-modeline-buffer-encoding t)
-        (setq doom-modeline-indent-info nil)
-        (setq doom-modeline-total-line-number nil)
-        (setq doom-modeline-vcs-icon t)
-        (setq doom-modeline-vcs-max-length 15)
-        (setq doom-modeline-vcs-display-function #'doom-modeline-vcs-name)
-        (setq doom-modeline-vcs-state-faces-alist
-            '((needs-update . (doom-modeline-warning bold))
-                (removed . (doom-modeline-urgent bold))
-                (conflict . (doom-modeline-urgent bold))
-                (unregistered . (doom-modeline-urgent bold))))
-        (setq doom-modeline-check-icon t)
-        (setq doom-modeline-check-simple-format nil)
-        (setq doom-modeline-number-limit 99)
-        (setq doom-modeline-project-name t)
-        (setq doom-modeline-workspace-name t)
-        (setq doom-modeline-persp-name t)
-        (setq doom-modeline-display-default-persp-name nil)
-        (setq doom-modeline-persp-icon t)
-        (setq doom-modeline-lsp t)
-        (setq doom-modeline-github nil)
-        (setq doom-modeline-github-interval (* 30 60))
-        (setq doom-modeline-modal t)
-        (setq doom-modeline-modal-icon t)
-        (setq doom-modeline-modal-modern-icon nil)
-        (setq doom-modeline-always-show-macro-register nil)
-        (setq doom-modeline-gnus t)
-        (setq doom-modeline-gnus-timer 2)
-        (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
-        (setq doom-modeline-irc t)
-        (setq doom-modeline-irc-stylize 'identity)
-        (setq doom-modeline-battery t)
-        (setq doom-modeline-time t)
-        (setq doom-modeline-display-misc-in-all-mode-lines t)
-        (setq doom-modeline-buffer-file-name-function #'identity)
-        (setq doom-modeline-buffer-file-truename-function #'identity)
-        (setq doom-modeline-env-version t)
-        (setq doom-modeline-env-enable-python t)
-        (setq doom-modeline-env-enable-ruby t)
-        (setq doom-modeline-env-enable-perl t)
-        (setq doom-modeline-env-enable-go t)
-        (setq doom-modeline-env-enable-elixir t)
-        (setq doom-modeline-env-enable-rust t)
-        (setq doom-modeline-env-python-executable "python")
-        (setq doom-modeline-env-ruby-executable "ruby")
-        (setq doom-modeline-env-perl-executable "perl")
-        (setq doom-modeline-env-go-executable "go")
-        (setq doom-modeline-env-elixir-executable "iex")
-        (setq doom-modeline-env-rust-executable "rustc")
-        (setq doom-modeline-env-load-string "...")
-        (setq doom-modeline-always-visible-segments '(irc))
-        (setq doom-modeline-before-update-env-hook nil)
-        (setq doom-modeline-after-update-env-hook nil))
+    :init
+    (setq doom-modeline-support-imenu t)
+    (setq doom-modeline-height 25)
+    (setq doom-modeline-bar-width 4)
+    (setq doom-modeline-hud nil)
+    (setq doom-modeline-window-width-limit 85)
+    (setq doom-modeline-spc-face-overrides nil)
+    (setq doom-modeline-project-detection 'auto)
+    (setq doom-modeline-buffer-file-name-style 'auto)
+    (setq doom-modeline-icon t)
+    (setq doom-modeline-major-mode-icon t)
+    (setq doom-modeline-major-mode-color-icon t)
+    (setq doom-modeline-buffer-state-icon t)
+    (setq doom-modeline-buffer-modification-icon t)
+    (setq doom-modeline-lsp-icon t)
+    (setq doom-modeline-time-icon t)
+    (setq doom-modeline-time-live-icon t)
+    (setq doom-modeline-time-analogue-clock t)
+    (setq doom-modeline-time-clock-size 0.7)
+    (setq doom-modeline-unicode-fallback nil)
+    (setq doom-modeline-buffer-name t)
+    (setq doom-modeline-highlight-modified-buffer-name t)
+    (setq doom-modeline-column-zero-based t)
+    (setq doom-modeline-percent-position '(-3 "%p"))
+    (setq doom-modeline-position-line-format '("L%l"))
+    (setq doom-modeline-position-column-format '("C%c"))
+    (setq doom-modeline-position-column-line-format '("%l:%c"))
+    (setq doom-modeline-minor-modes nil)
+    (setq doom-modeline-enable-word-count nil)
+    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+    (setq doom-modeline-buffer-encoding t)
+    (setq doom-modeline-indent-info nil)
+    (setq doom-modeline-total-line-number nil)
+    (setq doom-modeline-vcs-icon t)
+    (setq doom-modeline-vcs-max-length 15)
+    (setq doom-modeline-vcs-display-function #'doom-modeline-vcs-name)
+    (setq doom-modeline-vcs-state-faces-alist
+        '((needs-update . (doom-modeline-warning bold))
+            (removed . (doom-modeline-urgent bold))
+            (conflict . (doom-modeline-urgent bold))
+            (unregistered . (doom-modeline-urgent bold))))
+    (setq doom-modeline-check-icon t)
+    (setq doom-modeline-check-simple-format nil)
+    (setq doom-modeline-number-limit 99)
+    (setq doom-modeline-project-name t)
+    (setq doom-modeline-workspace-name t)
+    (setq doom-modeline-persp-name t)
+    (setq doom-modeline-display-default-persp-name nil)
+    (setq doom-modeline-persp-icon t)
+    (setq doom-modeline-lsp t)
+    (setq doom-modeline-github nil)
+    (setq doom-modeline-github-interval (* 30 60))
+    (setq doom-modeline-modal t)
+    (setq doom-modeline-modal-icon t)
+    (setq doom-modeline-modal-modern-icon nil)
+    (setq doom-modeline-always-show-macro-register nil)
+    (setq doom-modeline-gnus t)
+    (setq doom-modeline-gnus-timer 2)
+    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
+    (setq doom-modeline-irc t)
+    (setq doom-modeline-irc-stylize 'identity)
+    (setq doom-modeline-battery t)
+    (setq doom-modeline-time t)
+    (setq doom-modeline-display-misc-in-all-mode-lines t)
+    (setq doom-modeline-buffer-file-name-function #'identity)
+    (setq doom-modeline-buffer-file-truename-function #'identity)
+    (setq doom-modeline-env-version t)
+    (setq doom-modeline-env-enable-python t)
+    (setq doom-modeline-env-enable-ruby t)
+    (setq doom-modeline-env-enable-perl t)
+    (setq doom-modeline-env-enable-go t)
+    (setq doom-modeline-env-enable-elixir t)
+    (setq doom-modeline-env-enable-rust t)
+    (setq doom-modeline-env-python-executable "python")
+    (setq doom-modeline-env-ruby-executable "ruby")
+    (setq doom-modeline-env-perl-executable "perl")
+    (setq doom-modeline-env-go-executable "go")
+    (setq doom-modeline-env-elixir-executable "iex")
+    (setq doom-modeline-env-rust-executable "rustc")
+    (setq doom-modeline-env-load-string "...")
+    (setq doom-modeline-always-visible-segments '(irc))
+    (setq doom-modeline-before-update-env-hook nil)
+    (setq doom-modeline-after-update-env-hook nil))
 
 ;;; Minibuffer Completion
 ;; TODO: set up some keybinds with general and evil here, for files and buffers
 
 (use-package ivy
-    :diminish
-    :bind (:map ivy-minibuffer-map
-        ("TAB" . ivy-alt-done)
-        ("C-l" . ivy-alt-done)
-        ("C-j" . ivy-next-line)
-        ("C-k" . ivy-previous-line)
-        :map ivy-switch-buffer-map
-        ("TAB" . ivy-alt-done)
-        ("C-l" . ivy-alt-done)
-        ("C-j" . ivy-next-line)
-        ("C-k" . ivy-previous-line)
-        ("C-h" . ivy-switch-buffer-kill))
-    :config
-    (ivy-mode 1))
+  :diminish
+  :bind (:map ivy-minibuffer-map
+              ("TAB" . ivy-alt-done)
+              ("C-l" . ivy-alt-done)
+              ("C-j" . ivy-next-line)
+              ("C-k" . ivy-previous-line)
+              :map ivy-switch-buffer-map
+              ("TAB" . ivy-alt-done)
+              ("C-l" . ivy-alt-done)
+              ("C-j" . ivy-next-line)
+              ("C-k" . ivy-previous-line)
+              ("C-h" . ivy-switch-buffer-kill))
+  :config
+  (ivy-mode 1))
 
 (use-package ivy-rich
-    :after ivy
-    :init
-    (ivy-rich-mode 1))
+  :after ivy
+  :init
+  (ivy-rich-mode 1))
 
 ;; Better sorting algorithm for ivy
 (use-package ivy-prescient
-    :after counsel
-    :custom
-    (ivy-prescient-enable-filtering nil)
-    :config
-    (prescient-persist-mode 1)
-    (ivy-prescient-mode 1))
+  :after counsel
+  :custom
+  (ivy-prescient-enable-filtering nil)
+  :config
+  (prescient-persist-mode 1)
+  (ivy-prescient-mode 1))
 
 (use-package counsel
-    :custom
-    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-    :config
-    (general-def '(normal visual)
-    "xx" 'counsel-M-x)
-    (counsel-mode 1))
+  :custom
+  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config
+  (general-def '(normal visual)
+  "xx" 'counsel-M-x)
+  (counsel-mode 1))
 
 ;;; Dired
 (use-package dired
-    :straight (:type built-in)
-    :hook (dired-mode . dired-hide-details-mode)
-    :config
-    (setq dired-dwin-target t)
-    (setq dired-recursive-copies 'always)
-    (setq dired-create-destination-dirs 'ask)
-    (setq dired-clean-confirm-killing-deleted-buffers nil)
-    (setq dired-make-directory-clickable t)
-    (setq dired-mouse-drag-files t)
-    (setq dired-kill-when-opening-new-dired-buffer t)
-    (setq dired-listing-switches "-Fla1 --group-directories-first")
-    (general-def 'normal 'dired-mode-map
+  :straight (:type built-in)
+  :hook (dired-mode . dired-hide-details-mode)
+  :config
+  (setq dired-dwin-target t)
+  (setq dired-recursive-copies 'always)
+  (setq dired-create-destination-dirs 'ask)
+  (setq dired-clean-confirm-killing-deleted-buffers nil)
+  (setq dired-make-directory-clickable t)
+  (setq dired-mouse-drag-files t)
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  (setq dired-listing-switches "-Fla1 --group-directories-first")
+  (general-def 'normal 'dired-mode-map
     "h" 'dired-up-directory
     "l" 'dired-find-file))
 
 ;;; {E}shell, Emulate a {Term}inal (Eat) & *Compilation*
 (use-package term
-    :straight (:type built-in)
-    :config
-    (setq explicit-shell-file-name "zsh")
-    (setq shell-file-name explicit-shell-file-name)
-    (mrc/leader-def
-    "t" 'term))
+  :straight (:type built-in)
+  :config
+  (setq explicit-shell-file-name "zsh")
+  (setq shell-file-name explicit-shell-file-name)
+  (mrc/leader-def "t" 'term))
 
 ;;; Org mode preamble
 (defun mrc/org-refile ()
-    "Open refile.org."
-    (interactive)
-    (find-file (expand-file-name "20250525231452-refile.org" user-org-directory)))
+  "Open refile.org."
+  (interactive)
+  (find-file (expand-file-name "20250525231452-refile.org" user-org-directory)))
 
 (defun mrc/org-agenda ()
-    "Open agenda.org."
-    (interactive)
-    (find-file (expand-file-name "20250525231549-agenda.org" user-org-directory)))
+  "Open agenda.org."
+  (interactive)
+  (find-file (expand-file-name "20250525231549-agenda.org" user-org-directory)))
 
 ;; Dynamic font sizes and family & Change list item hyphen for an utf-8 dot
 (with-eval-after-load 'org-faces
-    ;; Replace list hyphen with dot
-    (font-lock-add-keywords 'org-mode
-                            '(("^ *\\([-]\\) "
-                            (0 (prog1 () (compose-region
-                                            (match-beginning 1)
-                                            (match-end 1) "•"))))))
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region
+                                           (match-beginning 1)
+                                           (match-end 1) "•"))))))
 
-    ;; Set faces for heading levels
-    (dolist (face '((org-document-title . 1.5)
-                    (org-level-1 . 1.2)
-                    (org-level-2 . 1.1)
-                    (org-level-3 . 1.05)
-                    (org-level-4 . 1.0)
-                    (org-level-5 . 1.1)
-                    (org-level-6 . 1.1)
-                    (org-level-7 . 1.1)
-                    (org-level-8 . 1.1)))
+  ;; Set faces for heading levels
+  (dolist (face '((org-document-title . 1.5)
+                  (org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :height (cdr face)))
 
-    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-    (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
-    (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
 ;; Org mode initial setup
 (defun mrc/org-mode-setup ()
-    (org-indent-mode)
-    (variable-pitch-mode 1)
-    (visual-line-mode 1))
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
 
-;;; Org mode
-(use-package org
-    :straight (:type built-in)
-    :commands (org-capture org-agenda)
-    :hook (org-mode . mrc/org-mode-setup)
-    :init
-    (setq user-org-directory (expand-file-name "~/Sync/org")
-        org-indent-indentation-per-level 1)
-    :config
-    (setq org-startup-with-latex-preview t
-        org-startup-with-inline-images t
-        org-format-latex-options (plist-put
-                            org-format-latex-options
-                            :scale 1.5))
-    (general-def 'insert 'org-mode-map
-    "C-<return>" 'org-meta-return
-    "M-<return>" 'org-insert-heading-respect-content)
+  ;;; Org mode
+  (use-package org
+      :straight (:type built-in)
+      :commands (org-capture org-agenda)
+      :hook (org-mode . mrc/org-mode-setup)
+      :init
+      (setq user-org-directory (expand-file-name "~/Sync/org")
+          org-indent-indentation-per-level 1)
+      :config
+      (setq org-startup-with-latex-preview t
+          org-startup-with-inline-images t
+          org-format-latex-options (plist-put
+                              org-format-latex-options
+                              :scale 1.5))
+      (general-def 'insert 'org-mode-map
+      "C-<return>" 'org-meta-return
+      "M-<return>" 'org-insert-heading-respect-content)
 
-    (mrc/leader-def
-    "ml"  'org-latex-preview
-    "mL"  'org-display-inline-images
-    "ms"  'org-insert-structure-template
+      (mrc/leader-def
+      "ml"  'org-latex-preview
+      "mL"  'org-display-inline-images
+      "ms"  'org-insert-structure-template
 
-    "o"  '(:ignore t :which-key "org")
-    "or" 'mrc/org-refile
-    "oc" 'mrc/open-org-config
-    "oa" 'mrc/org-agenda)
+      "o"  '(:ignore t :which-key "org")
+      "or" 'mrc/org-refile
+      "oc" 'mrc/open-org-config
+      "oa" 'mrc/org-agenda)
 
-;; Prettier heading bullets
-(use-package org-bullets
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("◉" "○" "◆" "◇" "✸" "✿")))
+  ;; Prettier heading bullets
+  (use-package org-bullets
+      :hook (org-mode . org-bullets-mode)
+      :custom
+      (org-bullets-bullet-list '("◉" "○" "◆" "◇" "✸" "✿")))
 
 (use-package org-fragtog
-    :hook (org-mode-hook . org-fragtog-mode))
+  :hook (org-mode-hook . org-fragtog-mode))
 
 ;;; Org babel
 ;; reference for languages support:
 ;; https://orgmode.org/worg/org-contrib/babel/languages/index.html
-(setq org-confirm-babel-evaluate nil)
+(setq org-confirm-babel-evaluate nil
+      org-src-preserve-indentation t)
 (with-eval-after-load 'org
 (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((emacs-lisp . t)
-        (python . t)
-        (lua . t)
-        (shell . t)
-        (C . t)
-        (haskell . t)
-        ;(sql . t)
-        ;(sqlite . t)
-        (css . t)
-        (js . t)))))
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python . t)
+   (lua . t)
+   (shell . t)
+   (C . t)
+   (haskell . t)
+   ;(sql . t)
+   ;(sqlite . t)
+   (css . t)
+   (js . t)))))
 
 ;;; Org babel
 (use-package org-roam
-    :general
-    ;; Global org roam binds.
-    (mrc/leader-def
-    "of" 'org-roam-node-find
-    "on" 'org-roam-capture)
+  :general
+  ;; Global org roam binds.
+  (mrc/leader-def
+  "of" 'org-roam-node-find
+  "on" 'org-roam-capture)
 
-    (mrc/leader-def 'org-mode-map
-    "mc" 'org-ctrl-c-ctrl-c)
+  (mrc/leader-def 'org-mode-map
+  "mc" 'org-ctrl-c-ctrl-c)
 
-    (mrc/leader-def 'org-capture-mode-map
-    "ok" 'org-capture-kill
-    "or" 'org-capture-refile
-    "os" 'org-capture-finalize)
+  (mrc/leader-def 'org-capture-mode-map
+  "ok" 'org-capture-kill
+  "or" 'org-capture-refile
+  "os" 'org-capture-finalize)
 
-    :config
-    (setq org-roam-directory (expand-file-name "~/Sync/org"))
-    (org-roam-db-autosync-enable))
+  :config
+  (setq org-roam-directory (expand-file-name "~/Sync/org"))
+  (org-roam-db-autosync-enable))
 
 ;;; Latex
 (use-package auctex
-    :config
-    (setq TeX-view-program-selection
-    '(((output-dvi has-no-display-manager) "dvi2tty")
-    ((output-dvi style-pstricks) "dvips and gv")
-    (output-dvi "xdvi")
-    (output-pdf "xdg-open")
-    (output-html "xdg-open"))))
+  :config
+  (setq TeX-view-program-selection
+  '(((output-dvi has-no-display-manager) "dvi2tty")
+  ((output-dvi style-pstricks) "dvips and gv")
+  (output-dvi "xdvi")
+  (output-pdf "xdg-open")
+  (output-html "xdg-open"))))
+
+(use-package magit)
 
 ;;; IDE stuff
 ;; Autocompletion
 (use-package company
-    :hook (prog-mode latex-mode))
+  :hook (prog-mode latex-mode))
 
 ;; LSP
 (defun mrc/lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
 
 (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :hook (lsp-mode . mrc/lsp-mode-setup)
-    :config
-    (mrc/leader-def
-    "l" 'lsp-command-map)
-
-    (lsp-enable-which-key-integration t))
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . mrc/lsp-mode-setup)
+  :config
+  (mrc/leader-def
+  "l" 'lsp-command-map)
+  (lsp-enable-which-key-integration t))
 
 (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'bottom))
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
 
 ;; DAP: ...
 
@@ -673,15 +679,15 @@ by `next-buffer' or `previous-buffer'."
 
 ;; Scripting: Python, Lua & {Emacs|Common}Lisp
 (use-package slime
-    :commands (slime)
-    :config
-    (setq inferior-lisp-program "clisp"))
+  :commands (slime)
+  :config
+  (setq inferior-lisp-program "clisp"))
 
 (use-package lua-mode
-    :commands (lua-mode)
-    :config
-    (setq lua-indent-close-paren-align nil)
-    (setq lua-indent-level mrc/default-tab-width))
+  :commands (lua-mode)
+  :config
+  (setq lua-indent-close-paren-align nil)
+  (setq lua-indent-level mrc/default-tab-width))
 
 ;; Systems: Go, C & C++
 ;; Web: HTML, CSS, JS/TS & Frameworks
