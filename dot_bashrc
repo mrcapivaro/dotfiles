@@ -13,5 +13,6 @@ FZFRC="$HOME/.config/fzf/fzfrc"
 [ -f "$FZFRC" ] && command -v fzf >/dev/null 2>&1 && . "$FZFRC"
 
 eval "$(starship init bash)"
-eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
+eval "$(zoxide init bash)"
+which z >/dev/null 2>&1 && alias cd="z"

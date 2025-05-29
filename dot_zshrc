@@ -6,19 +6,22 @@ ALIASRC="$HOME/.config/shell/aliasrc"
 PROFILERC="$HOME/.config/shell/profilerc"
 [ -f "$PROFILERC" ] && . "$PROFILERC"
 
+FZFRC="$HOME/.config/fzf/fzfrc"
+[ -f "$FZFRC" ] && which fzf >/dev/null 2>&1 && . "$FZFRC"
+
 # Autoconfig {{{1
 
-## compinstall
+# compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle :compinstall filename '/home/mrcapivaro/.zshrc'
 autoload -Uz compinit
 compinit
 
-## case insensitive path-completion
+# case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
-## zsh-newuser-install
+# zsh-newuser-install
 HISTFILE="$ZCONFDIR/histfile"
 HISTSIZE=1000
 SAVEHIST=1000
@@ -26,17 +29,17 @@ setopt autocd
 unsetopt beep extendedglob nomatch
 
 # 1}}}
+
 # Extensions {{{1
 
-## Eval's
 eval "$(starship init zsh)"
-
 eval "$(direnv hook zsh)"
-
 eval "$(zoxide init zsh)"
 which z >/dev/null 2>&1 && alias cd="z"
 
-## Plugins
+
+## ZSH Plugins
+
 use-git-plugin() {
     local gitrepo="$1"
     local name=${gitrepo#*/}
@@ -49,22 +52,21 @@ use-git-plugin() {
     [ -e "$plugin_init_file" ] && . "$plugin_init_file"
 }
 
-use-git-plugin "Aloxaf/fzf-tab" # must come after compinit and before other plugins
+# Must come after compinit and before other plugins.
+use-git-plugin "Aloxaf/fzf-tab"
+
 use-git-plugin "zsh-users/zsh-syntax-highlighting"
 use-git-plugin "zsh-users/zsh-autosuggestions"
 use-git-plugin "zsh-users/zsh-history-substring-search"
 
-## CLI Programs
-FZFRC="$HOME/.config/fzf/fzfrc"
-[ -f "$FZFRC" ] && which fzf >/dev/null 2>&1 && . "$FZFRC"
-
 # 1}}}
+
 # Keybinds {{{1
 
 # Set the default emacs keybinds.
 bindkey -e
 
-# Ensure that home and end keys work as intended.
+# Ensure that the home and end keys work as intended.
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 
@@ -72,7 +74,8 @@ bindkey "^[[F" end-of-line
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-## Place killed text with <'C-U'(kill-whole-line)> into the clipboard.
+
+## Copy deletion to clipboard on 'kill-whole-line' command (C-u).
 
 # Try to determine the correct clipboard command.
 cb=""
@@ -88,12 +91,6 @@ function kill-whole-line-wrapper() {
     echo -n "$CUTBUFFER" | eval "$cb"
 }
 zle -N kill-whole-line-wrapper
-
-# Binding the original keybind for kill-whole-line for the wrapper.
 bindkey "^U" kill-whole-line-wrapper
 
 # 1}}}
-
-# emacs-eat terminal integration
-[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
-  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
