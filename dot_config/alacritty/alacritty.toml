@@ -1,8 +1,9 @@
 general.import = ["~/.config/alacritty/gruvbox_dark.toml"]
 
 window.dynamic_padding = true
+window.padding = { x = 1, y = 0 }
 
 font.size = 12
-font.normal.family = "JetBrainsMono NF"
+font.normal.family = "JetBrainsMono Nerd Font"
 font.normal.style = "SemiBold"
 font.bold.style = "ExtraBold"
