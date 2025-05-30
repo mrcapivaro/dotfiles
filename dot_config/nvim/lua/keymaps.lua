@@ -16,7 +16,7 @@ local map = function(args)
             -- desc = args.desc,
             silent = true,
             expr = false,
-            nowait = false
+            nowait = false,
         },
         args.options or {}
     )
@@ -88,10 +88,12 @@ map({
 -- }}}
 -- Execution of code {{{
 
-map({
-    mode = { "n", "v" },
-    { "<space>re", ":<UP><CR>" },
-})
+-- map({
+--     mode = { "n", "v" },
+--     { "<space>re", ":<UP><CR>" },
+-- })
+
+vim.keymap.set("n", "xc", "gc")
 
 map({
     mode = "n",
@@ -107,9 +109,17 @@ map({
 -- Text Editing {{{
 
 map({
-    mode = { "n", "v", "x" },
-    { "xc", "gc" },
+    mode = { "n" },
+    options = { remap = true },
+    { "xc", "gcl" },
     { "xi", "gq" },
+    { "xv", "gv" },
+})
+
+map({
+    mode = { "v" },
+    options = { remap = true },
+    { "xc", "gc" },
 })
 
 -- Move lines of code with visual mod
