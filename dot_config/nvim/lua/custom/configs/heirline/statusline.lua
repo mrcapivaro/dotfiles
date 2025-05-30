@@ -287,7 +287,10 @@ local Position = {
 
 return {
     -- Default Highlights
-    hl = { bg = colors.dark0, fg = colors.light4 },
+    hl = {
+        bg = colors.dark0,
+        fg = colors.light4
+    },
 
     -- Left Side Widgets
     Mode,

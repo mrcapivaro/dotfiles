@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 ---Floating document windows
+
 -- Use non-rounded simple borders
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "single",

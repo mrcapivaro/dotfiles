@@ -96,7 +96,11 @@ local BufferBlock = {
 -- }}}
 
 return {
-    hl = { fg = colors.light4, bg = colors.dark0, sp = colors.bright_green },
+    hl = {
+        fg = colors.light4,
+        bg = colors.dark0,
+        sp = colors.bright_green
+    },
 
     FileBlock,
     { provider = "%=" },

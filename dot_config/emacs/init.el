@@ -49,8 +49,8 @@
 (setq custom-file (concat cache-emacs-directory "custom.el"))
 
 ;; Tabs
-(defvar mrc/default-tab-width 4)
-(setq-default tab-width mrc/default-tab-width
+(defvar my/default-tab-width 4)
+(setq-default tab-width my/default-tab-width
               indent-tabs-mode nil)
 
   ;; Whitespace mode
@@ -87,33 +87,38 @@
 ;;; Fonts
 
 ;; Variables
-(defvar mrc/default-font "JetBrainsMono Nerd Font")
-(defvar mrc/default-font-size 120)
-(defvar mrc/default-variable-font-size 120)
+(defvar my/default-font "JetBrainsMono Nerd Font")
+(defvar my/default-font-size 120)
+(defvar my/default-variable-font-size 120)
 
 ;; Main font setup procedure.
-(defun mrc/font-setup ()
+(defun my/font-setup ()
   (set-face-attribute 'default nil
-                      :font mrc/default-font
-                      :weight 'SemiBold
-                      :height mrc/default-font-size)
+                      :font my/default-font
+                      :weight 'semibold
+                      :height my/default-font-size)
 
   (set-face-attribute 'fixed-pitch nil
-                      :font mrc/default-font
-                      :weight 'SemiBold
-                      :height mrc/default-font-size)
+                      :font my/default-font
+                      :weight 'semibold
+                      :height my/default-font-size)
 
   (set-face-attribute 'variable-pitch nil
-                      :font mrc/default-font
-                      :weight 'SemiBold
-                      :height mrc/default-font-size))
+                      :font my/default-font
+                      :weight 'semibold
+                      :height my/default-font-size)
+
+  (set-face-attribute 'bold nil
+                      :font my/default-font
+                      :weight 'extrabold
+                      :height my/default-font-size))
 
 ;; Setup fonts for regular Emacs.
-(mrc/font-setup)
+(my/font-setup)
 
 ;; Setup fonts for Emacs Clients.
 (add-hook 'after-make-frame-functions
-          (lambda (frame) (with-selected-frame frame (mrc/font-setup))))
+          (lambda (frame) (with-selected-frame frame (my/font-setup))))
 
 ;;; Scratch Buffer
 (setq initial-major-mode 'org-mode)
@@ -150,17 +155,18 @@
         (expand-file-name "var/" cache-emacs-directory)))
 
 ;;; Commands for keybinds
-(defun mrc/open-config ()
+
+(defun my/open-config ()
   "Open the init.el file."
   (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
 
-(defun mrc/open-org-config ()
+(defun my/open-org-config ()
   "Open the emacs.org file."
   (interactive)
   (find-file (expand-file-name "emacs.org" user-emacs-directory)))
 
-(defun mrc/reload-config ()
+(defun my/reload-config ()
   "Reload the init.el file."
   (interactive)
   (load user-init-file))
@@ -172,7 +178,7 @@
 ;; Regex used to identify unwanted buffers for buffer cycling:
 ;; https://emacs.stackexchange.com/questions/17687/ make-previous-buffer-and-next-buffer-to-ignore-some-buffers
 ;; TODO understand emacs regexp
-(defcustom mrc/buffer-skip-regexp
+(defcustom my/buffer-skip-regexp
   (rx bos (or (or "*Backtrace*" "*Compile-Log*" "*Completions*"
                   "*Messages*" "*package*" "*Warnings*" "*scratch*"
                   "*Async-native-compile-log*" "*straight-process*")
@@ -185,13 +191,13 @@
 by `next-buffer' or `previous-buffer'."
   :type 'regexp)
 
-(defun mrc/buffer-skip-p (window buffer bury-or-kill)
-  "Return t if BUFFER name matches `mrc/buffer-skip-regexp'."
-  (string-match-p mrc/buffer-skip-regexp (buffer-name buffer)))
-(setq switch-to-prev-buffer-skip 'mrc/buffer-skip-p)
+(defun my/buffer-skip-p (window buffer bury-or-kill)
+  "Return t if BUFFER name matches `my/buffer-skip-regexp'."
+  (string-match-p my/buffer-skip-regexp (buffer-name buffer)))
+(setq switch-to-prev-buffer-skip 'my/buffer-skip-p)
 
 ;; comment command
-(defun mrc/toggle-comment-region-or-line ()
+(defun my/toggle-comment-region-or-line ()
   "Toggle the comment state of the current line or region."
   (interactive)
   (let (beg end)
@@ -199,6 +205,13 @@ by `next-buffer' or `previous-buffer'."
         (setq beg (region-beginning) end (region-end))
         (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)))
+
+;; TODO Use the fact that the '(other-buffer)' function accepts a
+;; filter to filter out some unnecessary buffers.
+(defun my/last-buffer ()
+  "Switch to last buffer."
+  (interactive)
+  (switch-to-buffer (other-buffer)))
 
 ;; With a vim emulator, it makes more sense to use 'ESC' to quit prompts.
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -221,52 +234,57 @@ by `next-buffer' or `previous-buffer'."
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
 
 ;;; Keybinds
+
 ;; general.el
 (use-package general
   :after evil
   :config
+
   ;; Create wrappers for leader keybinds
-  (general-create-definer mrc/leader-def
-  :states '(normal visual emacs)
-  :keymaps 'override
-  :prefix "SPC"
-  :global-prefix "C-SPC")
-  (general-create-definer mrc/local-leader-def
-  :keymaps '(normal visual emacs)
-  :prefix ",")
+  (general-create-definer my/leader-def
+    :states '(normal visual emacs)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (general-create-definer my/local-leader-def
+    :keymaps '(normal visual emacs)
+    :prefix ",")
+
   ;; Commands to be used in binds
-  (defun mrc/evil-shift-left-keep-selected ()
+  (defun my/evil-shift-left-keep-selected ()
   (interactive)
   (evil-shift-left (region-beginning) (region-end))
   (evil-normal-state)
   (evil-visual-restore))
 
-  (defun mrc/evil-shift-right-keep-selected ()
+  (defun my/evil-shift-right-keep-selected ()
   (interactive)
   (evil-shift-right (region-beginning) (region-end))
   (evil-normal-state)
   (evil-visual-restore))
 
-  (general-def :keymaps 'override
   ;; Use the standard C-S-{c,v} for copy and paste.
+  (general-def :keymaps 'override
   "C-S-c" 'kill-ring-save
   "C-S-v" 'yank)
 
   ;; Non-leader binds
   (general-def '(normal emacs)
   "x"  nil
-  "xc" 'mrc/toggle-comment-region-or-line
+  "xc" 'my/toggle-comment-region-or-line
   "x:" 'eval-expression
   "xi" 'evil-fill-and-move
+  "C-." 'completion-at-point
   "L"  'next-buffer
   "H"  'previous-buffer)
 
   (general-def '(visual)
-  ">" 'mrc/evil-shift-right-keep-selected
-  "<" 'mrc/evil-shift-left-keep-selected)
+  ">" 'my/evil-shift-right-keep-selected
+  "<" 'my/evil-shift-left-keep-selected)
 
   ;; Leader binds
-  (mrc/leader-def
+  (my/leader-def
 
   "m" '(:ignore t :which-key "local")
 
@@ -277,6 +295,7 @@ by `next-buffer' or `previous-buffer'."
   ;; close
   "q" 'evil-quit
   "wd" 'evil-window-delete
+  "w." 'delete-other-windows
   ;; splits
   "ws" 'evil-window-split
   "wv" 'evil-window-vsplit
@@ -306,7 +325,7 @@ by `next-buffer' or `previous-buffer'."
   "."  'dired-jump
   "e"  'counsel-find-file
   "f"   '(:ignore t :which-key "find")
-  "fc"  'mrc/open-config
+  "fc"  'my/open-config
   "ff"  'counsel-fzf
   "fw"  'counsel-rg
   "fr"  'counsel-recentf
@@ -321,7 +340,7 @@ by `next-buffer' or `previous-buffer'."
   ;;; Run/Reload
   "r"   '(:ignore t :which-key "run/reload")
   "re"  'restart-emacs
-  "ri"  'mrc/reload-config
+  "ri"  'my/reload-config
 
   ;;; Help (replaces C-h)
   "h"   '(:ignore t :which-key "help")
@@ -350,107 +369,35 @@ by `next-buffer' or `previous-buffer'."
   (which-key-mode)
   (setq which-key-idle-delay 1))
 
-(use-package avy
+(use-package ace-jump-mode
   :general-config
-  ('(normal emacs visual operator) "s" 'avy-goto-char-2))
+  ('(normal emacs visual operator)
+   "s" 'ace-jump-word-mode
+   "S" 'ace-jump-char-mode
+   "C-s" 'ace-jump-line-mode))
 
 ;;; Appearance
-
-;; A separate package for icons to not depend on patched fonts.
-(use-package all-the-icons)
-
 (use-package doom-themes
   :init (load-theme 'doom-gruvbox t))
 
+(use-package nerd-icons)
+
+(use-package nerd-icons-dired
+  :hook (dired-mode . nerd-icons-dired-mode))
+
+(use-package nerd-icons-ivy-rich
+  :config (nerd-icons-ivy-rich-mode 1))
+
 (use-package doom-modeline
-    :hook (after-init . doom-modeline-mode)
-    :init
-    (setq doom-modeline-support-imenu t)
-    (setq doom-modeline-height 25)
-    (setq doom-modeline-bar-width 4)
-    (setq doom-modeline-hud nil)
-    (setq doom-modeline-window-width-limit 85)
-    (setq doom-modeline-spc-face-overrides nil)
-    (setq doom-modeline-project-detection 'auto)
-    (setq doom-modeline-buffer-file-name-style 'auto)
-    (setq doom-modeline-icon t)
-    (setq doom-modeline-major-mode-icon t)
-    (setq doom-modeline-major-mode-color-icon t)
-    (setq doom-modeline-buffer-state-icon t)
-    (setq doom-modeline-buffer-modification-icon t)
-    (setq doom-modeline-lsp-icon t)
-    (setq doom-modeline-time-icon t)
-    (setq doom-modeline-time-live-icon t)
-    (setq doom-modeline-time-analogue-clock t)
-    (setq doom-modeline-time-clock-size 0.7)
-    (setq doom-modeline-unicode-fallback nil)
-    (setq doom-modeline-buffer-name t)
-    (setq doom-modeline-highlight-modified-buffer-name t)
-    (setq doom-modeline-column-zero-based t)
-    (setq doom-modeline-percent-position '(-3 "%p"))
-    (setq doom-modeline-position-line-format '("L%l"))
-    (setq doom-modeline-position-column-format '("C%c"))
-    (setq doom-modeline-position-column-line-format '("%l:%c"))
-    (setq doom-modeline-minor-modes nil)
-    (setq doom-modeline-enable-word-count nil)
-    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-    (setq doom-modeline-buffer-encoding t)
-    (setq doom-modeline-indent-info nil)
-    (setq doom-modeline-total-line-number nil)
-    (setq doom-modeline-vcs-icon t)
-    (setq doom-modeline-vcs-max-length 15)
-    (setq doom-modeline-vcs-display-function #'doom-modeline-vcs-name)
-    (setq doom-modeline-vcs-state-faces-alist
-        '((needs-update . (doom-modeline-warning bold))
-            (removed . (doom-modeline-urgent bold))
-            (conflict . (doom-modeline-urgent bold))
-            (unregistered . (doom-modeline-urgent bold))))
-    (setq doom-modeline-check-icon t)
-    (setq doom-modeline-check-simple-format nil)
-    (setq doom-modeline-number-limit 99)
-    (setq doom-modeline-project-name t)
-    (setq doom-modeline-workspace-name t)
-    (setq doom-modeline-persp-name t)
-    (setq doom-modeline-display-default-persp-name nil)
-    (setq doom-modeline-persp-icon t)
-    (setq doom-modeline-lsp t)
-    (setq doom-modeline-github nil)
-    (setq doom-modeline-github-interval (* 30 60))
-    (setq doom-modeline-modal t)
-    (setq doom-modeline-modal-icon t)
-    (setq doom-modeline-modal-modern-icon nil)
-    (setq doom-modeline-always-show-macro-register nil)
-    (setq doom-modeline-gnus t)
-    (setq doom-modeline-gnus-timer 2)
-    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
-    (setq doom-modeline-irc t)
-    (setq doom-modeline-irc-stylize 'identity)
-    (setq doom-modeline-battery t)
-    (setq doom-modeline-time t)
-    (setq doom-modeline-display-misc-in-all-mode-lines t)
-    (setq doom-modeline-buffer-file-name-function #'identity)
-    (setq doom-modeline-buffer-file-truename-function #'identity)
-    (setq doom-modeline-env-version t)
-    (setq doom-modeline-env-enable-python t)
-    (setq doom-modeline-env-enable-ruby t)
-    (setq doom-modeline-env-enable-perl t)
-    (setq doom-modeline-env-enable-go t)
-    (setq doom-modeline-env-enable-elixir t)
-    (setq doom-modeline-env-enable-rust t)
-    (setq doom-modeline-env-python-executable "python")
-    (setq doom-modeline-env-ruby-executable "ruby")
-    (setq doom-modeline-env-perl-executable "perl")
-    (setq doom-modeline-env-go-executable "go")
-    (setq doom-modeline-env-elixir-executable "iex")
-    (setq doom-modeline-env-rust-executable "rustc")
-    (setq doom-modeline-env-load-string "...")
-    (setq doom-modeline-always-visible-segments '(irc))
-    (setq doom-modeline-before-update-env-hook nil)
-    (setq doom-modeline-after-update-env-hook nil))
+  :hook (after-init . doom-modeline-mode)
+  :custom
+  (doom-modeline-icon t)
+  (doom-modeline-modal-modern-icon nil)
+  (doom-modeline-indent-info t)
+  (doom-modeline-total-line-number t)
+  (doom-modeline-bar-width 4))
 
 ;;; Minibuffer Completion
-;; TODO: set up some keybinds with general and evil here, for files and buffers
-
 (use-package ivy
   :diminish
   :bind (:map ivy-minibuffer-map
@@ -468,7 +415,7 @@ by `next-buffer' or `previous-buffer'."
   (ivy-mode 1))
 
 (use-package ivy-rich
-  :after ivy
+  :after (ivy nerd-icons-ivy-rich counsel)
   :init
   (ivy-rich-mode 1))
 
@@ -506,26 +453,41 @@ by `next-buffer' or `previous-buffer'."
     "h" 'dired-up-directory
     "l" 'dired-find-file))
 
-;;; {E}shell, Emulate a {Term}inal (Eat) & *Compilation*
-(use-package term
-  :straight (:type built-in)
-  :config
-  (setq explicit-shell-file-name "zsh")
-  (setq shell-file-name explicit-shell-file-name)
-  (mrc/leader-def "t" 'term))
+;;; Dirvish
+;; (use-package dirvish
+;;   :init (dirvish-override-dired-mode))
 
-;;; Org mode preamble
-(defun mrc/org-refile ()
+;;; Terminal
+
+;; Commands for keybinds.
+(defun my/toggle-vterm ()
+  "Toggles between the current/last buffer and a vterm buffer. Creates
+a new vterm buffer if needed."
+  (interactive)
+  (if (string= "*vterm*" (buffer-name))
+      (my/last-buffer)
+      (vterm)))
+
+;; akermu/emacs-libvterm
+(use-package vterm
+  :general
+  (general-def
+    :keymaps 'override
+    "C-t" #'my/toggle-vterm))
+
+;;; Org Mode Preamble
+
+;; Bookmark commands
+(defun my/org-refile ()
   "Open refile.org."
   (interactive)
   (find-file (expand-file-name "20250525231452-refile.org" user-org-directory)))
 
-(defun mrc/org-agenda ()
+(defun my/org-agenda ()
   "Open agenda.org."
   (interactive)
   (find-file (expand-file-name "20250525231549-agenda.org" user-org-directory)))
 
-;; Dynamic font sizes and family & Change list item hyphen for an utf-8 dot
 (with-eval-after-load 'org-faces
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
@@ -547,7 +509,7 @@ by `next-buffer' or `previous-buffer'."
     (set-face-attribute (car face) nil :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil    :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
@@ -560,7 +522,7 @@ by `next-buffer' or `previous-buffer'."
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
 ;; Org mode initial setup
-(defun mrc/org-mode-setup ()
+(defun my/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1))
@@ -569,7 +531,7 @@ by `next-buffer' or `previous-buffer'."
   (use-package org
       :straight (:type built-in)
       :commands (org-capture org-agenda)
-      :hook (org-mode . mrc/org-mode-setup)
+      :hook (org-mode . my/org-mode-setup)
       :init
       (setq user-org-directory (expand-file-name "~/Sync/org")
           org-indent-indentation-per-level 1)
@@ -583,15 +545,15 @@ by `next-buffer' or `previous-buffer'."
       "C-<return>" 'org-meta-return
       "M-<return>" 'org-insert-heading-respect-content)
 
-      (mrc/leader-def
+      (my/leader-def
       "ml"  'org-latex-preview
       "mL"  'org-display-inline-images
       "ms"  'org-insert-structure-template
 
       "o"  '(:ignore t :which-key "org")
-      "or" 'mrc/org-refile
-      "oc" 'mrc/open-org-config
-      "oa" 'mrc/org-agenda)
+      "or" 'my/org-refile
+      "oc" 'my/open-org-config
+      "oa" 'my/org-agenda)
 
   ;; Prettier heading bullets
   (use-package org-bullets
@@ -600,39 +562,39 @@ by `next-buffer' or `previous-buffer'."
       (org-bullets-bullet-list '("◉" "○" "◆" "◇" "✸" "✿")))
 
 (use-package org-fragtog
-  :hook (org-mode-hook . org-fragtog-mode))
+  :hook (org-mode . org-fragtog-mode))
 
 ;;; Org babel
 ;; reference for languages support:
 ;; https://orgmode.org/worg/org-contrib/babel/languages/index.html
-(setq org-confirm-babel-evaluate nil
-      org-src-preserve-indentation t)
 (with-eval-after-load 'org
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (python . t)
-   (lua . t)
-   (shell . t)
-   (C . t)
-   (haskell . t)
-   ;(sql . t)
-   ;(sqlite . t)
-   (css . t)
-   (js . t)))))
+  (setq org-confirm-babel-evaluate nil
+        org-src-preserve-indentation t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     (lua . t)
+     (shell . t)
+     (C . t)
+     (haskell . t)
+     ;(sql . t)
+     ;(sqlite . t)
+     (css . t)
+     (js . t)))))
 
 ;;; Org babel
 (use-package org-roam
   :general
   ;; Global org roam binds.
-  (mrc/leader-def
+  (my/leader-def
   "of" 'org-roam-node-find
   "on" 'org-roam-capture)
 
-  (mrc/leader-def 'org-mode-map
+  (my/leader-def 'org-mode-map
   "mc" 'org-ctrl-c-ctrl-c)
 
-  (mrc/leader-def 'org-capture-mode-map
+  (my/leader-def 'org-capture-mode-map
   "ok" 'org-capture-kill
   "or" 'org-capture-refile
   "os" 'org-capture-finalize)
@@ -651,23 +613,48 @@ by `next-buffer' or `previous-buffer'."
   (output-pdf "xdg-open")
   (output-html "xdg-open"))))
 
-(use-package magit)
-
-;;; IDE stuff
 ;; Autocompletion
-(use-package company
-  :hook (prog-mode latex-mode))
+(use-package corfu
+  :init
+  (global-corfu-mode)
+  ;; Auto Completion is disabled by default.
+  (setq corfu-auto t))
 
-;; LSP
-(defun mrc/lsp-mode-setup ()
+;; 'corfu' needs providers for completions.
+(use-package cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
+;;; Treesitter
+
+(use-package treesit
+  :when (treesit-available-p)
+  :straight (:type built-in)
+  :init
+  ;; Use "~/.local/share/emacs/treesitter" instead of
+  ;; "~/.config/emacs/treesitter".
+  (setq treesit-extra-load-path
+        `(,(expand-file-name
+            (concat
+             cache-emacs-directory
+             "/tree-sitter"))))
+  (setq major-mode-remap-alist
+        '((html-mode . html-ts-mode)
+          (js-mode . js-ts-mode)
+          (python-mode . python-ts-mode)
+          (c-mode . c-ts-mode)
+          (css-mode . css-ts-mode))))
+
+(defun my/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook (lsp-mode . mrc/lsp-mode-setup)
+  :hook (lsp-mode . my/lsp-mode-setup)
   :config
-  (mrc/leader-def
+  (my/leader-def
   "l" 'lsp-command-map)
   (lsp-enable-which-key-integration t))
 
@@ -676,11 +663,10 @@ by `next-buffer' or `previous-buffer'."
   :custom
   (lsp-ui-doc-position 'bottom))
 
-;; DAP: ...
+(use-package magit)
 
-;; Shell: bash, zsh, fish, cmd & powershell
 
-;; Scripting: Python, Lua & {Emacs|Common}Lisp
+
 (use-package slime
   :commands (slime)
   :config
@@ -690,8 +676,4 @@ by `next-buffer' or `previous-buffer'."
   :commands (lua-mode)
   :config
   (setq lua-indent-close-paren-align nil)
-  (setq lua-indent-level mrc/default-tab-width))
-
-;; Systems: Go, C & C++
-;; Web: HTML, CSS, JS/TS & Frameworks
-;; Functional: Haskell
+  (setq lua-indent-level my/default-tab-width))
