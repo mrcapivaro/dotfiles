@@ -272,8 +272,9 @@ by `next-buffer' or `previous-buffer'."
   ;; Non-leader binds
   (general-def '(normal emacs)
   "x"  nil
-  "xc" 'my/toggle-comment-region-or-line
   "x:" 'eval-expression
+  "xc" 'my/toggle-comment-region-or-line
+  "xv" 'evil-visual-restore
   "xi" 'evil-fill-and-move
   "C-." 'completion-at-point
   "L"  'next-buffer
