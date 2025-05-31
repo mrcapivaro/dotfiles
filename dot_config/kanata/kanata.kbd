@@ -97,19 +97,19 @@
     ;; restore alt tab functionality since the layer key for nav is alt
     tab @valttab
 
-    u home
-    i end
-    o prtsc
-    p (caps-word 2000)
+    u mute
+    i pp
+    o volu
+    p vold
 
     y pgup
     n pgdn
 
     ;; media keys: mute, pause and volume up/down
-    m mute
-    , pp
-    . volu
-    / vold
+    m home
+    , end
+    . (caps-word 2000)
+    / prtsc
 
     ;; vi like arrow keys
     h left
