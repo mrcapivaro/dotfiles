@@ -49,8 +49,8 @@
 (setq custom-file (concat cache-emacs-directory "custom.el"))
 
 ;; Tabs
-(defvar my/default-tab-width 4)
-(setq-default tab-width my/default-tab-width
+(defvar my-default-tab-width 4)
+(setq-default tab-width my-default-tab-width
               indent-tabs-mode nil)
 
   ;; Whitespace mode
@@ -82,43 +82,43 @@
   (global-whitespace-mode 1)
 
   ;; Line numbering
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (global-display-line-numbers-mode 1)
 
 ;;; Fonts
 
 ;; Variables
-(defvar my/default-font "JetBrainsMono Nerd Font")
-(defvar my/default-font-size 120)
-(defvar my/default-variable-font-size 120)
+(defvar my-default-font "JetBrainsMono Nerd Font")
+(defvar my-default-font-size 120)
+(defvar my-default-variable-font-size 120)
 
 ;; Main font setup procedure.
-(defun my/font-setup ()
+(defun my-font-setup ()
   (set-face-attribute 'default nil
-                      :font my/default-font
+                      :font my-default-font
                       :weight 'semibold
-                      :height my/default-font-size)
+                      :height my-default-font-size)
 
   (set-face-attribute 'fixed-pitch nil
-                      :font my/default-font
+                      :font my-default-font
                       :weight 'semibold
-                      :height my/default-font-size)
+                      :height my-default-font-size)
 
   (set-face-attribute 'variable-pitch nil
-                      :font my/default-font
+                      :font my-default-font
                       :weight 'semibold
-                      :height my/default-font-size)
+                      :height my-default-font-size)
 
   (set-face-attribute 'bold nil
-                      :font my/default-font
+                      :font my-default-font
                       :weight 'extrabold
-                      :height my/default-font-size))
+                      :height my-default-font-size))
 
 ;; Setup fonts for regular Emacs.
-(my/font-setup)
+(my-font-setup)
 
 ;; Setup fonts for Emacs Clients.
 (add-hook 'after-make-frame-functions
-          (lambda (frame) (with-selected-frame frame (my/font-setup))))
+          (lambda (frame) (with-selected-frame frame (my-font-setup))))
 
 ;;; Scratch Buffer
 (setq initial-major-mode 'org-mode)
@@ -156,17 +156,17 @@
 
 ;;; Commands for keybinds
 
-(defun my/open-config ()
+(defun my-open-config ()
   "Open the init.el file."
   (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
 
-(defun my/open-org-config ()
+(defun my-open-org-config ()
   "Open the emacs.org file."
   (interactive)
   (find-file (expand-file-name "emacs.org" user-emacs-directory)))
 
-(defun my/reload-config ()
+(defun my-reload-config ()
   "Reload the init.el file."
   (interactive)
   (load user-init-file))
@@ -178,7 +178,7 @@
 ;; Regex used to identify unwanted buffers for buffer cycling:
 ;; https://emacs.stackexchange.com/questions/17687/ make-previous-buffer-and-next-buffer-to-ignore-some-buffers
 ;; TODO understand emacs regexp
-(defcustom my/buffer-skip-regexp
+(defcustom my-buffer-skip-regexp
   (rx bos (or (or "*Backtrace*" "*Compile-Log*" "*Completions*"
                   "*Messages*" "*package*" "*Warnings*" "*scratch*"
                   "*Async-native-compile-log*" "*straight-process*")
@@ -191,13 +191,13 @@
 by `next-buffer' or `previous-buffer'."
   :type 'regexp)
 
-(defun my/buffer-skip-p (window buffer bury-or-kill)
-  "Return t if BUFFER name matches `my/buffer-skip-regexp'."
-  (string-match-p my/buffer-skip-regexp (buffer-name buffer)))
-(setq switch-to-prev-buffer-skip 'my/buffer-skip-p)
+(defun my-buffer-skip-p (window buffer bury-or-kill)
+  "Return t if BUFFER name matches `my-buffer-skip-regexp'."
+  (string-match-p my-buffer-skip-regexp (buffer-name buffer)))
+(setq switch-to-prev-buffer-skip 'my-buffer-skip-p)
 
 ;; comment command
-(defun my/toggle-comment-region-or-line ()
+(defun my-toggle-comment-region-or-line ()
   "Toggle the comment state of the current line or region."
   (interactive)
   (let (beg end)
@@ -208,7 +208,7 @@ by `next-buffer' or `previous-buffer'."
 
 ;; TODO Use the fact that the '(other-buffer)' function accepts a
 ;; filter to filter out some unnecessary buffers.
-(defun my/last-buffer ()
+(defun my-last-buffer ()
   "Switch to last buffer."
   (interactive)
   (switch-to-buffer (other-buffer)))
@@ -241,24 +241,26 @@ by `next-buffer' or `previous-buffer'."
   :config
 
   ;; Create wrappers for leader keybinds
-  (general-create-definer my/leader-def
+  (general-create-definer my-leader-def
     :states '(normal visual emacs)
     :keymaps 'override
     :prefix "SPC"
     :global-prefix "C-SPC")
 
-  (general-create-definer my/local-leader-def
-    :keymaps '(normal visual emacs)
-    :prefix ",")
+  (general-create-definer my-lleader-def
+    :states '(normal visual emacs insert)
+    :keymaps 'override
+    :prefix ","
+    :global-prefix "C-,")
 
   ;; Commands to be used in binds
-  (defun my/evil-shift-left-keep-selected ()
+  (defun my-evil-shift-left-keep-selected ()
   (interactive)
   (evil-shift-left (region-beginning) (region-end))
   (evil-normal-state)
   (evil-visual-restore))
 
-  (defun my/evil-shift-right-keep-selected ()
+  (defun my-evil-shift-right-keep-selected ()
   (interactive)
   (evil-shift-right (region-beginning) (region-end))
   (evil-normal-state)
@@ -273,7 +275,7 @@ by `next-buffer' or `previous-buffer'."
   (general-def '(normal emacs)
   "x"  nil
   "x:" 'eval-expression
-  "xc" 'my/toggle-comment-region-or-line
+  "xc" 'my-toggle-comment-region-or-line
   "xv" 'evil-visual-restore
   "xi" 'evil-fill-and-move
   "C-." 'completion-at-point
@@ -281,11 +283,11 @@ by `next-buffer' or `previous-buffer'."
   "H"  'previous-buffer)
 
   (general-def '(visual)
-  ">" 'my/evil-shift-right-keep-selected
-  "<" 'my/evil-shift-left-keep-selected)
+  ">" 'my-evil-shift-right-keep-selected
+  "<" 'my-evil-shift-left-keep-selected)
 
   ;; Leader binds
-  (my/leader-def
+  (my-leader-def
 
   "m" '(:ignore t :which-key "local")
 
@@ -326,7 +328,7 @@ by `next-buffer' or `previous-buffer'."
   "."  'dired-jump
   "e"  'counsel-find-file
   "f"   '(:ignore t :which-key "find")
-  "fc"  'my/open-config
+  "fc"  'my-open-config
   "ff"  'counsel-fzf
   "fw"  'counsel-rg
   "fr"  'counsel-recentf
@@ -341,7 +343,7 @@ by `next-buffer' or `previous-buffer'."
   ;;; Run/Reload
   "r"   '(:ignore t :which-key "run/reload")
   "re"  'restart-emacs
-  "ri"  'my/reload-config
+  "ri"  'my-reload-config
 
   ;;; Help (replaces C-h)
   "h"   '(:ignore t :which-key "help")
@@ -461,12 +463,12 @@ by `next-buffer' or `previous-buffer'."
 ;;; Terminal
 
 ;; Commands for keybinds.
-(defun my/toggle-vterm ()
+(defun my-toggle-vterm ()
   "Toggles between the current/last buffer and a vterm buffer. Creates
 a new vterm buffer if needed."
   (interactive)
   (if (string= "*vterm*" (buffer-name))
-      (my/last-buffer)
+      (my-last-buffer)
       (vterm)))
 
 ;; akermu/emacs-libvterm
@@ -474,29 +476,52 @@ a new vterm buffer if needed."
   :general
   (general-def
     :keymaps 'override
-    "C-t" #'my/toggle-vterm))
+    "C-t" #'my-toggle-vterm))
 
-;;; Org Mode Preamble
+;;;; Org Mode
 
-;; Bookmark commands
-(defun my/org-refile ()
+;;; Preamble
+
+;; Commands
+
+(defun my-org-refile ()
   "Open refile.org."
   (interactive)
   (find-file (expand-file-name "20250525231452-refile.org" user-org-directory)))
 
-(defun my/org-agenda ()
+(defun my-org-agenda ()
   "Open agenda.org."
   (interactive)
   (find-file (expand-file-name "20250525231549-agenda.org" user-org-directory)))
 
-(with-eval-after-load 'org-faces
-  ;; Replace list hyphen with dot
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region
-                                           (match-beginning 1)
-                                           (match-end 1) "•"))))))
+(defun my-org-paste-screenshot ()
+  "Put the contents of the clipboard into an image named after the current time in a '.png' file under a 'imgs' folder in the user org directory and then link this new file at point."
+  (interactive)
+  (unless (boundp 'user-org-directory)
+    (error "Variable `user-org-directory` must be set."))
+  (let* ((folder (expand-file-name "imgs" user-org-directory))
+         (filename (concat (format-time-string "%Y%m%d_%H%M%S") ".png"))
+         (file (expand-file-name filename folder))
+         (session-type (getenv "XDG_SESSION_TYPE"))
+         (copy-command
+          (cond
+           ((and (eq system-type 'gnu/linux)
+                 (string= session-type "x11"))
+            "xclip")
+           ((and (eq system-type 'gnu/linux)
+                 (string= session-type "wayland"))
+            "wl-paste")
+           (t (error "Unsupported OS (MacOS or Windows) or session-type: %s"
+                     session-type)))))
+    (unless (file-exists-p folder) (make-directory folder t))
+    (shell-command (concat copy-command (shell-quote-argument file)))
+    (when (file-exists-p file)
+      (insert (concat "[[file:" file "]]"))
+      (org-display-inline-images))))
 
+;; Fonts
+
+(with-eval-after-load 'org-faces
   ;; Set faces for heading levels
   (dolist (face '((org-document-title . 1.5)
                   (org-level-1 . 1.2)
@@ -510,7 +535,7 @@ a new vterm buffer if needed."
     (set-face-attribute (car face) nil :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil    :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil    :inherit 'fixed-pitch :background "#1d2021")
   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
@@ -522,45 +547,70 @@ a new vterm buffer if needed."
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
-;; Org mode initial setup
-(defun my/org-mode-setup ()
+;; Setup Function
+
+(defun my-org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1))
 
-  ;;; Org mode
-  (use-package org
-      :straight (:type built-in)
-      :commands (org-capture org-agenda)
-      :hook (org-mode . my/org-mode-setup)
-      :init
-      (setq user-org-directory (expand-file-name "~/Sync/org")
-          org-indent-indentation-per-level 1)
-      :config
-      (setq org-startup-with-latex-preview t
-          org-startup-with-inline-images t
-          org-format-latex-options (plist-put
-                              org-format-latex-options
-                              :scale 1.5))
-      (general-def 'insert 'org-mode-map
-      "C-<return>" 'org-meta-return
-      "M-<return>" 'org-insert-heading-respect-content)
+;; Org Mode Setup
 
-      (my/leader-def
-      "ml"  'org-latex-preview
-      "mL"  'org-display-inline-images
-      "ms"  'org-insert-structure-template
+(use-package org
+  :straight (:type built-in)
+  :commands (org-capture org-agenda)
+  :hook (org-mode . my-org-mode-setup)
+  :init
+  (setq user-org-directory (expand-file-name "~/Sync/org")
+      org-indent-indentation-per-level 1)
+  :config
+  (setq org-startup-with-latex-preview t
+      org-startup-with-inline-images t
+      org-format-latex-options (plist-put
+                          org-format-latex-options
+                          :scale 1.5))
 
-      "o"  '(:ignore t :which-key "org")
-      "or" 'my/org-refile
-      "oc" 'my/open-org-config
-      "oa" 'my/org-agenda)
+  ;; Org Tempo
+  (add-to-list 'org-modules 'org-tempo t)
+  (add-to-list 'org-structure-template-alist '("t" . "src txt"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("cl" . "src common-lisp"))
+  (add-to-list 'org-structure-template-alist '("cc" . "src c"))
+  (add-to-list 'org-structure-template-alist '("cp" . "src cpp"))
+  (add-to-list 'org-structure-template-alist '("go" . "src go"))
+  (add-to-list 'org-structure-template-alist '("cs" . "src css"))
+  (add-to-list 'org-structure-template-alist '("js" . "src javascript"))
+
+  ;; Org Mode Keybinds
+  (general-def 'insert 'org-mode-map
+    "C-<return>" 'org-meta-return
+    "M-<return>" 'org-insert-heading-respect-content)
+
+  (my-lleader-def 'org-mode-map
+    "c"   'org-ctrl-c-ctrl-c
+    "l"   'org-insert-link
+    "o"   'org-open-at-point
+    "s"   'org-insert-structure-template
+    "p"   '(:ignore t :which-key "preview")
+    "pl"  'org-latex-preview
+    "pi"  'org-display-inline-images)
+
+  (my-leader-def
+    "o"  '(:ignore t :which-key "org")
+    "or" 'my-org-refile
+    "oc" 'my-open-org-config
+    "oa" 'my-org-agenda)
 
   ;; Prettier heading bullets
-  (use-package org-bullets
-      :hook (org-mode . org-bullets-mode)
-      :custom
-      (org-bullets-bullet-list '("◉" "○" "◆" "◇" "✸" "✿")))
+  (use-package org-superstar
+      :hook (org-mode . org-superstar-mode)
+      :config
+      (setq org-superstar-headline-bullets-list '("◉" "○" "◆" "◇" "✸" "✿")
+            org-superstar-leading-bullet ?\s
+            org-superstar-item-bullet-alist
+            '((?- ?•))))
 
 (use-package org-fragtog
   :hook (org-mode . org-fragtog-mode))
@@ -587,19 +637,9 @@ a new vterm buffer if needed."
 ;;; Org babel
 (use-package org-roam
   :general
-  ;; Global org roam binds.
-  (my/leader-def
+  (my-leader-def
   "of" 'org-roam-node-find
   "on" 'org-roam-capture)
-
-  (my/leader-def 'org-mode-map
-  "mc" 'org-ctrl-c-ctrl-c)
-
-  (my/leader-def 'org-capture-mode-map
-  "ok" 'org-capture-kill
-  "or" 'org-capture-refile
-  "os" 'org-capture-finalize)
-
   :config
   (setq org-roam-directory (expand-file-name "~/Sync/org"))
   (org-roam-db-autosync-enable))
@@ -647,15 +687,15 @@ a new vterm buffer if needed."
           (c-mode . c-ts-mode)
           (css-mode . css-ts-mode))))
 
-(defun my/lsp-mode-setup ()
+(defun my-lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook (lsp-mode . my/lsp-mode-setup)
+  :hook (lsp-mode . my-lsp-mode-setup)
   :config
-  (my/leader-def
+  (my-leader-def
   "l" 'lsp-command-map)
   (lsp-enable-which-key-integration t))
 
@@ -666,8 +706,6 @@ a new vterm buffer if needed."
 
 (use-package magit)
 
-
-
 (use-package slime
   :commands (slime)
   :config
@@ -677,4 +715,4 @@ a new vterm buffer if needed."
   :commands (lua-mode)
   :config
   (setq lua-indent-close-paren-align nil)
-  (setq lua-indent-level my/default-tab-width))
+  (setq lua-indent-level my-default-tab-width))
