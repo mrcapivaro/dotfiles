@@ -16,7 +16,7 @@ alias cler="clear"
 alias clar="clear"
 
 alias e="$EDITOR"
-alias p="$PAGER"
+alias p="| $PAGER"
 
 alias ls="ls --color=always -F1"
 alias la="ls --color=always -F1a"
