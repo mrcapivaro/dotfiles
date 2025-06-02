@@ -91,8 +91,6 @@
   , @paro
   . @ced)
 
-;; Navigation Layer
-
 (deflayermap (navigation)
   ;; Main Side
 
