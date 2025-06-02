@@ -103,7 +103,9 @@ awful.rules.rules = {
         rule_any = {
             class = {
                 "Emacs",
+                "Alacritty",
                 "ghostty",
+                "alacritty",
                 "wezterm",
                 "kitty",
                 "Firefox",

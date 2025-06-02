@@ -32,6 +32,8 @@ gtk-adwaita = false
 
 ## Keybinds
 
+keybind = ctrl+shift+t=toggle_window_decorations
+
 # Reset all keybinds
 keybind = clear
 
@@ -43,7 +45,6 @@ keybind = page_down=scroll_page_down
 keybind = ctrl+shift+r=reload_config
 keybind = ctrl+shift+comma=open_config
 keybind = ctrl+shift+i=inspector:toggle
-keybind = ctrl+shift+t=toggle_window_decorations
 
 # Clipboard
 keybind = ctrl+shift+c=copy_to_clipboard

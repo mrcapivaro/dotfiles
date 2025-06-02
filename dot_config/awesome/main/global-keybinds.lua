@@ -17,7 +17,7 @@ global_keybinds = gears.table.join(
     awful.key({ modkey }, "a", function()
         poppin.pop(
             "terminal",
-            "ghostty",
+            "alacritty",
             "center",
             750,
             function (c)
