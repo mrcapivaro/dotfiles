@@ -1,121 +1,125 @@
-;; ~/.config/kanata/kanata.kbd
-;; vim: commentstring=;;\ %s
-
-;; docs:
-;; https://jtroo.github.io/config.html
+;;; ~/.config/kanata/kanata.kbd
+;; Configuration for kanata.
+;; Docs: https://jtroo.github.io/config.html
 
 (defcfg process-unmapped-keys yes)
 
 (defsrc
-    tab  q w e r t y u i o p [
-    caps a s d f g h j k l ; '
-    lsft z x c v b n m , . / rsft
-    lctl lmet lalt spc ralt rctl)
+  tab  q w e r t y u i o p [
+  caps a s d f g h j k l ; '
+  lsft z x c v b n m , . / rsft
+  lctl lmet lalt spc ralt rctl)
 
 (defvirtualkeys
-    ;; Used for Virtual Alt Tab
-    alt lalt)
+  ;; Used for emulating alt+tab.
+  alt lalt)
 
 (defalias
-    symlk (layer-while-held symbols)
+  valttab (macro (on-press press-virtualkey alt) 5 tab)
 
-    ced RA-,
+  symlk (layer-while-held symbol)
+  ;; Alias for the navigation layer command + wrapping to enable
+  ;; using the same key for alt+tab.
+  ;; Source: https://github.com/jtroo/kanata/discussions/1164
+  navlk (tap-hold-press 200 200 lalt (multi (layer-while-held navigation) (on-release release-virtualkey alt) ))
 
-    ;;;Virtual Alt Tab
-    ;; Since I use the left alt key as a navigation layer key, it is impossible
-    ;; to use alt tab in kanata with it. To fix it, I used the code in this
-    ;; github discussions post:
-    ;; https://github.com/jtroo/kanata/discussions/1164
-    navlk (tap-hold-press 200 200 lalt (multi (layer-while-held navigation) (on-release release-virtualkey alt) ))
-    valttab (macro (on-press press-virtualkey alt) 5 tab)
+  ;; The cedilha symbol combination in the US intl. keyboard layout.
+  ced RA-,
 
-    ;;;Shifted Symbols
-    ~ S-`
-    ! S-1
-    @ S-2
-    # S-3
-    $ S-4
-    % S-5
-    ^ S-6
-    & S-7
-    * S-8
-    ;; parenthesis open
-    paro S-9
-    ;; parenthesis close
-    parc S-0
-    { S-[
-    } S-]
-    | S-\
-    _ S--)
+  ;; Shifted Symbols
+  ;; Symbols that normally need you to have 'shift' pressed.
+
+  ~ S-`
+  ! S-1
+  @ S-2
+  # S-3
+  $ S-4
+  % S-5
+  ^ S-6
+  & S-7
+  * S-8
+  paro S-9
+  parc S-0
+  { S-[
+  } S-]
+  | S-\
+  _ S--)
 
 (deflayermap (default)
-    ;; caps as control and control as esc
-    caps lctl
-    lctl esc
+  caps lctl
+  lctl esc
 
-    ;; easy esc key but keep ' somewhere in the layout
-    [ '
-    ' esc
+  [ '
+  ' esc
 
-    ;; layer keys
-    ralt @symlk
-    lalt @navlk)
+  ralt @symlk
+  lalt @navlk)
 
-(deflayermap (symbols)
-    q @!
-    w +
-    e @@
-    r @%
-    t @~
-    a @#
-    s -
-    d @*
-    f =
-    g @&
-    z \
-    x @|
-    c @^
-    v @$
-    b @_
+(deflayermap (symbol)
+  ;; Opposite Side
 
-    h `
-    j @}
-    k @{
-    l ]
-    ; [
-    m @parc
-    , @paro
-    . @ced
+  q @!
+  w +
+  e @@
+  r @%
+  t @~
 
-    u @^
-    i @$)
+  a @#
+  s -
+  d @*
+  f =
+  g @&
+
+  z \
+  x @|
+  c @^
+  v @$
+  b @_
+
+  ;; Main Side
+
+  u @^
+  i @$
+
+  h `
+  j @}
+  k @{
+  l ]
+  ; [
+
+  m @parc
+  , @paro
+  . @ced)
+
+;; Navigation Layer
 
 (deflayermap (navigation)
-    ;; live reload of kanata config
-    r lrld
+  ;; Main Side
 
-    ;; restore alt tab functionality since the layer key for nav is alt
-    tab @valttab
+  ;; Live reload of the kanata config.
+  r lrld
 
-    u mute
-    i pp
-    o volu
-    p vold
+  ;; Restore the alt tab functionality since the layer key for the
+  ;; navigation layer is the alt key.
+  tab @valttab
 
-    y pgup
-    n pgdn
+  ;; Opposite Side
+  
+  y pgup
+  u mute
+  i @valttab
+  o tab
+  p vold
 
-    ;; media keys: mute, pause and volume up/down
-    m home
-    , end
-    . (caps-word 2000)
-    / prtsc
+  h left
+  j down
+  k up
+  l right
+  ; ret
+  ' bspc
 
-    ;; vi like arrow keys
-    h left
-    j down
-    k up
-    l right
-
-    ; ret
-    ' bspc)
+  n pgdn
+  m home
+  , end
+  . (caps-word 2000)
+  / prtsc)

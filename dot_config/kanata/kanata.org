@@ -1,0 +1,173 @@
+#+title: Kanata configuration
+#+author: mrcapivaro
+#+startup: content
+
+* About
+
+I've always had problems with the layout of keyboards that I've used, but it never was a big problem until I started to use the keyboard a lot daily. The main problem was literal pain, which I felt after long hours of typing. Because of this I ended up addering lots of personal opinions about where the keys of a keyboard should really be located for optimal usage.
+
+Kanata is my go to tool for this because it is the only one that I tried that actually works for my needs. The main problem is to me when trying to find a good remapper was finding one that had layers functionality (think of the shift key being used to activate the 'Uppercase' layer), a way to use alt tab with one of the layer keys (since I use left alt as one of my layer keys) and also be cross-platform (Windows + Linux).
+
+* Structure of the configuration file
+
+Kanata configuration file uses a syntax similar to lisp dialects. Since this is written in org mode and org mode is from Emacs, which uses a lisp dialect for it's config file, I set the 'language' of the source code blocks to 'emacs-lisp'.
+
+#+begin_src emacs-lisp :results silent :noweb yes :tangle "~/.config/kanata/kanata.kbd"
+;;; ~/.config/kanata/kanata.kbd
+;; Configuration for kanata.
+;; Docs: https://jtroo.github.io/config.html
+
+<<preamble>>
+
+<<default-layer>>
+
+<<symbol-layer>>
+
+<<navigation-layer>>
+#+end_src
+
+* Preamble
+
+Declarations of what keys will be mapped, aliases for some symbols that require the shift key, code needed to make the alt+tab work and also the enabling of an option to make sure that kanata will output keys that were not mapped (this one is VERY important).
+
+#+name: preamble
+#+begin_src emacs-lisp
+(defcfg process-unmapped-keys yes)
+
+(defsrc
+  tab  q w e r t y u i o p [
+  caps a s d f g h j k l ; '
+  lsft z x c v b n m , . / rsft
+  lctl lmet lalt spc ralt rctl)
+
+(defvirtualkeys
+  ;; Used for emulating alt+tab.
+  alt lalt)
+
+(defalias
+  valttab (macro (on-press press-virtualkey alt) 5 tab)
+
+  symlk (layer-while-held symbol)
+  ;; Alias for the navigation layer command + wrapping to enable
+  ;; using the same key for alt+tab.
+  ;; Source: https://github.com/jtroo/kanata/discussions/1164
+  navlk (tap-hold-press 200 200 lalt (multi (layer-while-held navigation) (on-release release-virtualkey alt) ))
+
+  ;; The cedilha symbol combination in the US intl. keyboard layout.
+  ced RA-,
+
+  ;; Shifted Symbols
+  ;; Symbols that normally need you to have 'shift' pressed.
+
+  ~ S-`
+  ! S-1
+  @ S-2
+  # S-3
+  $ S-4
+  % S-5
+  ^ S-6
+  & S-7
+  ,* S-8
+  paro S-9
+  parc S-0
+  { S-[
+  } S-]
+  | S-\
+  _ S--)
+#+end_src
+
+* Default Layer
+
+#+name: default-layer
+#+begin_src emacs-lisp
+(deflayermap (default)
+  caps lctl
+  lctl esc
+
+  [ '
+  ' esc
+
+  ralt @symlk
+  lalt @navlk)
+#+end_src
+
+* Navigation Layer
+
+#+name: navigation-layer
+#+begin_src emacs-lisp
+(deflayermap (navigation)
+  ;; Main Side
+
+  ;; Live reload of the kanata config.
+  r lrld
+
+  ;; Restore the alt tab functionality since the layer key for the
+  ;; navigation layer is the alt key.
+  tab @valttab
+
+  ;; Opposite Side
+  
+  y pgup
+  u mute
+  i @valttab
+  o tab
+  p vold
+
+  h left
+  j down
+  k up
+  l right
+  ; ret
+  ' bspc
+
+  n pgdn
+  m home
+  , end
+  . (caps-word 2000)
+  / prtsc)
+#+end_src
+
+* Symbol Layer
+
+#+name: symbol-layer
+#+begin_src emacs-lisp
+(deflayermap (symbol)
+  ;; Opposite Side
+
+  q @!
+  w +
+  e @@
+  r @%
+  t @~
+
+  a @#
+  s -
+  d @*
+  f =
+  g @&
+
+  z \
+  x @|
+  c @^
+  v @$
+  b @_
+
+  ;; Main Side
+
+  u @^
+  i @$
+
+  h `
+  j @}
+  k @{
+  l ]
+  ; [
+
+  m @parc
+  , @paro
+  . @ced)
+#+end_src
+
+* References
+
+- [[https://jtroo.github.io/config.html][Kanata docs]]
