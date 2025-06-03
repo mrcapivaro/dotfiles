@@ -1,7 +1,0 @@
-{{ if eq .chezmoi.os "windows" -}}
-CompileFlags:
-  Add:
-    - --target=x86_64-w64-mingw64
-    - -IC:\\Users\\mrcapivaro\\scoop\\apps\\glfw\\current\\include
-    - -LC:\\Users\\mrcapivaro\\scoop\\apps\\glfw\\current\\lib-mingw-w64
-{{ end -}}
