@@ -1,9 +1,5 @@
 {
-  "parser-directories": [
-    "/home/mrcapivaro/.local/share/tree-sitter",
-    "/home/mrcapivaro/projects",
-    "/home/mrcapivaro/git"
-  ],
+  "parser-directories": [ "~/.local/share/tree-sitter" ],
   "theme": {
     "attribute": {
       "color": 124,
