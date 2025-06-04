@@ -1,6 +1,0 @@
-#!/bin/sh
-
-export FZF_DEFAULT_OPTS="\
-    --reverse \
-    --bind='right:accept'
-    --bind='ctrl-l:accept'"
