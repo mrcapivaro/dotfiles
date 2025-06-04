@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>NewsFlash OPML export</title>
+  </head>
+  <body>
+    <outline text="Electronics" title="Electronics">
+      <outline text="WR Kits" htmlUrl="https://www.youtube.com/channel/UCazAvTtoRlOrFDWDJDB2DKQ" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCazAvTtoRlOrFDWDJDB2DKQ" type="rss" title="WR Kits" />
+      <outline htmlUrl="https://www.youtube.com/channel/UCE6k3ny5ZopsNJHnqUnWmLw" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCE6k3ny5ZopsNJHnqUnWmLw" text="Rogério Leite" title="Rogério Leite" type="rss" />
+    </outline>
+    <outline title="Ricing" text="Ricing">
+      <outline type="rss" htmlUrl="https://archlinux.org/news/" xmlUrl="https://archlinux.org/feeds/news/" title="Arch Linux (Official)" text="Arch Linux (Official)" />
+      <outline text="Arch Linux (Reddit)" title="Arch Linux (Reddit)" type="rss" htmlUrl="https://www.reddit.com/r/archlinux/" xmlUrl="https://www.reddit.com/r/archlinux/.rss" />
+      <outline xmlUrl="https://www.reddit.com/r/emacs/.rss" htmlUrl="https://www.reddit.com/r/emacs/" title="Emacs (Reddit)" type="rss" text="Emacs (Reddit)" />
+      <outline xmlUrl="https://www.reddit.com/r/neovim/.rss" text="Neovim (Reddit)" type="rss" htmlUrl="https://www.reddit.com/r/neovim/" title="Neovim (Reddit)" />
+      <outline type="rss" htmlUrl="https://endeavouros.com/" title="EndeavourOS (Official)" text="EndeavourOS (Official)" xmlUrl="https://endeavouros.com/feed/" />
+      <outline text="Joe Scotto" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCsjCKly4KtkvVyDjG_XkzEA" type="rss" htmlUrl="https://www.youtube.com/channel/UCsjCKly4KtkvVyDjG_XkzEA" title="Joe Scotto" />
+    </outline>
+    <outline text="Gaming" title="Gaming">
+      <outline type="rss" title="Cellbit VODS" htmlUrl="https://www.youtube.com/channel/UCDke4Xl6nLQbz7YuDdP5cYw" text="Cellbit VODS" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCDke4Xl6nLQbz7YuDdP5cYw" />
+      <outline title="Cellbit Lives" htmlUrl="https://www.youtube.com/channel/UC2Dkdvw6-ladrHmWZNx2gRA" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC2Dkdvw6-ladrHmWZNx2gRA" text="Cellbit Lives" type="rss" />
+    </outline>
+    <outline text="Entertainment" title="Entertainment">
+      <outline xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCH0Kx807FRqvGyYGEHsNsnw" title="Jurandir Gouveia" htmlUrl="https://www.youtube.com/channel/UCH0Kx807FRqvGyYGEHsNsnw" text="Jurandir Gouveia" type="rss" />
+      <outline text="Gaveta" type="rss" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCLYimOsgmIVf6KNjzXPkUwQ" htmlUrl="https://www.youtube.com/channel/UCLYimOsgmIVf6KNjzXPkUwQ" title="Gaveta" />
+    </outline>
+    <outline title="Philosophy" text="Philosophy">
+      <outline htmlUrl="https://www.youtube.com/channel/UC0cd_-e49hZpWLH3UIwoWRA" type="rss" title="Professor Dave Explains" text="Professor Dave Explains" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC0cd_-e49hZpWLH3UIwoWRA" />
+    </outline>
+    <outline title="Mathematics" text="Mathematics">
+      <outline htmlUrl="https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw" title="3Blue1Brown" text="3Blue1Brown" type="rss" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw" />
+      <outline xmlUrl="https://www.jeremykun.com/index.xml" text="Math ∩ Programming" type="rss" htmlUrl="https://www.jeremykun.com/" title="Math ∩ Programming" />
+    </outline>
+    <outline text="Web Dev" title="Web Dev">
+      <outline text="Joy of Code (Youtube)" type="rss" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC6wpjLSLn2dhlaDjn6_V0rw" htmlUrl="https://www.youtube.com/channel/UC6wpjLSLn2dhlaDjn6_V0rw" title="Joy of Code (Youtube)" />
+      <outline xmlUrl="https://joyofcode.xyz/rss.xml" type="rss" title="Joy of Code (Official)" htmlUrl="https://joyofcode.xyz/" text="Joy of Code (Official)" />
+    </outline>
+    <outline title="Game Dev" text="Game Dev" />
+    <outline text="Programming" title="Programming">
+      <outline text="Coding with Sphere" htmlUrl="https://www.youtube.com/channel/UCpwl7jNE9PJc-lBTShNs5TQ" type="rss" title="Coding with Sphere" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCpwl7jNE9PJc-lBTShNs5TQ" />
+      <outline xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCyFWoLmPTgZ3BkHIKMRSV1g" htmlUrl="https://www.youtube.com/channel/UCyFWoLmPTgZ3BkHIKMRSV1g" title="Nerd&apos;s lesson" text="Nerd&apos;s lesson" type="rss" />
+      <outline text="Servet Gulnaroglu" type="rss" htmlUrl="https://www.youtube.com/channel/UCvPPXcl5dJiBgRKGTA8inPA" title="Servet Gulnaroglu" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCvPPXcl5dJiBgRKGTA8inPA" />
+    </outline>
+    <outline title="Hacker News Summary" type="rss" text="Hacker News Summary" htmlUrl="https://hackernews.betacat.io/%7B&apos;https://hackernews.betacat.io&apos;%7D" xmlUrl="https://hackernews.betacat.io/feed" />
+  </body>
+</opml>

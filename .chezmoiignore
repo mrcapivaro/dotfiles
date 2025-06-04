@@ -3,6 +3,8 @@
 *.txt
 LICENSE
 
+archive/
+
 {{- if eq .chezmoi.os "windows" }}
       **/*.sh*
       .bash*
