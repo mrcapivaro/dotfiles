@@ -1,0 +1,18 @@
+[General]
+LastUsedVersion=210800
+
+[MainWindow]
+MenuBar=Disabled
+
+[Recent Files]
+File1[$e]=/run/media/mrcapivaro/Windows USB/ALL0000/F0000TEK.BMP
+File2[$e]=$HOME/.config/wallpapers/gruvbox-chinatown.png
+File3[$e]=$HOME/.config/wallpapers/gruvbox-abstract-woaman.png
+File4[$e]=$HOME/sync/org/square_wave_fourier.png
+Name1[$e]=F0000TEK.BMP
+Name2[$e]=gruvbox-chinatown.png
+Name3[$e]=gruvbox-abstract-woaman.png
+Name4[$e]=square_wave_fourier.png
+
+[SideBar]
+InformationSplitterSizes=211,244
