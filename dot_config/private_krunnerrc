@@ -1,0 +1,11 @@
+[General]
+FreeFloating=true
+
+[Plugins]
+helprunnerEnabled=false
+krunner_appstreamEnabled=false
+krunner_katesessionsEnabled=false
+krunner_konsoleprofilesEnabled=false
+
+[Plugins][Favorites]
+plugins=krunner_services,krunner_systemsettings,calculator
