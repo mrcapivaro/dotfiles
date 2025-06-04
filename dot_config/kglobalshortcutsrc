@@ -1,6 +1,7 @@
 [ActivityManager]
 _k_friendly_name=Activity Manager
 switch-to-activity-1725494f-cc50-49d5-b72b-3fce08b9361e=none,none,Switch to activity "Default"
+switch-to-activity-f7112a64-eecb-4ac0-b555-953512d89755=none,none,Switch to activity "Default"
 
 [KDE Keyboard Layout Switcher]
 Switch keyboard layout to English (US)=none,none,Switch keyboard layout to English (US)
@@ -259,8 +260,8 @@ switch to next activity=none,,Switch to Next Activity
 switch to previous activity=none,,Switch to Previous Activity
 toggle do not disturb=none,,Toggle do not disturb
 
-[services][Alacritty.desktop]
-_launch=Meta+A
+[services][com.mitchellh.ghostty.desktop]
+new-window=Meta+A
 
 [services][org.kde.konsole.desktop]
 _launch=none
