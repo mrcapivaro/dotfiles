@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export FZF_DEFAULT_OPTS="\
+    --reverse \
+    --bind='right:accept'
+    --bind='ctrl-l:accept'"
+
+export FZF_DEFAULT_COMMANDS="fd . --hidden --exclude '.git'"

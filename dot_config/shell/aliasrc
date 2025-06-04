@@ -28,25 +28,18 @@ alias bat="bat --style=numbers --color=always --line-range :500"
 
 alias diff="colordiff -u"
 
-gitall() {
-    local message="${*:-update}"
-    git add . && git commit -m "$message" && git push
-}
-
-help() {
-    "$@" --help | $PAGER
-}
-
-lfcd() {
-    cd "$(command lf -print-last-dir "$@")"
-}
+alias fl="yazi"
 
 fe() {
-    $EDITOR $(fd . "$@" --hidden --type file |
-        fzf --reverse \
-        --preview 'bat --style=numbers --color=always --line-range :500 {}')
+    local selected="$(fd . "$@" --hidden --type file | fzf)"
+    if [ -n "$selected" ]; then
+        $EDITOR "$selected"
+    fi
 }
 
 fcd() {
-    cd $(fd . "$@" --hidden --type dir | fzf --reverse --preview 'tree -C {}')
+    local selected="$(fd . "$@" --hidden --type dir --exclude ".git" | fzf)"
+    if [ -n "$selected" ]; then
+        cd "$selected"
+    fi
 }
