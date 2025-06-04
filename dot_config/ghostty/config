@@ -31,20 +31,52 @@ gtk-adwaita = false
 
 
 ## Keybinds
-
-keybind = ctrl+shift+t=toggle_window_decorations
-
 # Reset all keybinds
 keybind = clear
+
+# Window
+keybind = ctrl+shift+t=toggle_window_decorations
+keybind = ctrl+space>t=toggle_window_decorations
 
 # Scroll
 keybind = page_up=scroll_page_up
 keybind = page_down=scroll_page_down
 
+# Panes
+keybind = ctrl+shift+s=new_split:down
+keybind = ctrl+space>s=new_split:down
+keybind = ctrl+shift+/=new_split:right
+keybind = ctrl+space>v=new_split:right
+keybind = ctrl+shift+q=close_surface
+keybind = ctrl+space>q=close_surface
+
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+space>h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+space>j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+space>k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+space>l=goto_split:right
+
+keybind = ctrl+shift+left=resize_split:left,10
+keybind = ctrl+shift+down=resize_split:down,10
+keybind = ctrl+shift+up=resize_split:up,10
+keybind = ctrl+shift+right=resize_split:right,10
+
+# Tabs
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+space>t=new_tab
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
+
 # Configuration and dotfiles
 keybind = ctrl+shift+r=reload_config
+keybind = ctrl+space>r=reload_config
 keybind = ctrl+shift+comma=open_config
+keybind = ctrl+space>comma=open_config
 keybind = ctrl+shift+i=inspector:toggle
+keybind = ctrl+space>i=inspector:toggle
 
 # Clipboard
 keybind = ctrl+shift+c=copy_to_clipboard
@@ -52,8 +84,12 @@ keybind = ctrl+shift+v=paste_from_clipboard
 
 # Selection
 keybind = ctrl+shift+a=select_all
+keybind = ctrl+space>a=select_all
 
 # Fonts
 keybind = ctrl+shift+plus=increase_font_size:1
+keybind = ctrl+space>plus=increase_font_size:1
 keybind = ctrl+shift+minus=decrease_font_size:1
+keybind = ctrl+space>minus=decrease_font_size:1
 keybind = ctrl+shift+zero=reset_font_size
+keybind = ctrl+space>zero=reset_font_size
