@@ -1,12 +1,5 @@
+mode = "symlink"
+
 [git]
 autoAdd = true
 autoCommit = true
-{{ if eq .chezmoi.os "windows" -}}
-[cd]
-command = "pwsh"
-args = [ "-NoLogo" ]
-
-[interpreters.ps1]
-command = "pwsh"
-args = [ "-NoLogo", "-NoProfile" ]
-{{ end -}}

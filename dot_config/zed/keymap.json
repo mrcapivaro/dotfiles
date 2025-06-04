@@ -10,16 +10,54 @@
   {
     "context": "Editor || Terminal || Dock",
     "bindings": {
-      "ctrl+h": "editor::MoveLeft",
-      "ctrl+j": "editor::MoveDown",
-      "ctrl+k": "editor::MoveUp",
-      "ctrl+l": "editor::MoveRight"
+      // "ctrl-h": "editor::MoveLeft",
+      // "ctrl-j": "editor::MoveDown",
+      // "ctrl-k": "editor::MoveUp",
+      // "ctrl-l": "editor::MoveRight"
     }
   },
 
   {
-    "context": "Editor &&  VimControl  && !VimWaiting  && !menu",
+    "context": "vim_mode == normal || EmptyPanel || ProjectPanel",
     "bindings": {
+      "space p o": "workspace::Open",
+      
+      "space w d": "pane::CloseActiveItem",
+      "space w .": "workspace::CloseInactiveTabsAndPanes",
+      
+      "space w s": "pane::SplitDown",
+      "space w v": "pane::SplitRight",
+      
+      "space w h": "workspace::ActivatePaneLeft",
+      "space w j": "workspace::ActivatePaneDown",
+      "space w k": "workspace::ActivatePaneUp",
+      "space w l": "workspace::ActivatePaneRight",
+      
+      "space w H": "workspace::SwapPaneLeft",
+      "space w J": "workspace::SwapPaneDown",
+      "space w K": "workspace::SwapPaneUp",
+      "space w L": "workspace::SwapPaneRight",
+      
+      "space w left": "vim::ResizePaneRight",
+      "space w down": "vim::ResizePaneUp",
+      "space w up": "vim::ResizePaneDown",
+      "space w right": "vim::ResizePaneLeft",
+      
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      
+      "ctrl-shift-h": "workspace::SwapPaneLeft",
+      "ctrl-shift-j": "workspace::SwapPaneDown",
+      "ctrl-shift-k": "workspace::SwapPaneUp",
+      "ctrl-shift-l": "workspace::SwapPaneRight",
+      
+      "ctrl-shift-left": "vim::ResizePaneRight",
+      "ctrl-shift-down": "vim::ResizePaneUp",
+      "ctrl-shift-up": "vim::ResizePaneDown",
+      "ctrl-shift-right": "vim::ResizePaneLeft",
+      
       "space t": "workspace::ToggleBottomDock",
       "space e": "workspace::ToggleLeftDock",
       "space s": "workspace::SaveWithoutFormat",

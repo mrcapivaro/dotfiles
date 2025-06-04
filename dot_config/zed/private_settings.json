@@ -22,5 +22,17 @@
     "mode": "dark",
     "light": "Gruvbox Dark",
     "dark": "Gruvbox Dark"
+  },
+  "experimental.theme_overrides": {
+    "syntax": {
+      "comment": {
+        "font_style": "italic",
+        "font_weight": 200
+      }
+    }
+  },
+  
+  "file_types": {
+    "C++": [ "ino" ]
   }
 }

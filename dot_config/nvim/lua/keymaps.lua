@@ -88,10 +88,10 @@ map({
 -- }}}
 -- Execution of code {{{
 
--- map({
---     mode = { "n", "v" },
---     { "<space>re", ":<UP><CR>" },
--- })
+map({
+    mode = { "n", "v" },
+    { "<space>re", ":<UP><CR>" },
+})
 
 vim.keymap.set("n", "xc", "gc")
 
@@ -235,3 +235,22 @@ map({
 })
 
 -- }}}
+-- Some 'g' commands {{{
+
+map({
+    desc = "replace word under cursor",
+    mode = { "n" },
+    { "ga", "viwy:%s/\"//g<Left><Left>" },
+})
+
+map({
+    mode = { "v" },
+    { "ga", 'y:%s/"//g<Left><Left>' },
+})
+
+-- }}}
+
+map({
+    mode = { "n" },
+    { "<C-a>", "ggVG" },
+})

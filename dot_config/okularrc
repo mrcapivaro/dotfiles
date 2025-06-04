@@ -4,3 +4,6 @@ FullScreen=false
 [General]
 LockSidebar=true
 ShowSidebar=true
+
+[MainWindow]
+MenuBar=Disabled
