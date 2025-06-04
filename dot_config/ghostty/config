@@ -24,10 +24,10 @@ font-feature       = -liga
 font-feature       = -dlig
 
 # Disable rounded corners and {title, tab}bars
-window-decoration  = false
-gtk-titlebar       = false
+# window-decoration  = false
+# gtk-titlebar       = false
+# gtk-adwaita = false
 gtk-tabs-location  = bottom
-gtk-adwaita = false
 
 
 ## Keybinds
