@@ -240,12 +240,12 @@ map({
 map({
     desc = "replace word under cursor",
     mode = { "n" },
-    { "ga", "viwy:%s/\"//g<Left><Left>" },
+    { "ga", 'yiw:%s/<C-r>"//g<Left><Left>' },
 })
 
 map({
     mode = { "v" },
-    { "ga", 'y:%s/"//g<Left><Left>' },
+    { "ga", 'y:%s/<C-r>"//g<Left><Left>' },
 })
 
 -- }}}

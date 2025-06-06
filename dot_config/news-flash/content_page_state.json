@@ -1,9 +1,20 @@
 {
-  "sidebar_selection": "All",
+  "sidebar_selection": {
+    "FeedList": [
+      {
+        "Feed": {
+          "feed_id": "https://www.reddit.com/r/emacs/.rss",
+          "category_id": "Computer Customization",
+          "sort_index": 1
+        }
+      },
+      "Emacs (Reddit)"
+    ]
+  },
   "article_list_mode": "All",
   "search_term": null,
   "prefer_scraped_content": true,
-  "visible_article_id": "yt:video:C8baNzpnZ7o",
+  "visible_article_id": "t3_1l2fdu8",
   "window_size": [
     1118,
     880

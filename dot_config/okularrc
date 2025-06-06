@@ -3,7 +3,11 @@ FullScreen=false
 
 [General]
 LockSidebar=true
-ShowSidebar=true
+ShowSidebar=false
 
 [MainWindow]
 MenuBar=Disabled
+
+[Recent Files]
+File1[$e]=$HOME/downloads/LaboratoryManualforACElectricalCircuits.pdf
+Name1[$e]=LaboratoryManualforACElectricalCircuits.pdf
