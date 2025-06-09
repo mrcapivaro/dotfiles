@@ -356,24 +356,6 @@ table.insert(plugins, {
             require("custom.configs.telescope")
         end,
     },
-
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        dependencies = "telescope.nvim",
-        build = table.concat({
-            "cmake",
-            "-S.",
-            "-Bbuild",
-            "-DCMAKE_BUILD_TYPE=Release",
-            "&&",
-            "cmake",
-            "--build build",
-            "--config Release",
-        }, " "),
-        config = function()
-            require("telescope").load_extension("fzf")
-        end,
-    },
 })
 
 -- }}}
