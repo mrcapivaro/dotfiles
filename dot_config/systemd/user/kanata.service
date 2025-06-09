@@ -5,7 +5,7 @@ Documentation=https://github.com/jtroo/kanata
 [Service]
 Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
 Type=simple
-ExecStart=%h/.local/share/cargo/bin/kanata
+ExecStart=%h/.local/share/cargo/bin/kanata --quiet
 Restart=no
 
 [Install]

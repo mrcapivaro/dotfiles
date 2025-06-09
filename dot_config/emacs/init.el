@@ -271,94 +271,97 @@ by `next-buffer' or `previous-buffer'."
   "C-S-c" 'kill-ring-save
   "C-S-v" 'yank)
 
-  ;; Non-leader binds
+  (general-def 'insert
+    "C-." 'completion-at-point)
+
   (general-def '(normal emacs)
-  "x"  nil
-  "x:" 'eval-expression
-  "xc" 'my-toggle-comment-region-or-line
-  "xv" 'evil-visual-restore
-  "xi" 'evil-fill-and-move
-  "C-." 'completion-at-point
-  "L"  'next-buffer
-  "H"  'previous-buffer)
+    "C-q" 'evil-record-macro
+    "q"   'evil-execute-macro
+    "x"   nil
+    "x:"  'eval-expression
+    "xc"  'my-toggle-comment-region-or-line
+    "xv"  'evil-visual-restore
+    "xi"  'evil-fill-and-move
+    "L"   'next-buffer
+    "H"   'previous-buffer)
 
   (general-def '(visual)
-  ">" 'my-evil-shift-right-keep-selected
-  "<" 'my-evil-shift-left-keep-selected)
+    ">" 'my-evil-shift-right-keep-selected
+    "<" 'my-evil-shift-left-keep-selected)
 
   ;; Leader binds
   (my-leader-def
-
-  "m" '(:ignore t :which-key "local")
-
-  ;;; Windows (replaces C-w)
-  ;; TODO: add hydras.
-  "w"  '(:ignore t :which-key "window")
-  "wn" 'evil-window-new
-  ;; close
-  "q" 'evil-quit
-  "wd" 'evil-window-delete
-  "w." 'delete-other-windows
-  ;; splits
-  "ws" 'evil-window-split
-  "wv" 'evil-window-vsplit
-  ;; directional movement
-  "wj" 'evil-window-down
-  "wk" 'evil-window-up
-  "wl" 'evil-window-right
-  "wh" 'evil-window-left
-  ;; cardinal and frequency movement
-  "wp" 'evil-window-prev
-  "wP" 'evil-window-next
-  "wo" 'evil-window-mru
-  ;; rotation
-  "wx" 'evil-window-exchange
-  "wr" 'evil-window-rotate-downwards
-  "wR" 'evil-window-rotate-upwards
-  ;; resize
-  "w+" 'evil-window-increase-height
-  "w-" 'evil-window-decrease-height
-  "w>" 'evil-window-increase-width
-  "w<" 'evil-window-decrease-width
-  "w|" 'evil-window-set-width
-  "w_" 'evil-window-set-height
-  "wm" 'evil-window-middle
-
-  ;;; Find
-  "."  'dired-jump
-  "e"  'counsel-find-file
-  "f"   '(:ignore t :which-key "find")
-  "fc"  'my-open-config
-  "ff"  'counsel-fzf
-  "fw"  'counsel-rg
-  "fr"  'counsel-recentf
-
-  ;;; Buffers
-  "s"  'save-buffer
-  "j"   '(:ignore t :which-key "buffer")
-  "jd"  '(lambda () (interactive) (kill-buffer (current-buffer)))
-  "jf"  'counsel-switch-buffer
-  "js"  'scratch-buffer
-
-  ;;; Run/Reload
-  "r"   '(:ignore t :which-key "run/reload")
-  "re"  'restart-emacs
-  "ri"  'my-reload-config
-
-  ;;; Help (replaces C-h)
-  "h"   '(:ignore t :which-key "help")
-  "h C-c" 'describe-copying
-  "hv"  'counsel-describe-variable
-  "hf"  'counsel-describe-function
-  "ho"  'counsel-describe-symbol
-  "hm"  'describe-mode
-  "hk"  'describe-key
-  "hs"  'describe-syntax
-  "hL"  'describe-language-environment
-  "hO"  'describe-distribution
-  "hp"  'finder-by-keyword
-  "hP"  'describe-package
-  "hc"  'describe-command))
+    "m" '(:ignore t :which-key "local")
+    
+    ;;; Windows (replaces C-w)
+    ;; TODO: add hydras.
+    "w"  '(:ignore t :which-key "window")
+    "wn" 'evil-window-new
+    ;; close
+    "q" 'evil-quit
+    "wd" 'evil-window-delete
+    "w." 'delete-other-windows
+    ;; splits
+    "ws" 'evil-window-split
+    "wv" 'evil-window-vsplit
+    ;; directional movement
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wl" 'evil-window-right
+    "wh" 'evil-window-left
+    ;; cardinal and frequency movement
+    "wp" 'evil-window-prev
+    "wP" 'evil-window-next
+    "wo" 'evil-window-mru
+    ;; rotation
+    "wx" 'evil-window-exchange
+    "wr" 'evil-window-rotate-downwards
+    "wR" 'evil-window-rotate-upwards
+    ;; resize
+    "w+" 'evil-window-increase-height
+    "w-" 'evil-window-decrease-height
+    "w>" 'evil-window-increase-width
+    "w<" 'evil-window-decrease-width
+    "w|" 'evil-window-set-width
+    "w_" 'evil-window-set-height
+    "wm" 'evil-window-middle
+    
+    ;;; Find
+    "."  'dired-jump
+    "e"  'counsel-find-file
+    "f"   '(:ignore t :which-key "find")
+    "fc"  'my-open-config
+    "ff"  'counsel-fzf
+    "fw"  'counsel-rg
+    "fr"  'counsel-recentf
+    
+    ;;; Buffers
+    "s"  'save-buffer
+    "j"   '(:ignore t :which-key "buffer")
+    "jd"  '(lambda () (interactive) (kill-buffer (current-buffer)))
+    "jf"  'counsel-switch-buffer
+    "js"  'scratch-buffer
+    
+    ;;; Run/Reload
+    "r"   '(:ignore t :which-key "run/reload")
+    "re"  'restart-emacs
+    "ri"  'my-reload-config
+    "rd"  'redraw-display
+    
+    ;;; Help (replaces C-h)
+    "h"   '(:ignore t :which-key "help")
+    "h C-c" 'describe-copying
+    "hv"  'counsel-describe-variable
+    "hf"  'counsel-describe-function
+    "ho"  'counsel-describe-symbol
+    "hm"  'describe-mode
+    "hk"  'describe-key
+    "hs"  'describe-syntax
+    "hL"  'describe-language-environment
+    "hO"  'describe-distribution
+    "hp"  'finder-by-keyword
+    "hP"  'describe-package
+    "hc"  'describe-command))
 
 (use-package evil-collection
   :after evil
@@ -565,10 +568,10 @@ a new vterm buffer if needed."
       org-indent-indentation-per-level 1)
   :config
   (setq org-startup-with-latex-preview t
-      org-startup-with-inline-images t
-      org-format-latex-options (plist-put
-                          org-format-latex-options
-                          :scale 1.5))
+        org-startup-with-inline-images t
+        org-format-latex-options (plist-put
+                                  org-format-latex-options
+                                  :scale 1.5))
 
   ;; Org Tempo
   (add-to-list 'org-modules 'org-tempo t)
@@ -603,16 +606,17 @@ a new vterm buffer if needed."
     "oc" 'my-open-org-config
     "oa" 'my-org-agenda)
 
-  ;; Prettier heading bullets
-  (use-package org-superstar
-      :hook (org-mode . org-superstar-mode)
-      :config
-      (setq org-superstar-headline-bullets-list '("◉" "○" "◆" "◇" "✸" "✿")
-            org-superstar-leading-bullet ?\s
-            org-superstar-item-bullet-alist
-            '((?- ?•))))
+;; Prettier heading bullets
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("◉" "○" "◆" "◇" "✸" "✿")
+        org-superstar-leading-bullet ?\s
+        org-superstar-item-bullet-alist
+        '((?- ?•))))
 
 (use-package org-fragtog
+  :disabled
   :hook (org-mode . org-fragtog-mode))
 
 ;;; Org babel
@@ -673,13 +677,8 @@ a new vterm buffer if needed."
   :when (treesit-available-p)
   :straight (:type built-in)
   :init
-  ;; Use "~/.local/share/emacs/treesitter" instead of
-  ;; "~/.config/emacs/treesitter".
   (setq treesit-extra-load-path
-        `(,(expand-file-name
-            (concat
-             cache-emacs-directory
-             "/tree-sitter"))))
+        `(,(expand-file-name "~/.local/share/tree-sitter")))
   (setq major-mode-remap-alist
         '((html-mode . html-ts-mode)
           (js-mode . js-ts-mode)

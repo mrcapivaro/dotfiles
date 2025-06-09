@@ -39,12 +39,12 @@ table.insert(plugins, {
                     -- Remove bright gray background from folding.
                     -- Make the folding text color more vibrant.
                     Folded = { fg = colors.bright_green, bg = colors.dark0 },
-                    FoldColumn = { bg = colors.dark0 },
-                    SignColumn = { bg = colors.dark0 },
+                    -- FoldColumn = { bg = colors.dark0 },
+                    -- SignColumn = { bg = colors.dark0 },
                     EndOfBuffer = { fg = colors.dark0 },
                 },
-                dim_inactive = false,
-                transparent_mode = false,
+                dim_inactive = true,
+                transparent_mode = true,
             })
         end,
     },

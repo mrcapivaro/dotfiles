@@ -104,9 +104,9 @@
   ;; Opposite Side
   
   y pgup
-  u mute
-  i @valttab
-  o tab
+  u volu
+  i tab
+  o @valttab
   p vold
 
   h left

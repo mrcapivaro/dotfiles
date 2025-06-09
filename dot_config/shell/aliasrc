@@ -28,8 +28,6 @@ alias bat="bat --style=numbers --color=always --line-range :500"
 
 alias diff="colordiff -u"
 
-alias fl="yazi"
-
 fe() {
     local selected="$(fd . "$@" --hidden --type file | fzf)"
     if [ -n "$selected" ]; then
@@ -43,3 +41,13 @@ fcd() {
         cd "$selected"
     fi
 }
+
+yazi_wrapper() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+}
+
+alias fl="yazi_wrapper"

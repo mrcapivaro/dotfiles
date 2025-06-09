@@ -10,4 +10,14 @@ MenuBar=Disabled
 
 [Recent Files]
 File1[$e]=$HOME/downloads/LaboratoryManualforACElectricalCircuits.pdf
+File2[$e]=$HOME/documents/utfpr/historico-mecatronica-guilherme-pacheco-batista.pdf
+File3[$e]=$HOME/downloads/Templates&Swatchs.pdf
+File4[$e]=/run/media/mrcapivaro/gusbdrive/sync/books/calculus_libre-text.pdf
+File5[$e]=$HOME/sync/uni/2025.1/analog1/at3-prelab/lab3.pdf
+File6[$e]=$HOME/downloads/stow.pdf
 Name1[$e]=LaboratoryManualforACElectricalCircuits.pdf
+Name2[$e]=historico-mecatronica-guilherme-pacheco-batista.pdf
+Name3[$e]=Templates&Swatchs.pdf
+Name4[$e]=calculus_libre-text.pdf
+Name5[$e]=lab3.pdf
+Name6[$e]=stow.pdf
